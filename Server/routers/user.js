@@ -1,9 +1,14 @@
-const express =  require("express");
+const express = require("express");
 
-const UserController =  require("../controllers/user");
+const UserController = require("../controllers/rol.js");
 
 const api = express.Router();
 
-api.post("/sign-up", UserController.signUp);
+//api.post("/list-rol", UserController.signUp);
+api.get("/list-rol", UserController.getRols );
+api.post("/create-rol",UserController.createRol );
+/*api.put("/list-rol/:id");
+api.delete("/list-rol/:id");
+api.get("/list-rol/:id");*/
 
 module.exports = api;

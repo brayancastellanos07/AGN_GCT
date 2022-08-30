@@ -1,5 +1,6 @@
-const { DataTypes } = require("sequelize");
+const {Model, DataTypes } = require("sequelize");
 
+const USER_TABLE = 'user';
 const User = {
   id: {
     allowNull: false,
@@ -41,5 +42,4 @@ const User = {
     field: 'contrasena'
   }
 };
-
-module.exports = User;
+ module.exports = User;
