@@ -1,11 +1,16 @@
-const {Model,DataTypes,Sequelize} =  require("sequelize");
-const Rol_TABLE = 'rol';
-const RolSchema = {
+
+const {Model,DataTypes,Sequelize} =  require('Sequelize');
+const sequelize = new Sequelize('postgres::memory:');
+
+
+ const Rol = sequelize.define('Rol',
+ {
     id:{
         allowNull: false,
         autoIncrement: true,
         type: DataTypes.INTEGER,
         field: 'id_rol',
+        primaryKey: true,
     },
     nombre:{
         allowNull: false,
@@ -17,10 +22,10 @@ const RolSchema = {
         type: DataTypes.STRING,
         field: 'descripcion',
     }
-}
+})
 
-class Rol extends Model {
-    static associate(models){
+/*class Rol extends Model {
+    static associate(model){
 
     }
     static config(sequelize){
@@ -31,6 +36,6 @@ class Rol extends Model {
             timestamps:false
         }
     }
-}
+}*/
 
-module.exports = {Rol_TABLE, RolSchema,Rol};
+module.exports = Rol;
