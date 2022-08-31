@@ -24,7 +24,7 @@ const sequelize = new Sequelize('postgres::memory:');
     }
 })
 
-/*class Rol extends Model {
+class rol extends Model {
     static associate(model){
 
     }
@@ -36,6 +36,6 @@ const sequelize = new Sequelize('postgres::memory:');
             timestamps:false
         }
     }
-}*/
+}
 
 module.exports = Rol;
