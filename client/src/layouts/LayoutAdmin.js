@@ -2,13 +2,26 @@ import React, { useState } from "react";
 import { Layout } from "antd";
 import MenuTop from "../components/admin/MenuTop";
 import MenuSider from "../components/admin/MenuSider";
+import AdminSingIn from "../pages/admin/SingIn";
 import "./LayoutAdmin.scss";
+
+//import { Routes } from "react-router-dom";
 
 export default function LayoutAdmin(props) {
   // destructuring
   const { children } = props;
   const [menuCollapsed, setMenuCollapsed] = useState(false);
   const { Header, Content, Footer } = Layout;
+
+  const user = null;
+
+  if (!user) {
+    return (
+      <>
+        <AdminSingIn />
+      </>
+    );
+  }
 
   return (
     <Layout>

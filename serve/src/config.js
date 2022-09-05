@@ -1,8 +1,14 @@
+
 const { config } = require('dotenv');
 config();
 
 module.exports = {
     dbConfig :{
+
+import 'dotenv'
+
+export const  dbConfig = {
+
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     dialect: 'postgres',
@@ -10,5 +16,9 @@ module.exports = {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT
     
+
 },
 };
+
+}
+

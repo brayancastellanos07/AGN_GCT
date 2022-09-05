@@ -1,0 +1,66 @@
+@import "../../../scss/index.scss";
+
+.register-form{
+    text-align: left;
+
+    &__Item-input{
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: -5%;
+    @media (max-width: $media-breackpoint-up-lg) {
+        margin-left: 5%;
+        margin-right: 5%;
+        margin-top: 2%; 
+    
+    }
+    }
+    &__Item-label{
+   margin-top: -5%;
+    margin-left: 5%;
+    margin-right: 5%;
+    @media (max-width: $media-breackpoint-up-lg) {
+        margin-left: 5%;
+        margin-right: 5%;
+        margin-top: -2%; 
+    
+    }
+    } 
+    &__input{
+        .ant-input-prefix{
+            i{
+                font-size: 0em + 22px / $defaultFontSize 
+            }
+        }
+        input{
+            font-size: 0em +20px / $defaultFontSize;
+            padding: 1% 1% 1% 5% !important;
+            &:focus{
+                border-color: $primary-color ;
+                box-shadow: none;
+            }
+
+        }
+    }
+    &__button{
+        width: 50%;
+        font-size: 0em + 22px / $defaultFontSize;
+        background-color: $primary-color;
+        color: $font-light;
+        height: 32%;
+        margin-left: 25%;
+
+        &:hover {
+            background-color: $primary-color-hover;
+            color: $font-light;
+        }
+        &:focus,
+        &:active{
+            background-color: $primary-color;
+            color: $font-light;
+            border: 5%;
+            border-color: $font-grey;
+
+        }
+
+    }
+}
