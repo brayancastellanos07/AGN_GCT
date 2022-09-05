@@ -5,8 +5,13 @@ const  {db}  = require('./config');
 
 
 async function main() {
+
   /*
+
+
+
 await sequelize.sync({force: false});
+ /*
   app.listen(db.port);
   console.log("#################################");
   console.log("############ API REST ###########");
@@ -37,5 +42,6 @@ try {
   console.error('Unable to connect to the database:', error);
 }
 */
+
 }
 main();
