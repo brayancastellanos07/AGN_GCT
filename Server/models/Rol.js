@@ -1,6 +1,7 @@
 
 const {Model,DataTypes,Sequelize} =  require('Sequelize');
-const sequelize = new Sequelize('postgres::memory:');
+const sequelize = require('../database/database');
+
 
 
  const Rol = sequelize.define('Rol',

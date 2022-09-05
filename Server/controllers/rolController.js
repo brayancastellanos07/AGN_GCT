@@ -4,15 +4,19 @@ var Sequelize = require('sequelize');
 
 
 async function getRols(req, res) {
-  Rol.findAll({
-    atributes: ["id", "nombre", "descripcion"],
-  })
-    .then((Rol) => {
-      console.log(Rol.toJSON());
+
+  try {
+    const data = await Rol.findAll({
+      atributes: ["id", "nombre", "descripcion"],
     })
-    .catch((error) => {
-      console.error('Unable to connect to the database:', error);
-    });
+    if(!data.length){
+       return res.status(404).send("No se encontraron registros ")
+    }
+    return res.status(200).json({data})
+
+  } catch (error) {
+    return res.status(500).send("Error en el servidor");
+  }
 }
 
 function createRol(req, res) {
@@ -31,4 +35,4 @@ function createRol(req, res) {
   }
 }
 
-module.exports = {getRols,createRol};
+module.exports = { getRols, createRol };
