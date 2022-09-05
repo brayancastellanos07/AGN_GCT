@@ -9,7 +9,7 @@ module.exports = {
         port: process.env.DB_PORT,
         database: process.env.DB_DATABASE,
         version: process.env.API_VERSION,
-        port: process.env.API_PORT,
+        portApi: process.env.API_PORT,
         dialect: process.env.DIALECT,
     },
-};
+}

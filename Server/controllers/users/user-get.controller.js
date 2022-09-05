@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt-nodejs");
 
-const User = require("../models/user.js");
+const User = require("../../models/user.js");
 
 function signUp(req, res) {
   try {

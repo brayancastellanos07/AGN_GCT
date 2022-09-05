@@ -5,7 +5,7 @@ const  {db}  = require('./config');
 
 
 async function main() {
- 
+  /*
 await sequelize.sync({force: false});
   app.listen(db.port);
   console.log("#################################");
@@ -15,18 +15,19 @@ await sequelize.sync({force: false});
   console.log(`Server on port ${db.port}`);
   console.log(db.password);
 
+*/
 
- /*
 sequelize.authenticate()
   .then(() => {
     console.log('Conectado')
-    app.listen(db.port);
+    app.listen(db.portApi);
+    console.log(db.portApi)
   })
   .catch(err => {
     console.log('No se conecto')
   })
 
-
+/*
 
 try {
   await sequelize.authenticate();
