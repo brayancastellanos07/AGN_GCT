@@ -1,6 +1,5 @@
 const Tipo_Doc = require("../../models/tipodocumento.js");
-var Sequelize = require("sequelize");
-const sequelize = require("sequelize");
+
 
 async function getDoc(req, res) {
 
@@ -18,7 +17,7 @@ async function getDoc(req, res) {
 }
 
 async function getDocById(req, res) {
-    const {id } = req.body;
+    const {id } = req.params;
   try {
     const data = await Tipo_Doc.findAll({
       where: {
@@ -28,7 +27,7 @@ async function getDocById(req, res) {
     if (!data.length) {
       return res.status(404).send(`No se encontro el documento con el id: ${id} `);
     }
-    return res.status(200).json({ data });
+    return res.status(201).json({ data });
   } catch (error) {
     return res.status(500).send("Error en el servidor");
   }

@@ -30,7 +30,7 @@ class Rol extends Model{
     },
     status: {
         type: DataTypes.BOOLEAN,
-        allowNull: false,
+        allowNull: true,
         field: 'status',
     }
 },{ 

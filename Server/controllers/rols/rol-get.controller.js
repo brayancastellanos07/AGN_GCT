@@ -1,5 +1,5 @@
 const Rol = require("../../models/Rol.js");
-var Sequelize = require('sequelize');
+
 
 
 
