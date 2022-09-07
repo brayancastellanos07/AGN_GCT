@@ -1,12 +1,12 @@
-const Tipo_Doc = require("../../models/tipodocumento.js");
+const Carpeta = require("../../models/carpetas.js");
 const colors = require("colors");
 
-async function deleteDoc(req, res) {
+async function deleteCarp(req, res) {
   try {
     const { id } = req.params;
-    const data = await Tipo_Doc.destroy({
+    const data = await Carpeta.destroy({
       where: {
-        id_documento: id,
+        id_carpeta: id,
       },
     });
     return res.status(200).json({ data });
@@ -15,4 +15,5 @@ async function deleteDoc(req, res) {
     return res.status(500).send("Error en el servidor");
   }
 }
-module.exports = { deleteDoc };
+
+module.exports = { deleteCarp };

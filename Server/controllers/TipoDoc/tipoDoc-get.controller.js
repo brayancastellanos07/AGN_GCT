@@ -1,8 +1,7 @@
 const Tipo_Doc = require("../../models/tipodocumento.js");
-
+const colors = require("colors");
 
 async function getDoc(req, res) {
-
   try {
     const data = await Tipo_Doc.findAll({
       atributes: ["id_documento", "tipo", "descripcion"],
@@ -12,12 +11,13 @@ async function getDoc(req, res) {
     }
     return res.status(200).json({ data });
   } catch (error) {
+    console.log(colors.red("Error en getDoc"), error);
     return res.status(500).send("Error en el servidor");
   }
 }
 
 async function getDocById(req, res) {
-    const {id } = req.params;
+  const { id } = req.params;
   try {
     const data = await Tipo_Doc.findAll({
       where: {
@@ -25,12 +25,16 @@ async function getDocById(req, res) {
       },
     });
     if (!data.length) {
-      return res.status(404).send(`No se encontro el documento con el id: ${id} `);
+      return res
+        .status(404)
+        .send(`No se encontro el documento con el id: ${id} `);
     }
-    return res.status(201).json({ data });
+    return res.status(200).json({ data });
   } catch (error) {
+    console.log(colors.red("Error en getDocById"), error);
     return res.status(500).send("Error en el servidor");
   }
 }
 
 module.exports = { getDoc, getDocById };
+ 

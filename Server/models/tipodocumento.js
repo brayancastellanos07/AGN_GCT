@@ -11,9 +11,10 @@ Tipo_Doc.init({
     id:{
         allowNull: true,
         autoIncrement: true,
+        primaryKey: true,
         type: DataTypes.INTEGER,
         field: 'id_documento',
-        primaryKey: true,
+        
     },
     tipo:{
         allowNull:false,
@@ -33,6 +34,6 @@ Tipo_Doc.init({
     timestamps: false,
     createdAt: false,
     updatedAt: false,
-})
+});
 
 module.exports = Tipo_Doc;

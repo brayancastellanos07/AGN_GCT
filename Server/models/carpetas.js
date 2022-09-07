@@ -1,7 +1,12 @@
 const {Model,DataTypes} =  require("sequelize");
+const sequelize = require('../database/database');
 
-
-const carpetas = {
+class Carpetas extends Model{
+    id;
+    nombre;
+    descripcion
+}
+Carpetas.init({
     id: {
         allowNull: false,
         autoIncrement: true,
@@ -19,6 +24,13 @@ const carpetas = {
         type: DataTypes.STRING,
         field: 'descripcion',
     }
-}
+},{
+    sequelize,
+    tableName:'carpetas',
+    modelName:'Carpetas',
+    timestamps:false,
+    createdAt: false,
+    updatedAt:false,
+})
 
-module.exports = carpetas;
+module.exports = Carpetas;

@@ -1,7 +1,23 @@
 const {Model, DataTypes } = require("sequelize");
+const sequelize = require('../database/database.js');
+const Rol = require("./Rol.js");
+const Tipo_Doc = require("./tipodocumento.js");
 
-const USER_TABLE = 'user';
-const User = {
+class Usuario extends Model {
+  id;
+  nombre;
+  apellido;
+  id_documento;
+  documento;
+  telefono;
+  id_rol;
+  correo;
+  contrasena;
+  status;
+
+}
+
+Usuario.init({
   id: {
     allowNull: false,
     autoIncrement: true,
@@ -19,6 +35,12 @@ const User = {
     type: DataTypes.STRING,
     field: 'apellido',
   },
+  id_documento:{
+    allowNull: false,
+    type: DataTypes.INTEGER,
+    field:'id_documento',
+
+  },
   document:{
     allowNull:false,
     type: DataTypes.STRING,
@@ -29,17 +51,42 @@ const User = {
     type: DataTypes.STRING,
     field: 'telefono',
   },
+  id_rol:{
+    allowNull: false,
+    type: DataTypes.INTEGER,
+    field: 'rol',
+  },
   correo: {
     allowNull: false,
     type: DataTypes.STRING,
-    unique: true,
     field: 'correo',
   },
-  contraseña: {
+  contrasena: {
     allowNull: false,
     type: DataTypes.STRING,
-    unique: true,
     field: 'contrasena'
+  },
+  status:{
+    allowNull: false,
+    type: DataTypes.BOOLEAN,
+    field: 'status',
   }
-};
- module.exports = User;
+},{
+  sequelize,
+  tableName:'usuarios',
+  modelName: 'Usuario',
+  timestamps: false,
+  createdAt: false,
+  updatedAt:false,
+})
+
+Usuario.belongsTo(Tipo_Doc,{
+  foreignKey: 'id_documento',
+  onDelete: 'RESTRICT',
+})
+
+Usuario.belongsTo(Rol,{
+  foreignKey:'id_rol',
+  onDelete: 'RESTRICT',
+})
+ module.exports = Usuario;

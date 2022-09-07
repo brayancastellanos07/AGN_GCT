@@ -1,15 +1,12 @@
 const express = require("express");
-const DocController =  require("../controllers/TipoDoc/tipoDoc-get.controller.js");
-const putDocController = require("../controllers/TipoDoc/tipoDoc-post.controller.js")
-const deleteDocController = require("../controllers/TipoDoc/tipoDoc-delete.controller.js");
-const updateDocController =  require("../controllers/TipoDoc/tipoDoc-update.controller.js")
+const {getDoc, getDocById, deleteDoc, postDoc, updateDoc} =  require("../controllers/TipoDoc/index.js");
 
-const api =  express.Router();
+const router =  express.Router();
 
-api.get("/List-Doc", DocController.getDoc);
-api.post("/Create-Doc",putDocController.postDoc);
-api.get("/List-Doc/:id",DocController.getDocById);
-api.delete("/Delete-Doc/:id",deleteDocController.deleteDoc);
-api.put("/Update-Doc/:id",updateDocController.updateDoc);
+router.get("/list-doc", getDoc);
+router.post("/create-doc",postDoc);
+router.get("/list-doc/:id",getDocById);
+router.delete("/delete-doc/:id",deleteDoc);
+router.put("/update-doc/:id",updateDoc);
 
-module.exports = api;
+module.exports = router;
