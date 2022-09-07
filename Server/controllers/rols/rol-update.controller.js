@@ -3,9 +3,10 @@ const Rol =  require("../../models/Rol.js");
 
 async function updateRol(req,res){
     const {id} = req.params;
-    const {Nombre,Descripcion,Status} = req.body;
+    const {Nombre,Descripcion} = req.body;
+    let {Status} = req.body
     if (!Status) {
-        Status === false
+        Status = false
     }
     try {
         
@@ -20,7 +21,7 @@ async function updateRol(req,res){
                 }
             }
         );
-        return res.status(201).json({dataUpdate});
+        return res.status(200).json({dataUpdate});
     } catch (error) {
         return res.status(500).send("Error en el servidor, Update Rol")
     }

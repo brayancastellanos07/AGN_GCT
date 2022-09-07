@@ -1,4 +1,5 @@
 const Tipo_Doc = require("../../models/tipodocumento.js");
+const colors = require('colors');
 
 
 // funcion para crear tipo de documenton
@@ -17,22 +18,21 @@ async function postDoc(req, res) {
       },
     });
     // si no existe ningun registro se realiza la creación 
-    if (!dataFind.length) {
-      const data = await Tipo_Doc.create(
-        {
-          tipo,
-          descripcion,
-        },
-        {
-          fields: ["tipo", "descripcion"],
-        }
-      );
-      return res.status(200).json({ data });
-    } else {
-      // si existe algun registro se informa por medio del estatus 404
+    if (dataFind.length) {
       return res.status(404).send(`El tipo de documento ${tipo} ya existe! `);
     }
+    const data = await Tipo_Doc.create(
+      {
+        tipo,
+        descripcion,
+      },
+      {
+        fields: ["tipo", "descripcion"],
+      }
+    );
+    return res.status(200).json({ data });
   } catch (error) {
+    console.log(colors.red("Error en postDoc"), error);
     return res.status(500).send("Error en el servidor");
   }
 }

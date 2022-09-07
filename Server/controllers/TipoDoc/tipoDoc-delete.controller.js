@@ -8,7 +8,7 @@ async function deleteDoc(req, res) {
         id_documento: id
       },
     });
-    return res.status(204).json({ data });
+    return res.status(200).json({ data });
   } catch (error) {
     return res.status(500).send("Error en el servidor");
   }

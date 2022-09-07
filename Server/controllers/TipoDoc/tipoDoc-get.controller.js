@@ -19,7 +19,7 @@ async function getDoc(req, res) {
 async function getDocById(req, res) {
     const {id } = req.params;
   try {
-    const data = await Tipo_Doc.findAll({
+    const data = await Tipo_Doc.findOne({
       where: {
         id_documento: id,
       },
