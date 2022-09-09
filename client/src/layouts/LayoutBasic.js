@@ -1,5 +1,7 @@
 import React from "react";
 import { Layout } from "antd";
+import MenuTopWeb from"../components/Web/menuTopWeb";
+import Footer from "../components/Web/footer/Footer";
 import "./LayoutBasic.scss"; 
 
 
@@ -7,23 +9,19 @@ import "./LayoutBasic.scss";
 export default function LayoutBasic(props){
     // destructuring 
     const {children} = props;
-    const {Header, Content, Footer} = Layout;
+    const {Header, Content} = Layout;
 
     return(
-        <Layout>
-            <h2>Menu Sider basic</h2>
-            <Layout>
+            <Layout className="layout">
                 <Header>
-                    Desde pagina usuario normal 
+                 <MenuTopWeb>
+                    
+                 </MenuTopWeb> 
                 </Header>
                 <Content>
                     {children}
                 </Content>
-                <Footer>
-                    Archivo General De La Nación
-                </Footer>
-            </Layout>
-            
+                <Footer/>       
         </Layout>
     );
 }

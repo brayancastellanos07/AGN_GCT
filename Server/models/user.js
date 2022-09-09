@@ -80,13 +80,13 @@ Usuario.init({
   updatedAt:false,
 })
 
-Usuario.belongsTo(Tipo_Doc,{
-  foreignKey: 'id_documento',
-  onDelete: 'RESTRICT',
-})
+// Usuario.belongsTo(Tipo_Doc,{
+//   foreignKey: 'id_documento',
+//   onDelete: 'RESTRICT',
+// })
 
-Usuario.belongsTo(Rol,{
-  foreignKey:'id_rol',
-  onDelete: 'RESTRICT',
-})
+// Usuario.belongsTo(Rol,{
+//   foreignKey:'id_rol',
+//   onDelete: 'RESTRICT',
+// })
  module.exports = Usuario;

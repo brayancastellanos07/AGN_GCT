@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Layout, Menu } from "antd";
-import { HomeOutlined, MenuOutlined } from "@ant-design/icons";
+import { FileTextOutlined, FolderOpenOutlined,IdcardOutlined,SolutionOutlined,UserAddOutlined } from "@ant-design/icons";
 
 import "./MenuSider.scss";
 
@@ -16,14 +16,29 @@ export default function MenuSider(props) {
   const menuItems = [
     {
       key: "/admin",
-      icon: <HomeOutlined />,
-      label: <span className="nav-text">Home</span>,
+      icon: <FileTextOutlined />,
+      label: <span className="nav-text">Conceptos</span>,
     },
     {
-      key: "/admin/menu-web",
-      icon: <MenuOutlined />,
-      label: <span className="nav-text">Menu Web</span>,
+      key: "/admin/carpetas",
+      icon: <FolderOpenOutlined />,
+      label: <span className="nav-text">Carpetas por año</span>,
     },
+    {
+      key:"/admin/tipoDocumento",
+      icon:<IdcardOutlined />,
+      label:<span className="nav-text">Tipos de Documentos</span>,
+    },
+    {
+      key:"/admin/roles",
+      icon:<SolutionOutlined />,
+      label:<span className="nav-text">Definición de Roles</span>,
+    },
+    {
+      key:"/admin/usuarios",
+      icon:<UserAddOutlined />,
+      label:<span className="nav-text">Usuarios</span>,
+    }
   ];
 
   const menuClick = (e) => {

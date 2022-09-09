@@ -1,11 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, Input, Button } from "antd";
-import { UserOutlined,LockOutlined } from "@ant-design/icons";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "./LoginForm.scss";
 
 export default function LoginForm() {
+  const [inputs, setInputs] = useState({
+    email: "",
+    password: "",
+  });
+
+  const changeForm = e => {
+    setInputs({
+      ...inputs,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const login = e => {
+    e.prevenDefault();
+    console.log(inputs);
+  };
   return (
-    <Form className="register-form">
+    <Form className="register-form"  onChange={changeForm} onSubmitCapture={login} >
       {/*Label   */}
       <Form.Item
         className="register-form__Item-label"
@@ -28,7 +44,7 @@ export default function LoginForm() {
       {/* Input Contraseña*/}
       <Form.Item className="register-form__Item-input">
         <Input
-          prefix={<LockOutlined/>}
+          prefix={<LockOutlined />}
           type="password"
           name="password"
           placeholder="Contraseña"
