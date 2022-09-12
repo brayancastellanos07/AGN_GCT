@@ -1,5 +1,6 @@
 const {Model,DataTypes,Sequelize} =  require('Sequelize');
 const sequelize = require('../database/database');
+const Usuario = require('./user');
 
 
 class Rol extends Model{
@@ -42,5 +43,9 @@ class Rol extends Model{
 
 })
 
+Rol.hasMany(Usuario,{
+    foreignKey: "rol",
+    onDelete: "RESTRICT",
+})
 
 module.exports = Rol;
