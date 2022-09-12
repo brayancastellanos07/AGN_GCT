@@ -1,18 +1,21 @@
 import React from "react";
-import "./menuTopWeb.scss";
+import {Menu} from "antd";
 import imagen from "../../../assets/img/png/logoagninicio.png";
+import {Link} from "react-router-dom";
+import "./menuTopWeb.scss";
+
+
 
 export default function menutopWeb() {
   return (
-    <div className="menu-top">
-      <div className="menu-top__left">
-        <img
-          className="menu-top__left-logo1"
-          src={imagen}
-          alt="Archivo General De La Nación"
-        />
-      </div>
-      <div className="menu-top__right"></div>
-    </div>
+    <Menu className="menu-top" mode="horizontal">
+      <Menu.Item key={"logo"} className="menu-top__logo">
+         <Link to={"/"}>
+          <img src={imagen} alt="Archivo General de la Nación"/>
+         </Link>
+      </Menu.Item>
+      <div>redes</div>
+    </Menu>
+    
   );
 }

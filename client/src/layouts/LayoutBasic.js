@@ -1,27 +1,19 @@
 import React from "react";
-import { Layout } from "antd";
-import MenuTopWeb from"../components/Web/menuTopWeb";
+import { Row, Col } from "antd";
+import MenuTopWeb from "../components/Web/menuTopWeb";
 import Footer from "../components/Web/footer/Footer";
-import "./LayoutBasic.scss"; 
+import "./LayoutBasic.scss";
 
-
-
-export default function LayoutBasic(props){
-    // destructuring 
-    const {children} = props;
-    const {Header, Content} = Layout;
-
-    return(
-            <Layout className="layout">
-                <Header>
-                 <MenuTopWeb>
-                    
-                 </MenuTopWeb> 
-                </Header>
-                <Content>
-                    {children}
-                </Content>
-                <Footer/>       
-        </Layout>
-    );
+export default function LayoutBasic(props) {
+  return (
+    <Row>
+        <Col lg={4}/>
+        <Col lg={16}>
+            <MenuTopWeb/>
+            <p>contenido</p>
+            <p>Footer..</p>
+        </Col>
+        <Col lg={4}/>
+    </Row>
+  );
 }

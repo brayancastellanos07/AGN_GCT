@@ -1,20 +1,24 @@
 @import "../../../scss/index.scss";
 
 .footer {
-    background-color: $background-dark-web;
-    border-top: 3px solid $primary-color;
-    margin-top: 165px;
+     background-color: $background-dark-web;
+     border-top: 3px solid $primary-color;
+     
+     top: 80%;
+     position: absolute;
+    
 
     
+    
     &__copyright{
-        margin-top: 30px;
-        font-size: 12px;
+     
+        font-size: 1rem;
 
         .ant-col{
             color: $primary-color-dark;
 
             &:last-of-type{
-                text-align: right;
+                text-align: left;
             }
         }
     }
