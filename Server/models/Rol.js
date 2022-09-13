@@ -12,6 +12,7 @@ class Rol extends Model {
     Rol.hasMany(models.Usuario, {
       foreignKey: "rol",
       onDelete: "RESTRICT",
+      
     });
   }
 }
