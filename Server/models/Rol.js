@@ -1,6 +1,6 @@
 const {Model,DataTypes,Sequelize} =  require('Sequelize');
 const sequelize = require('../database/database');
-const Usuario = require('./user');
+const {Usuario} = require('./user');
 
 
 class Rol extends Model{
@@ -8,6 +8,14 @@ class Rol extends Model{
     nombre;
     descripcion;
     status;
+
+
+    static associate(models){
+        Rol.hasMany(models.Usuario,{
+            foreignKey: "rol",
+            onDelete: "RESTRICT",
+        });
+    }
 }
 
   Rol.init({
@@ -41,11 +49,6 @@ class Rol extends Model{
     createdAt: false,
     updatedAt: false
 
-})
-
-Rol.hasMany(Usuario,{
-    foreignKey: "rol",
-    onDelete: "RESTRICT",
-})
+});
 
 module.exports = Rol;

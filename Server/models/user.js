@@ -1,6 +1,6 @@
 const { Model, DataTypes, Sequelize } = require("sequelize");
 const sequelize = require("../database/database.js");
-const {Rol} = require("./Rol");
+const Rol = require("./Rol");
 
 
  class Usuario extends Model {
@@ -14,6 +14,15 @@ const {Rol} = require("./Rol");
   correo;
   contrasena;
   status;
+ 
+  static associate(models){
+
+  Usuario.belongsTo(models.Rol, {
+    foreignKey: 'id_rol',
+    onDelete: 'RESTRICT',
+    onUpdate: 'RESTRICT',
+  });
+}
 }
 
 Usuario.init(
@@ -81,9 +90,6 @@ Usuario.init(
   }
 )
 
-Usuario.belongsTo(Rol, {
-  foreignKey: "id_rol",
-  onDelete: "RESTRICT",
-});
+
 
 module.exports = Usuario;
