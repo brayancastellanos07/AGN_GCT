@@ -1,7 +1,7 @@
 import React from "react";
 import { Row, Col } from "antd";
 import MenuTopWeb from "../components/Web/menuTopWeb";
-import Footer from "../components/Web/footer/Footer";
+//import Footer from "../components/Web/footer/Footer";
 import "./LayoutBasic.scss";
 
 export default function LayoutBasic(props) {

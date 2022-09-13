@@ -17,11 +17,15 @@ export default function LoginForm() {
   };
 
   const login = e => {
-    e.prevenDefault();
+    //e.prevenDefault();
     console.log(inputs);
   };
   return (
-    <Form className="register-form"  onChange={changeForm} onSubmitCapture={login} >
+    <Form
+      className="register-form"
+      onChange={changeForm}
+      onSubmitCapture={login}
+    >
       {/*Label   */}
       <Form.Item
         className="register-form__Item-label"
