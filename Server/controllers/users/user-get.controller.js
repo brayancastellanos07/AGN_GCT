@@ -4,7 +4,7 @@ const colors = require("colors");
 async function getUsuario(req, res) {
     try {
         const data =  await Usuario.findAll({
-            atributes:["id_usuario","nombre","apellido","tipodocumento","documento","telefono","rol","correo","contraseña","status"], 
+            atributes:["id_usuario","nombre","apellido","tipodocumento","documento","telefono","rol","correo","contrasena","status"], 
         });
         if (!data.length) {
             return res.status(404).send("No se encontraron registros de usuarios");

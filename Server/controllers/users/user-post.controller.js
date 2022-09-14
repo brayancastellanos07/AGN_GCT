@@ -111,32 +111,72 @@ async function postUsuarios(req, res) {
   }
 }
 
+//  function login(req, res){
+//   const params =  req.body;
+//   const correo =  params.Correo.toLowerCase();
+//   const contrasena = params.contrasena;
+//   //console.log(colors.red("aqui"));
+//    Usuario.findOne({ where:{correo:correo}},(error, userStored)=> {
+    
+//     if(error){
+      
+//       return res.status(500).send("Error en el servirdor.");
+//     }else{
+//       if(!data){
+        
+//         res.status(404).send("Usuario no encontrado.");
+//       }else{
+//         bcrypt.compare(contrasena, userStored.contrasena, (err, check)=>{
+//           if(err){
+//             return res.status(500).send("Error en el servidor bcrypt.");
+//           }else if(!check){
+//             return res.status(404).send("La contraseña es incorrecta."); 
+//           }else{
+//             if (!userStored.status) {
+//               return  res.status(200).send("El usuario no esta activo");
+//             }else{
+//              return res.status(200).json({
+//                 accessToken: jwt.createAccessToken(userStored),
+//                 refreshToken: jwt.createRefreshToken(userStored)
+//               });
+//             }
+//           }
+//         })
+//       }
+//     }
+//   })
+// }
+
+
+
 async function login(req, res) {
   const { Correo, contrasena } = req.body;
   const correo = Correo.toLowerCase();
 
   try {
-    const data = await Usuario.findAll({
-      where: {
-        correo: correo,
-      },
-    });
-
-    if (!data.length) {
+    const data = await Usuario.findOne({correo});
+    console.log(data)
+    if (!data) {
       return res.status(404).send(`No se encontro el usuarios ${correo}`);
-    }
-    bcrypt.compare(contrasena, data.contrasena, (error, check) => {
-      if (error) {
-        console.log(colors.red("Error en bcrypt"), error);
-        return res.status(500).send("Error al desencriptar");
-      } else {
-        if (!data.status) {
-          console.log(colors.green("Error en activación de usuario"));
-          return res.status(200).send("El usuario no esta activo");
+    } else {
+      const contraseñaHash =
+        "$2a$10$N9iPsryx8a09KdpHWRpjVuyixK6/JMY/3HQrFMtUqpGcnFkyN5CEW";
+
+      bcrypt.compare(contrasena, data.contrasena, (error, check) => {
+        console.log("Aqui", data.contrasena);
+        if (error) {
+          console.log(colors.red("Error en bcrypt"), error);
+          return res.status(500).send("Error al desencriptar");
+        } else if (!check) {
+          return res.status(404).send("La contraseña es incorrecta");
+        } else {
+          return res.status(200).json({
+            accessToken: jwt.createAccessToken(data),
+            refreshToken: jwt.createRefreshToken(data),
+          });
         }
-      }
-    });
-    return res.status(200).json({ data });
+      });
+    }
   } catch (error) {
     console.log(colors.red("Error en login"), error);
     return res.status(500).send("Error en el servidor");

@@ -4,13 +4,14 @@ const moment = require("moment");
 const SECRET_KEY = "5MCJM3F3SzXjMyK7IbKBK9TI4ZgF6g4Z0CJvG9fY";
 
 // creación del access token 
-exports.createAccessToken = function (user) {
+exports.createAccessToken = function (data) {
   const payload = {
-    id: user.id_usuario,
-    nombre: user.nombre,
-    apellido: user.apellido,
-    correo: user.correo,
-    rol: user.rol,
+    id: data.id,
+    nombre: data.nombre,
+    apellido: data.apellido,
+    correo: data.correo,
+    rol: data.rol,
+    status:data.status,
     createToken: moment().unix(),
     exp: moment().add(3, "hours").unix(),
   };

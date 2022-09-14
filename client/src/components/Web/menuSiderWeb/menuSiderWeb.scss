@@ -1,0 +1,9 @@
+@import '../../../scss/index.scss';
+
+.basic-sider{
+    position: fixed;
+    overflow: auto;
+    height: 100vh;
+    left: 0;
+    top: 60px;
+}

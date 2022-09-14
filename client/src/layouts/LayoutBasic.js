@@ -1,19 +1,31 @@
-import React from "react";
-import { Row, Col } from "antd";
+import React, {useState} from "react";
+import { Layout } from "antd";
+import MenuSiderWeb from "../components/Web/menuSiderWeb"
 import MenuTopWeb from "../components/Web/menuTopWeb";
-//import Footer from "../components/Web/footer/Footer";
+import FooterwEB from "../components/Web/footer/Footer";
 import "./LayoutBasic.scss";
 
 export default function LayoutBasic(props) {
+  const { children } = props;
+  const [menuCollapsed, setMenuCollapsed] = useState(false);
+  const { Header, Content,Footer } = Layout;
+
   return (
-    <Row>
-        <Col lg={4}/>
-        <Col lg={16}>
-            <MenuTopWeb/>
-            <p>contenido</p>
-            <p>Footer..</p>
-        </Col>
-        <Col lg={4}/>
-    </Row>
+    
+    <Layout>
+      <MenuSiderWeb menuCollapsed={menuCollapsed}/>
+      <Layout 
+      className="layout-basic"
+      style={{marginLeft: menuCollapsed ? "90px" : "200px"}}
+      >
+      <Header className="layout-basic__header">
+        
+      </Header>
+      <Content>
+        
+      </Content>
+      <Footer></Footer>
+      </Layout>
+    </Layout>
   );
 }
