@@ -1,21 +1,34 @@
 import React from "react";
-import {Menu} from "antd";
+import { Button } from "antd";
+import {
+  MenuFoldOutlined,
+  PoweroffOutlined,
+  MenuUnfoldOutlined,
+} from "@ant-design/icons";
 import imagen from "../../../assets/img/png/logoagninicio.png";
-import {Link} from "react-router-dom";
 import "./menuTopWeb.scss";
 
 
 
-export default function menutopWeb() {
+export default function menutopWeb(props) {
+  const { menuCollapsed, setMenuCollapsed } = props;
   return (
-    <Menu className="menu-top" mode="horizontal">
-      <Menu.Item key={"logo"} className="menu-top__logo">
-         <Link to={"/"}>
-          <img src={imagen} alt="Archivo General de la Nación"/>
-         </Link>
-      </Menu.Item>
-      <div>redes</div>
-    </Menu>
+   <div className="menu-top-web">
+    <div className="menu-top-web__left">
+      <img
+      className="menu-top-web__left-logo"
+      src={imagen}
+      alt="Archivo General De La Nación"
+      />
+      <Button
+      type="link"
+      icon={menuCollapsed}
+      >
+
+      </Button>
+    </div>
+
+   </div>
     
-  );
+  )
 }
