@@ -1,10 +1,6 @@
 import React from "react";
 import { Button } from "antd";
-import {
-  MenuFoldOutlined,
-  PoweroffOutlined,
-  MenuUnfoldOutlined,
-} from "@ant-design/icons";
+//import { MenuFoldOutlined, PoweroffOutlined, MenuUnfoldOutlined,} from "@ant-design/icons";
 import imagen from "../../../assets/img/png/logoagninicio.png";
 import "./menuTopWeb.scss";
 

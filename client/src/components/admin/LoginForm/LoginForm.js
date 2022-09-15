@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import {LoginApi} from "../../../api/user";
+
 import "./LoginForm.scss";
 
 export default function LoginForm() {
@@ -17,7 +19,7 @@ export default function LoginForm() {
   };
 
   const login = e => {
-    //e.prevenDefault();
+    LoginApi(inputs);
     console.log(inputs);
   };
   return (

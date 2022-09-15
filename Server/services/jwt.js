@@ -20,9 +20,9 @@ exports.createAccessToken = function (data) {
 };
 
 // creación del refresh token 
-exports.createRefreshToken = function(user){
+exports.createRefreshToken = function(data){
     const payload = {
-        id: user.id_usuario,
+        id: data.id,
         exp: moment().add(30,"days").unix()
     };
 

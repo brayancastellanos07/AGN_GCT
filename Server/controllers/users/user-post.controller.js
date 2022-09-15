@@ -2,7 +2,6 @@ const Usuario = require("../../models/user.js");
 const Rol = require("../../models/Rol.js");
 const bcrypt = require("bcrypt-nodejs");
 const jwt = require("../../services/jwt.js");
-// const TipoDoc = require("../../models/tipodocumento.js");
 const colors = require("colors");
 
 async function postUsuarios(req, res) {
@@ -111,75 +110,41 @@ async function postUsuarios(req, res) {
   }
 }
 
-//  function login(req, res){
-//   const params =  req.body;
-//   const correo =  params.Correo.toLowerCase();
-//   const contrasena = params.contrasena;
-//   //console.log(colors.red("aqui"));
-//    Usuario.findOne({ where:{correo:correo}},(error, userStored)=> {
-    
-//     if(error){
-      
-//       return res.status(500).send("Error en el servirdor.");
-//     }else{
-//       if(!data){
-        
-//         res.status(404).send("Usuario no encontrado.");
-//       }else{
-//         bcrypt.compare(contrasena, userStored.contrasena, (err, check)=>{
-//           if(err){
-//             return res.status(500).send("Error en el servidor bcrypt.");
-//           }else if(!check){
-//             return res.status(404).send("La contraseña es incorrecta."); 
-//           }else{
-//             if (!userStored.status) {
-//               return  res.status(200).send("El usuario no esta activo");
-//             }else{
-//              return res.status(200).json({
-//                 accessToken: jwt.createAccessToken(userStored),
-//                 refreshToken: jwt.createRefreshToken(userStored)
-//               });
-//             }
-//           }
-//         })
-//       }
-//     }
-//   })
-// }
-
-
-
 async function login(req, res) {
-  const { Correo, contrasena } = req.body;
-  const correo = Correo.toLowerCase();
+  const { email, password } = req.body;
+  console.log(colors.america("Aqui"), email, password);
+  const correo = email.toLowerCase();
 
   try {
-    const data = await Usuario.findOne({correo});
-    console.log(data)
-    if (!data) {
-      return res.status(404).send(`No se encontro el usuarios ${correo}`);
-    } else {
-      const contraseñaHash =
-        "$2a$10$N9iPsryx8a09KdpHWRpjVuyixK6/JMY/3HQrFMtUqpGcnFkyN5CEW";
+    const data = await Usuario.findOne({ where: { correo: correo } });
+    // destructuring para obtener la información del usuario de la data
+    const { dataValues } = data;
+    const { contrasena, status, nombre } = dataValues;
 
-      bcrypt.compare(contrasena, data.contrasena, (error, check) => {
-        console.log("Aqui", data.contrasena);
+    if (!data) {
+      return res.status(404).send( {message: `No se encontro el usuarios ${correo}`});
+    } else if (status === false) {
+      return res.status(404).send({message:`El usuario ${nombre} no esta activo`});
+    } else {
+      // Comparación de la contraseña encriptada y la ingresada por el usuario
+      bcrypt.compare(password, contrasena, (error, check) => {
+        console.log("Aqui bcrypt", contrasena);
         if (error) {
           console.log(colors.red("Error en bcrypt"), error);
-          return res.status(500).send("Error al desencriptar");
+          return res.status(500).send({message:"Error al desencriptar"});
         } else if (!check) {
-          return res.status(404).send("La contraseña es incorrecta");
+          return res.status(404).send({message:"La contraseña es incorrecta"});
         } else {
           return res.status(200).json({
-            accessToken: jwt.createAccessToken(data),
-            refreshToken: jwt.createRefreshToken(data),
+            accessToken: jwt.createAccessToken(dataValues),
+            refreshToken: jwt.createRefreshToken(dataValues),
           });
         }
       });
     }
   } catch (error) {
-    console.log(colors.red("Error en login"), error);
-    return res.status(500).send("Error en el servidor");
+    console.log(colors.red({message:"Error en login"}), error);
+    return res.status(500).send({message:"Error en el servidor"});
   }
 }
 

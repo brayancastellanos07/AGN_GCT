@@ -2,8 +2,7 @@ const Tipo_Doc = require("../../models/tipodocumento.js");
 const colors = require("colors");
 
 async function updateDoc(req, res) {
-  const { id } = req.params;
-  const { Tipo, Descripcion } = req.body;
+  const { id, Tipo, Descripcion } = req.params;
   const tipo = Tipo.toLowerCase();
   const descripcion = Descripcion.toLowerCase();
   try {
