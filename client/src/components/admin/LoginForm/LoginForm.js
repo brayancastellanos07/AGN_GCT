@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, notification } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import {LoginApi} from "../../../api/user";
+import { LoginApi } from "../../../api/user";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../../utils/constants";
 
 import "./LoginForm.scss";
 
@@ -11,17 +12,32 @@ export default function LoginForm() {
     password: "",
   });
 
-  const changeForm = e => {
+  const changeForm = (e) => {
     setInputs({
       ...inputs,
       [e.target.name]: e.target.value,
     });
   };
 
-  const login = e => {
-    LoginApi(inputs);
-    console.log(inputs);
+  const login = async (e) => {
+    const result = await LoginApi(inputs);
+
+    if (result.message) {
+      notification["error"]({
+        message: result.message,
+      });
+    } else {
+      const { accessToken, refreshToken } = result;
+      localStorage.setItem(ACCESS_TOKEN, accessToken);
+      localStorage.setItem(REFRESH_TOKEN,refreshToken);
+      notification["success"]({
+        message: "Login correcto. "
+      });
+
+      window.location.href = "/admin";
+    }
   };
+
   return (
     <Form
       className="register-form"

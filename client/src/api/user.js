@@ -13,9 +13,8 @@ export function LoginApi(data) {
     .then((response) => {
       return response.json();
     })
-    .then(result =>{
-        console.log(result);
-        return result;
+    .then((result) => {
+      return result;
     })
     .catch((error) => {
       return error.message;

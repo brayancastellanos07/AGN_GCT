@@ -112,7 +112,6 @@ async function postUsuarios(req, res) {
 
 async function login(req, res) {
   const { email, password } = req.body;
-  console.log(colors.america("Aqui"), email, password);
   const correo = email.toLowerCase();
 
   try {
@@ -122,18 +121,23 @@ async function login(req, res) {
     const { contrasena, status, nombre } = dataValues;
 
     if (!data) {
-      return res.status(404).send( {message: `No se encontro el usuarios ${correo}`});
+      return res
+        .status(404)
+        .send( `No se encontro el usuarios ${correo}`);
     } else if (status === false) {
-      return res.status(404).send({message:`El usuario ${nombre} no esta activo`});
+      return res
+        .status(404)
+        .send(`El usuario ${nombre} no esta activo` );
     } else {
       // Comparación de la contraseña encriptada y la ingresada por el usuario
       bcrypt.compare(password, contrasena, (error, check) => {
-        console.log("Aqui bcrypt", contrasena);
         if (error) {
           console.log(colors.red("Error en bcrypt"), error);
-          return res.status(500).send({message:"Error al desencriptar"});
+          return res.status(500).send("Error al desencriptar");
         } else if (!check) {
-          return res.status(404).send({message:"La contraseña es incorrecta"});
+          return res
+            .status(404)
+            .send("La contraseña es incorrecta");
         } else {
           return res.status(200).json({
             accessToken: jwt.createAccessToken(dataValues),
@@ -143,8 +147,8 @@ async function login(req, res) {
       });
     }
   } catch (error) {
-    console.log(colors.red({message:"Error en login"}), error);
-    return res.status(500).send({message:"Error en el servidor"});
+    console.log(colors.red({ message: "Error en login" }), error);
+    return res.status(500).send({ message: "Error en el servidor" });
   }
 }
 
