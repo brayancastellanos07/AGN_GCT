@@ -26,21 +26,18 @@ async function refreshAccessToken(req, res) {
   } else {
     const { id } = jwt.decodeToken(refreshToken);
 
-    const data = await Usuario.findOne({ where: { id: id } });
-
-    //return res.status(400).json({data})
+    const data = await Usuario.findOne({ where: { id_usuario: id } });
+    const { dataValues } = data;
 
     try {
       if (!data) {
         return res.status(404).send(`No se encontro el  Usuario ${id}`);
       }
-      return res.status(400).json({data})
-    //   return res
-    //     .status(200)
-    //     .send({
-    //       accessToken: jwt.createAccessToken(data),
-    //       refreshToken: refreshToken,
-    //     });
+
+      return res.status(200).json({
+        accessToken: jwt.createAccessToken(dataValues),
+        refreshToken: jwt.createRefreshToken(dataValues),
+      });
     } catch (error) {
       console.log(
         colors.red({ message: "Error en refreshAccessToken" }),

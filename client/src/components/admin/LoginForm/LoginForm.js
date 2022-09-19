@@ -24,8 +24,10 @@ export default function LoginForm() {
 
     if (result.message) {
       notification["error"]({
-        message: result.message,
+      message: result.message,
+       
       });
+     
     } else {
       const { accessToken, refreshToken } = result;
       localStorage.setItem(ACCESS_TOKEN, accessToken);

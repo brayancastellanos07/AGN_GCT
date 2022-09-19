@@ -1,4 +1,4 @@
-//import { basePath } from "./config";
+import { basePath } from "./config";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../utils/constants";
 import jwtDecode from "jwt-decode";
 
@@ -30,4 +30,39 @@ function willExpireToken(token) {
   const now = (Date.now() + seconds) / 1000;
   // comparacion de las fechas, regresa true si el token expiro y false si aun esta vigente
   return now > exp;
+}
+
+export function refreshAccessToken(refreshToken) {
+  const url = `${basePath}/refresh-access-token`;
+  const bodyObj = {
+    refreshToken: refreshToken,
+  };
+  const params = {
+    method: "POST",
+    body: JSON.stringify(bodyObj),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  fetch(url, params)
+    .then((response) => {
+      if (response.status !== 200) {
+        return null;
+      }
+      return response.json();
+    })
+    .then((result) => {
+      if (!result) {
+        logout();
+      } else {
+        const { accessToken, refreshToken } = result;
+        localStorage.setItem(ACCESS_TOKEN, accessToken);
+        localStorage.setItem(REFRESH_TOKEN, refreshToken);
+      }
+    });
+}
+
+export function logout() {
+  localStorage.removeItem(ACCESS_TOKEN);
+  localStorage.removeItem(REFRESH_TOKEN);
 }

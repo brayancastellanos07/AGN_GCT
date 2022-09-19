@@ -36,6 +36,10 @@ Usuario.init(
       allowNull: false,
       type: DataTypes.STRING,
       field: "nombre",
+      // get(){
+      //   const rawValue = this.getDataValue('nombre');
+      //   return rawValue.toLowerCase();
+      // }
     },
     apellido: {
       allowNull: false,
