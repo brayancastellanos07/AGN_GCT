@@ -14,7 +14,7 @@ async function postUsuarios(req, res) {
     rol,
     Correo,
     contrasena,
-    repetirContraseña,
+    repetirContrasena,
     status,
   } = req.body;
 
@@ -60,10 +60,10 @@ async function postUsuarios(req, res) {
     }
 
     // se valida el ingreso de las contraseñas
-    if (!contrasena || !repetirContraseña) {
+    if (!contrasena || !repetirContrasena) {
       res.status(404).send("Las contraseñas son obligatorias");
     } else {
-      if (contrasena !== repetirContraseña) {
+      if (contrasena !== repetirContrasena) {
         res.status(404).send("Las contraseñas no son iguales");
       } else {
         bcrypt.hash(contrasena, null, null, async function (error, hash) {
