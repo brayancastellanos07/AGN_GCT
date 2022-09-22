@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { Avatar, Form, Input, Select, Button, Row, Col } from "antd";
+import { Avatar, Form, Input, Select, Button, Row, Col, Checkbox } from "antd";
 import { useDropzone } from "react-dropzone";
 import Noavatar from "../../../../assets/img/png/no-avatar.png";
 import {
@@ -201,14 +201,7 @@ function EditForm(props) {
             />
           </Form.Item> */}
           <Form.Item>
-            <Select
-              placeholder="Status"
-              defaultValue={userData.status}
-              onChange={(e) => setUserData({ ...userData, status: e })}
-            >
-              <Option value="Cedula">Activo</Option>
-              <Option value="Pasaporte">Inactivo </Option>
-            </Select>
+            <Checkbox defaultChecked={userData.status} onChange={e => setUserData({ ...userData, status: e.target.value })}>{userData.status ? ("Activo"): ("Inactivo")}</Checkbox>
           </Form.Item>
         </Col>
       </Row>
