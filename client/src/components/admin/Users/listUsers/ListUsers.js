@@ -85,6 +85,7 @@ function UsersActive(props) {
         >
           <List.Item.Meta
             avatar={<Avatar src={data.avatar ? data.avatar : Noavatar} />}
+            
             title={`
                   ${data.nombre}
                   

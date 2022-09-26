@@ -120,8 +120,8 @@ function EditForm(props) {
               onChange={(e) => setUserData({ ...userData, tipodocumento: e })}
               defaultValue={userData.tipodocumento}
             >
-              <Option value="Cedula">Cédula</Option>
-              <Option value="Pasaporte">Pasaporte</Option>
+              <Option value="Cedula" name="Cedula">Cédula</Option>
+              <Option value="Pasaporte" name="Pasaporte">Pasaporte</Option>
             </Select>
           </Form.Item>
         </Col>
@@ -152,16 +152,6 @@ function EditForm(props) {
           </Form.Item>
         </Col>
         <Col span={12}>
-          {/* <Form.Item>
-            <Input
-              prefix={<ContainerOutlined />}
-              placeholder="Rol"
-              defaultValue={userData.rol}
-              onChange={(e) =>
-                setUserData({ ...userData, rol: e.target.value })
-              }
-            />
-          </Form.Item> */}
           <Form.Item>
             <Select
               placeholder="Rol"
@@ -170,8 +160,8 @@ function EditForm(props) {
               }
               defaultValue={userData.rol}
             >
-              <Option value="Cedula">Super Administrador</Option>
-              <Option value="Pasaporte">Administrador</Option>
+              <Option value="1">Super Administrador</Option>
+              <Option value="2">Administrador</Option>
             </Select>
           </Form.Item>
         </Col>
@@ -190,16 +180,6 @@ function EditForm(props) {
           </Form.Item>
         </Col>
         <Col span={12}>
-          {/* <Form.Item>
-            <Input
-              prefix={<TeamOutlined />}
-              placeholder="Status"
-              defaultValue={userData.status}
-              onChange={(e) =>
-                setUserData({ ...userData, status: e.target.value })
-              }
-            />
-          </Form.Item> */}
           <Form.Item>
             <Checkbox defaultChecked={userData.status} onChange={e => setUserData({ ...userData, status: e.target.value })}>{userData.status ? ("Activo"): ("Inactivo")}</Checkbox>
           </Form.Item>

@@ -1,5 +1,8 @@
+const fs = require("fs");
+const path = require("path");
 const Usuario = require("../../models/user.js");
 const colors = require("colors");
+const { patch } = require("../../routers/routerUser.js");
 
 async function getUsuario(req, res) {
   try {
@@ -15,6 +18,7 @@ async function getUsuario(req, res) {
         "correo",
         "contrasena",
         "status",
+        "avatar",
       ],
     });
     if (!data.length) {
@@ -37,8 +41,7 @@ async function getUsuarioActive(req, res) {
             where: {
             status: status,
           },});
-    
-          console.log(data)
+        console.log(data)
         if (!data.length) {
           return res
             .status(404)
@@ -71,4 +74,15 @@ async function getUsuarioById(red, res) {
   }
 }
 
-module.exports = { getUsuario, getUsuarioActive, getUsuarioById };
+function getAvatar(req,res){
+    const avatarName =  req.params.avatarName;
+    const filePath = "./uploads/avatar/" +  avatarName;
+  
+    fs.exists(filePath, exists => {
+      if(!exists){
+        return res.status(404).send({message: "El avatar que buscas no existe"});
+      }
+      res.sendFile(path.resolve(filePath));
+    });
+}
+module.exports = { getUsuario, getUsuarioActive, getUsuarioById, getAvatar };

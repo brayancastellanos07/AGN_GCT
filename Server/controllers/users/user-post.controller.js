@@ -16,6 +16,7 @@ async function postUsuarios(req, res) {
     contrasena,
     repetirContrasena,
     status,
+    avatar,
   } = req.body;
 
   const nombre = Nombre.toLowerCase();
@@ -84,6 +85,7 @@ async function postUsuarios(req, res) {
                 correo,
                 contrasena,
                 status,
+                avatar,
               },
               {
                 fields: [
@@ -96,6 +98,7 @@ async function postUsuarios(req, res) {
                   "correo",
                   "contrasena",
                   "status",
+                  "avatar"
                 ],
               }
             );
