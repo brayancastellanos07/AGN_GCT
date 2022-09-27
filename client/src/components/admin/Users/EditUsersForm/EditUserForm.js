@@ -1,5 +1,15 @@
 import React, { useCallback, useState, useEffect } from "react";
-import { Avatar, Form, Input, Select, Button, Row, Col, Checkbox } from "antd";
+import {
+  Avatar,
+  Form,
+  Input,
+  Select,
+  Button,
+  Row,
+  Col,
+  Checkbox,
+  notification,
+} from "antd";
 import { useDropzone } from "react-dropzone";
 import Noavatar from "../../../../assets/img/png/no-avatar.png";
 import {
@@ -9,11 +19,17 @@ import {
   MailOutlined,
   LockOutlined,
 } from "@ant-design/icons";
+import {
+  updateUserApi,
+  uploadAvatarApi,
+  getAvatarApi,
+} from "../../../../api/user";
+import { getAccessToken } from "../../../../api/auth";
 
 import "./EditUserForm.scss";
 
 export default function EditUserForm(props) {
-  const { data } = props;
+  const { data, setIsVisibleModal, setReloadUsers } = props;
   const [avatar, setAvatar] = useState(null);
   const [userData, setUserData] = useState({
     nombre: data.nombre,
@@ -23,20 +39,99 @@ export default function EditUserForm(props) {
     telefono: data.telefono,
     rol: data.rol,
     correo: data.correo,
-    contrasena: data.contrasena,
+    
     status: data.status,
     avatar: data.avatar,
+
   });
 
   useEffect(() => {
+    setUserData({
+      nombre: data.nombre,
+      apellido: data.apellido,
+      tipodocumento: data.tipodocumento,
+      documento: data.documento,
+      telefono: data.telefono,
+      rol: data.rol,
+      correo: data.correo,
+      contrasena: "",
+      repetirContrasena:"",
+      status: data.status,
+      avatar: data.avatar,
+    });
+  }, [data]);
+
+  useEffect(() => {
+    if (data.avatar) {
+      getAvatarApi(data.avatar).then((response) => {
+        setAvatar(response);
+      });
+    } else {
+      setAvatar(null);
+    }
+  }, [data]);
+
+  useEffect(() => {
     if (avatar) {
-      setUserData({ ...userData, avatar });
+      setUserData({ ...userData, avatar: avatar.file });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [avatar]);
 
   const updateUser = (e) => {
-    console.log(userData);
+    const token = getAccessToken();
+    let userUpdate = userData;
+
+
+    if (userUpdate.contrasena || userUpdate.repetirContrasena) {
+      if (userUpdate.contrasena !== userUpdate.repetirContrasena) {
+        notification["error"]({
+          message: "Las contraseñas tienen que ser iguales.",
+        });
+        return;
+      }
+      else{
+        delete userUpdate.repetirContrasena
+      }
+      
+    }
+
+    if (
+      !userUpdate.nombre ||
+      !userUpdate.apellido ||
+      !userUpdate.tipodocumento ||
+      !userUpdate.documento ||
+      !userUpdate.telefono ||
+      !userUpdate.rol ||
+      !userUpdate.correo 
+    ) {
+      notification["error"]({
+        message: "Todos los campos son obligatorios. ",
+      });
+      return;
+    }
+
+    if (typeof userUpdate.avatar === "object") {
+      uploadAvatarApi(token, userUpdate.avatar, data.id).then((response) => {
+        userUpdate.avatar = response.avatarName;
+        
+        updateUserApi(token, userUpdate, data.id).then(result => {
+          notification["success"]({
+            message: result.message,
+          });
+        });
+      });
+    } else {
+      
+      updateUserApi(token, userUpdate, data.id).then(result => {
+        notification["success"]({
+          message: result.message,
+        });
+        setReloadUsers(true);
+      });
+    }
+    setIsVisibleModal(false);
+ 
   };
 
   return (
@@ -54,6 +149,19 @@ export default function EditUserForm(props) {
 
 function UploadAvatar(props) {
   const { avatar, setAvatar } = props;
+  const [avatarUrl, setAvatarUrl] = useState(null);
+
+  useEffect(() => {
+    if (avatar) {
+      if (avatar.preview) {
+        setAvatarUrl(avatar.preview);
+      } else {
+        setAvatarUrl(avatar);
+      }
+    } else {
+      setAvatarUrl(avatar);
+    }
+  }, [avatar]);
 
   const onDrop = useCallback(
     (acceptedFiles) => {
@@ -75,7 +183,7 @@ function UploadAvatar(props) {
       {isDragActive ? (
         <Avatar size={150} src={Noavatar} />
       ) : (
-        <Avatar size={150} src={avatar ? avatar.preview : Noavatar} />
+        <Avatar size={150} src={avatarUrl ? avatarUrl : Noavatar} />
       )}
     </div>
   );
@@ -92,7 +200,7 @@ function EditForm(props) {
             <Input
               prefix={<UserOutlined />}
               placeholder="Nombre"
-              defaultValue={userData.nombre}
+              value={userData.nombre}
               onChange={(e) =>
                 setUserData({ ...userData, nombre: e.target.value })
               }
@@ -104,7 +212,7 @@ function EditForm(props) {
             <Input
               prefix={<UserOutlined />}
               placeholder="Apellido"
-              defaultValue={userData.apellido}
+              value={userData.apellido}
               onChange={(e) =>
                 setUserData({ ...userData, apellido: e.target.value })
               }
@@ -118,10 +226,14 @@ function EditForm(props) {
             <Select
               placeholder="Tipo Documento"
               onChange={(e) => setUserData({ ...userData, tipodocumento: e })}
-              defaultValue={userData.tipodocumento}
+              value={userData.tipodocumento}
             >
-              <Option value="Cedula" name="Cedula">Cédula</Option>
-              <Option value="Pasaporte" name="Pasaporte">Pasaporte</Option>
+              <Option value="Cedula" name="Cedula">
+                Cédula
+              </Option>
+              <Option value="Pasaporte" name="Pasaporte">
+                Pasaporte
+              </Option>
             </Select>
           </Form.Item>
         </Col>
@@ -130,7 +242,7 @@ function EditForm(props) {
             <Input
               prefix={<IdcardOutlined />}
               placeholder="Documento"
-              defaultValue={userData.documento}
+              value={userData.documento}
               onChange={(e) =>
                 setUserData({ ...userData, documento: e.target.value })
               }
@@ -144,7 +256,7 @@ function EditForm(props) {
             <Input
               prefix={<TabletOutlined />}
               placeholder="Telefono"
-              defaultValue={userData.telefono}
+              value={userData.telefono}
               onChange={(e) =>
                 setUserData({ ...userData, telefono: e.target.value })
               }
@@ -154,11 +266,13 @@ function EditForm(props) {
         <Col span={12}>
           <Form.Item>
             <Select
-              placeholder="Rol"
-              onChange={(e) =>
-                setUserData({ ...userData, rol: e.target.value })
+              placeholder="Seleccione un Rol"
+              onChange={(e) => {
+                setUserData({ ...userData, rol: e });
+              }}
+              value={
+                userData.rol === 1 ? "Super Administrador" : "Administrador"
               }
-              defaultValue={userData.rol}
             >
               <Option value="1">Super Administrador</Option>
               <Option value="2">Administrador</Option>
@@ -172,7 +286,7 @@ function EditForm(props) {
             <Input
               prefix={<MailOutlined />}
               placeholder="Correo"
-              defaultValue={userData.correo}
+              value={userData.correo}
               onChange={(e) =>
                 setUserData({ ...userData, correo: e.target.value })
               }
@@ -181,7 +295,15 @@ function EditForm(props) {
         </Col>
         <Col span={12}>
           <Form.Item>
-            <Checkbox defaultChecked={userData.status} onChange={e => setUserData({ ...userData, status: e.target.value })}>{userData.status ? ("Activo"): ("Inactivo")}</Checkbox>
+            <Checkbox
+              checked={userData.status}
+              onChange={(e) =>
+                setUserData({ ...userData, status: e.target.value })
+              }
+              disabled={true}
+            >
+              {userData.status ? "Activo" : "Inactivo"}
+            </Checkbox>
           </Form.Item>
         </Col>
       </Row>
@@ -196,6 +318,7 @@ function EditForm(props) {
               onChange={(e) =>
                 setUserData({ ...userData, contrasena: e.target.value })
               }
+              value={userData.contrasena}
             />
           </Form.Item>
         </Col>
@@ -208,6 +331,7 @@ function EditForm(props) {
               onChange={(e) =>
                 setUserData({ ...userData, repetirContrasena: e.target.value })
               }
+              value={userData.repetirContrasena}
             />
           </Form.Item>
         </Col>

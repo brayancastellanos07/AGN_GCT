@@ -145,7 +145,7 @@ async function login(req, res) {
     }
   } catch (error) {
     console.log(colors.red({ message: "Error en login" }), error);
-    return res.status(500).send({ message: `Error en el servidor, No se encontro el usuarios ${correo}` });
+    return res.status(500).send({ message: `Error en el servidor, No se encontro el usuario ${correo}` });
   }
 }
 

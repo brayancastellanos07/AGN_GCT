@@ -67,10 +67,11 @@ export function getUsersActiveApi(token, status) {
     });
 }
 
-export function uploadAvatarApi(token, avatar, id_usuario) {
-  const url = `${basePath}/update-avatar/${id_usuario}`;
+export function uploadAvatarApi(token, avatar, id) {
+  const url = `${basePath}/update-avatar/${id}`;
 
   const formData = new FormData();
+  console.log(avatar);
   formData.append("avatar", avatar, avatar.name);
 
   const params = {
@@ -105,17 +106,19 @@ export function getAvatarApi(avatarName) {
     });
 }
 
-export function updateUserApi(token, data, id_usuario) {
-  const url = `${basePath}/update-user/${id_usuario}`;
-
+export function updateUserApi(token, data, id) {
+  const url = `${basePath}/update-user/${id}`;
+  console.log(data)
   const params = {
     method: "PUT",
     headers: {
+      "Content-Type":"application/json",
       Authorization: token,
     },
     body: JSON.stringify(data)
   };
 
+  console.log("aqui",params)
   return fetch(url,params).then(response =>{
     return response.json();
   }).then(result => {
