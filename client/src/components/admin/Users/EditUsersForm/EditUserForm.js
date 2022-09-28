@@ -81,21 +81,7 @@ export default function EditUserForm(props) {
   const updateUser = (e) => {
     const token = getAccessToken();
     let userUpdate = userData;
-
-
-    if (userUpdate.contrasena || userUpdate.repetirContrasena) {
-      if (userUpdate.contrasena !== userUpdate.repetirContrasena) {
-        notification["error"]({
-          message: "Las contraseñas tienen que ser iguales.",
-        });
-        return;
-      }
-      else{
-        delete userUpdate.repetirContrasena
-      }
-      
-    }
-
+     
     if (
       !userUpdate.nombre ||
       !userUpdate.apellido ||
@@ -111,6 +97,21 @@ export default function EditUserForm(props) {
       return;
     }
 
+    if (userUpdate.contrasena || userUpdate.repetirContrasena) {
+      if (userUpdate.contrasena !== userUpdate.repetirContrasena) {
+        notification["error"]({
+          message: "Las contraseñas tienen que ser iguales.",
+        });
+        return;
+      }
+      else{
+        delete userUpdate.repetirContrasena
+      }
+      
+    }
+
+    
+
     if (typeof userUpdate.avatar === "object") {
       uploadAvatarApi(token, userUpdate.avatar, data.id).then((response) => {
         userUpdate.avatar = response.avatarName;
@@ -119,6 +120,7 @@ export default function EditUserForm(props) {
           notification["success"]({
             message: result.message,
           });
+          setReloadUsers(true);
         });
       });
     } else {
@@ -271,9 +273,10 @@ function EditForm(props) {
                 setUserData({ ...userData, rol: e });
               }}
               value={
-                userData.rol === 1 ? "Super Administrador" : "Administrador"
+                userData.rol  === 1 ? "Super Administrador" : "Administrador"
               }
             >
+              {userData.rol === 1 ? "Super Administrador" : "Administrador"}
               <Option value="1">Super Administrador</Option>
               <Option value="2">Administrador</Option>
             </Select>

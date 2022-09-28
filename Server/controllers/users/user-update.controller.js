@@ -113,7 +113,7 @@ try {
       id: id,
     }
   })
-  if (status=== true) {
+  if (status === true) {
     return res.status(200).send({message:"El usuario ha sido activado. "})
   }
   return res.status(200).send({message:"El usuario ha sido desactivado. "})

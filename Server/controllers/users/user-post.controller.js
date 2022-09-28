@@ -33,7 +33,7 @@ async function postUsuarios(req, res) {
     if (correoFind.length) {
       return res
         .status(404)
-        .send(`El correo ${correo} ya se encuentra inscrito en el sistema`);
+        .send({ message: `El correo ${correo} ya se encuentra inscrito en el sistema`});
     }
 
     const cedulaFind = await Usuario.findAll({
@@ -45,8 +45,8 @@ async function postUsuarios(req, res) {
     if (cedulaFind.length) {
       return res
         .status(404)
-        .send(
-          `El numero de cedula ${documento} ya se encuentra inscrito en el sistema`
+        .send({
+         message: `El numero de cedula ${documento} ya se encuentra inscrito en el sistema`}
         );
     }
 
@@ -57,19 +57,19 @@ async function postUsuarios(req, res) {
     });
     // se valida que el rol exista
     if (!findRol.length) {
-      return res.status(404).send(`El Rol ${rol} no existe en el sistema `);
+      return res.status(404).send( { message:`El Rol ${rol} no existe en el sistema `});
     }
 
     // se valida el ingreso de las contraseñas
     if (!contrasena || !repetirContrasena) {
-      res.status(404).send("Las contraseñas son obligatorias");
+      res.status(404).send({ message: "Las contraseñas son obligatorias"});
     } else {
       if (contrasena !== repetirContrasena) {
-        res.status(404).send("Las contraseñas no son iguales");
+        res.status(404).send({ message: "Las contraseñas no son iguales"});
       } else {
         bcrypt.hash(contrasena, null, null, async function (error, hash) {
           if (error) {
-            res.status(500).send("Error al encriptar la contraseña");
+            res.status(500).send({message: "Error al encriptar la contraseña"});
           } else {
             //res.status(200).json({hash});
             const contrasena = hash;
@@ -109,7 +109,7 @@ async function postUsuarios(req, res) {
     }
   } catch (error) {
     console.log(colors.red("Error en postUsuarios", error));
-    return res.status(500).send("Error en el servidor");
+    return res.status(500).send({ message:"Error en el servidor"});
   }
 }
 
@@ -132,7 +132,7 @@ async function login(req, res) {
       bcrypt.compare(password, contrasena, (error, check) => {
         if (error) {
           console.log(colors.red("Error en bcrypt"), error);
-          return res.status(500).send("Error al desencriptar");
+          return res.status(500).send({ message:"Error al desencriptar"});
         } else if (!check) {
           return res.status(404).send({message: "La contraseña es incorrecta"});
         } else {
