@@ -64,6 +64,7 @@ export default function AddUserForm(props) {
             message: err,
           });
         });
+        
     }
   };
   return (
@@ -90,6 +91,7 @@ function AddForm(props) {
               prefix={<UserOutlined />}
               placeholder="Nombre"
               value={userData.nombre}
+              minLength={5}
               onChange={(e) =>
                 setUserData({ ...userData, Nombre: e.target.value })
               }
@@ -102,6 +104,7 @@ function AddForm(props) {
               prefix={<UserOutlined />}
               placeholder="Apellido"
               value={userData.apellido}
+              minLength={5}
               onChange={(e) =>
                 setUserData({ ...userData, Apellido: e.target.value })
               }
@@ -132,6 +135,7 @@ function AddForm(props) {
               prefix={<IdcardOutlined />}
               placeholder="Documento"
               value={userData.documento}
+              minLength={6}
               onChange={(e) =>
                 setUserData({ ...userData, documento: e.target.value })
               }
@@ -146,6 +150,7 @@ function AddForm(props) {
               prefix={<TabletOutlined />}
               placeholder="Telefono"
               value={userData.telefono}
+              type="number"
               onChange={(e) =>
                 setUserData({ ...userData, telefono: e.target.value })
               }

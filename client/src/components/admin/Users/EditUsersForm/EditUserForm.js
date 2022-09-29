@@ -31,19 +31,7 @@ import "./EditUserForm.scss";
 export default function EditUserForm(props) {
   const { data, setIsVisibleModal, setReloadUsers } = props;
   const [avatar, setAvatar] = useState(null);
-  const [userData, setUserData] = useState({
-    nombre: data.nombre,
-    apellido: data.apellido,
-    tipodocumento: data.tipodocumento,
-    documento: data.documento,
-    telefono: data.telefono,
-    rol: data.rol,
-    correo: data.correo,
-    
-    status: data.status,
-    avatar: data.avatar,
-
-  });
+  const [userData, setUserData] = useState({});
 
   useEffect(() => {
     setUserData({

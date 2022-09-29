@@ -1,6 +1,8 @@
 const Rol = require("../../models/Rol.js");
 const colors = require("colors");
 
+
+
 async function updateRol(req, res) {
   const { id } = req.params;
   const { Nombre, Descripcion } = req.body;
@@ -13,7 +15,6 @@ async function updateRol(req, res) {
       {
         nombre: Nombre,
         descripcion: Descripcion,
-        status: Status,
       },
       {
         where: {
@@ -21,10 +22,10 @@ async function updateRol(req, res) {
         },
       }
     );
-    return res.status(200).json({ dataUpdate });
+    return res.status(200).send({ message:"Rol actualizado correctamente. " });
   } catch (error) {
     console.log(colors.red("Error en updateRol"), error);
-    return res.status(500).send("Error en el servidor, Update Rol");
+    return res.status(500).send({ message: "Error en el servidor"});
   }
 }
 

@@ -60,33 +60,34 @@ export default function ListUsers(props) {
       },
     });
   };
- 
- 
- 
-  const addUserModal= () =>{
-      setIsVisibleModal(true);
-      setModalTitle("Creando nuevo usuario. ");
-      setModalContent(
-        <AddUserForm setIsVisibleModal={setIsVisibleModal}  setReloadUsers={setReloadUsers}/>
-      )
-  }
+
+  const addUserModal = () => {
+    setIsVisibleModal(true);
+    setModalTitle("Creando nuevo usuario. ");
+    setModalContent(
+      <AddUserForm
+        setIsVisibleModal={setIsVisibleModal}
+        setReloadUsers={setReloadUsers}
+      />
+    );
+  };
   return (
     <div className="list-users">
       <div className="list-users__header">
-      <div className="list-users__users__header-switch">
-        <Switch
-          defaultChecked
-          onChange={() => setViewUsersActive(!viewUsersActives)}
-        />
-        <span>
-          {viewUsersActives ? "  Usuarios Activos" : "  Usuarios Inactivos"}
-        </span>
+        <div className="list-users__users__header-switch">
+          <Switch
+            defaultChecked
+            onChange={() => setViewUsersActive(!viewUsersActives)}
+          />
+          <span>
+            {viewUsersActives ? "  Usuarios Activos" : "  Usuarios Inactivos"}
+          </span>
+        </div>
+        <Button type="primary" onClick={addUserModal}>
+          Nuevo Usuario
+        </Button>
       </div>
-      <Button type="primary" onClick={addUserModal}>
-        Nuevo Usuario
-      </Button>
-      </div>
-      
+
       {viewUsersActives ? (
         <UsersActive
           usersActive={usersActive}

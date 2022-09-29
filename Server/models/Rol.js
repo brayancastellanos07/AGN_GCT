@@ -6,7 +6,6 @@ class Rol extends Model {
   id;
   nombre;
   descripcion;
-  status;
 
   static associate(models) {
     Rol.hasMany(models.Usuario, {
@@ -35,12 +34,7 @@ Rol.init(
       allowNull: false,
       type: DataTypes.STRING,
       field: "descripcion",
-    },
-    status: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      field: "status",
-    },
+    }
   },
   {
     sequelize,

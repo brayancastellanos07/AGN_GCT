@@ -32,12 +32,7 @@ export default function MenuSider(props) {
       label: <span className="nav-text">Carpetas por año</span>,
     },
     {
-      key: "/admin/tipoDocumento",
-      icon: <IdcardOutlined />,
-      label: <span className="nav-text">Tipos de Documentos</span>,
-    },
-    {
-      key: "/admin/roles",
+      key: "/admin/list-roles",
       icon: <SolutionOutlined />,
       label: <span className="nav-text">Definición de Roles</span>,
     },

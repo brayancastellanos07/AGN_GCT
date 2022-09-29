@@ -7,12 +7,12 @@ async function getRols(req, res) {
       atributes: ["id", "nombre", "descripcion"],
     });
     if (!data.length) {
-      return res.status(404).send("No se encontraron registros ");
+      return res.status(404).send({message: "No se encontraron registros. "});
     }
     return res.status(200).json({ data });
   } catch (error) {
     console.log(colors.red("Error en updateRol"), error);
-    return res.status(500).send("Error en el servidor");
+    return res.status(500).send( { message: "Error en el servidor"});
   }
 }
 

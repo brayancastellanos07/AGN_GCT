@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { getAccessToken } from "../../../api/auth";
 import { getUsersActiveApi } from "../../../api/user";
 import ListUsers from "../../../components/admin/Users/listUsers";
-import "./Users.scss";
+
 
 export default function Users() {
   const [usersActive, setUsersActive] = useState([]);
   const [userInActive, setUserInActive] = useState([]);
-  const [reloadUsers, setReloadUsers] = useState(false)
+  const [reloadUsers, setReloadUsers] = useState(false);
   const token = getAccessToken();
 
  

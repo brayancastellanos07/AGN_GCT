@@ -102,7 +102,7 @@ async function postUsuarios(req, res) {
                 ],
               }
             );
-            return res.status(200).json({ data });
+            return res.status(200).send({ message:"Usuario creado de forma exitosa. " });
           }
         });
       }

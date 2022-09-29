@@ -1,0 +1,27 @@
+.list-rols {
+        background-color: #fff;
+        padding: 10px 20px;
+        &__header{
+            // display: flex;
+            margin-bottom: 20px;
+            
+           
+            &__h2{
+                text-align: center; 
+            }
+        }
+    .ant-list-item-meta {
+        display: flex;
+        align-items: center;
+        
+        .ant-btn{
+            border-radius:50px;
+            outline:none;
+            border-color: green;
+        }
+    }
+
+
+    
+}
+
