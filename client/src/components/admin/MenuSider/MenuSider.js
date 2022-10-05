@@ -4,9 +4,9 @@ import { Layout, Menu } from "antd";
 import {
   FileTextOutlined,
   FolderOpenOutlined,
-  IdcardOutlined,
   SolutionOutlined,
   UserAddOutlined,
+  FileAddOutlined 
 } from "@ant-design/icons";
 
 import "./MenuSider.scss";
@@ -22,12 +22,24 @@ export default function MenuSider(props) {
 
   const menuItems = [
     {
-      key: "/admin",
+      key: "/admin/list-conceptos",
       icon: <FileTextOutlined />,
       label: <span className="nav-text">Conceptos</span>,
+      children:[
+        {
+          key: "/admin/list-conceptos/2013",
+          icon: <FileAddOutlined />,
+          label: <span className="nav-text">2013</span>,
+        },
+        {
+          key: "/admin/list-conceptos/2014",
+          icon: <FileAddOutlined />,
+          label: <span className="nav-text">2014</span>,
+        }
+      ]
     },
     {
-      key: "/admin/carpetas",
+      key: "/admin/list-carp",
       icon: <FolderOpenOutlined />,
       label: <span className="nav-text">Carpetas por año</span>,
     },

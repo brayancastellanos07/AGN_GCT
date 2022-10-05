@@ -31,8 +31,7 @@ router.post("/login-usuarios", login);
 router.put("/update-user/:id", [md_auth.ensureAuth], updateUser);
 router.put(
   "/update-avatar/:id",
-  [md_auth.ensureAuth],
-  [md_update_avatar],
+  [md_auth.ensureAuth, md_update_avatar],
   updateAvatar
 );
 router.put("/activate-user/:id", [md_auth.ensureAuth], activateUser);

@@ -6,10 +6,10 @@ async function deleteCarp(req, res) {
     const { id } = req.params;
     const data = await Carpeta.destroy({
       where: {
-        id_carpeta: id,
+        id: id,
       },
     });
-    return res.status(200).json({ data });
+    return res.status(200).json({ message:"La Carpeta ha sido Eliminada." });
   } catch (error) {
     console.log(colors.red("Error en deleteDoc"), error);
     return res.status(500).send("Error en el servidor");
@@ -17,3 +17,4 @@ async function deleteCarp(req, res) {
 }
 
 module.exports = { deleteCarp };
+ 

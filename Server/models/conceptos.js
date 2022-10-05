@@ -1,6 +1,25 @@
-const {Model, DataTypes} =  require("sequelize");
+const {Model, DataTypes, Sequelize} =  require("sequelize");
+const sequelize = require("../database/database.js");
+const {Carpetas} = require("./carpetas");
+class Conceptos extends Model{
+    id_concepto;
+    nombre;
+    descripcion;
+    archivo;
+    fecha;
+    carpeta;
 
-const conceptos = {
+    static associate(models){
+        Conceptos.belongsTo(models.Carpetas,{
+            foreignKey:"id_carpeta",
+            onDelete: "RESTRICT",
+            onUpdate: "RESTRICT",
+        });
+    }
+}
+
+ Conceptos.init (
+    {
     id:{
         allowNull: false,
         autoIncrement: true,
@@ -24,11 +43,25 @@ const conceptos = {
         type: DataTypes.STRING,
         field: 'archivo'
     },
-    feha:{
+    fecha:{
         allowNull: false,
         type: DataTypes.DATE,
         field: 'fecha',
         defaultValue: sequelize.NOW
+    },
+    carpeta:{
+        allowNull:false,
+        type: DataTypes.INTEGER,
+        field: "carpeta",
     }
+},
+{
+    sequelize,
+    tableName:"conceptos",
+    modelName:"Conceptos",
+    timestamps: false,
+    createdAt: false,
+    updatedAt: false,
 }
-module.exports = conceptos;
+);
+module.exports = Conceptos;

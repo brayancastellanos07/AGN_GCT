@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const Usuario = require("../../models/user.js");
 const colors = require("colors");
-const { patch } = require("../../routers/routerUser.js");
+
 
 async function getUsuario(req, res) {
   try {
@@ -41,7 +41,7 @@ async function getUsuarioActive(req, res) {
             where: {
             status: status,
           },});
-        console.log(data)
+   
         if (!data.length) {
           return res
             .status(404)

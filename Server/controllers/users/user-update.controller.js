@@ -1,7 +1,7 @@
 const Usuario = require("../../models/user.js");
 const colors = require("colors");
 const bcrypt = require("bcrypt-nodejs");
-const { use } = require("../../routers/routerUser.js");
+const fs = require=('fs');
 
 async function updateAvatar(req, res) {
   const { id } = req.params;
@@ -26,6 +26,7 @@ async function updateAvatar(req, res) {
       let extSplit = fileName.split(".");
       let fileExt = extSplit[1];
       if (fileExt !== "png" && fileExt !== "jpg") {
+        fs.unlinkSync('./uploads/pdfs/' + fileName);
         return res.status(400).send({
           message:
             "La extensión de la imagen no es válida. (Extensiones permitidas: .png y .jpg )",

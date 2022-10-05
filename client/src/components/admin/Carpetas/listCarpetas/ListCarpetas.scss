@@ -1,0 +1,19 @@
+.list-carpetas{
+    &__header{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+       
+    }
+
+    .carpetas{
+        background-color: #fff;
+        padding: 10px 20px;
+
+        .ant-list-item-meta {
+            display: flex;
+            align-items: center;
+        }
+    }
+}

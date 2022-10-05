@@ -18,9 +18,11 @@ export default function EditRolsForm(props) {
 
   const updateRols = (e) => {
     const token = getAccessToken();
+    console.log("Data",data)
     let rolUpdate = rolData;
+    console.log("RolUpdate",rolUpdate)
 
-    if (rolUpdate.nombre || rolUpdate.descripcion) {
+    if (!rolUpdate.nombre || !rolUpdate.descripcion) {
       notification["error"]({
         message: "Todos los campos son obligatorios. ",
       });
@@ -31,6 +33,7 @@ export default function EditRolsForm(props) {
           message: result.message,
         });
         setReloadRols(true);
+        console.log(rolUpdate)
       });
     }
     setIsVisibleModal(false);

@@ -14,7 +14,7 @@ async function postCarp(req, res) {
       },
     });
     if (dataFind.length) {
-      return res.status(404).send(`La carpeta ${nombre} ya existe! `);
+      return res.status(404).send({ message: `¡La carpeta ${nombre} ya existe! `});
     }
     const data = await Carpeta.create(
       {
@@ -25,10 +25,10 @@ async function postCarp(req, res) {
         fields: ["nombre", "descripcion"],
       }
     );
-    return res.status(200).json({ data });
+    return res.status(200).send({ message: "La carpeta se ha creado de forma exitosa" });
   } catch (error) {
     console.log(colors.red("Error en postCarp"), error);
-    return res.status(500).send("Error en el servidor");
+    return res.status(500).send({message: "Error en el servidor"});
   }
 }
 

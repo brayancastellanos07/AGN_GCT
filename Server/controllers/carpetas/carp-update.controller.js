@@ -20,10 +20,10 @@ async function updateCarp(req, res){
                 },
             }
         );
-        return res.status(201).json({dataUpdate});
+        return res.status(201).json({message: "Carpeta Actualizada correctamente. "});
     } catch (error) {
         console.log(colors.red("Error en updateCarp"),error);
-        return res.status(500).send("Error en el servidor ");
+        return res.status(500).send({message: "Error en el servidor"});
     }
 }
 

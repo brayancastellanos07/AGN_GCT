@@ -9,7 +9,7 @@ const rolRoutes = require('./routers/routerRol.js');
 const docRoutes = require('./routers/routerDoc.js'); 
 const carpRoutes =  require('./routers/routerCarp.js');
 const userRouters = require('./routers/routerUser.js');
-
+const conceptos = require('./routers/routerConcep.js');
 
 
 
@@ -39,5 +39,6 @@ app.use("/api",docRoutes);
 app.use("/api",carpRoutes);
 app.use("/api",userRouters);
 app.use("/api",authRoutes);
+app.use("/api",conceptos);
 
 module.exports =  app;

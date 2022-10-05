@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { List, Button, Modal as ModalAntd } from "antd";
 import { EditOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import Modal from "../../../modal/Modal";
-//import { getAccessToken } from "../../../../api/auth";
+
 import "./ListRols.scss";
 import EditRolsForm from "../EditRolsForm/EditRolsForm";
 const { info } = ModalAntd;
@@ -99,8 +99,8 @@ function ListRol(props) {
             onClick={() => showHelpRols()}
           />
         }
-        title={`${data.nombre}`}
-        description={`${data.descripcion}`}
+        title={` Rol: ${data.nombre}`}
+        description={`Descripción: ${data.descripcion}`}
       />
     </List.Item>
   );

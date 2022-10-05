@@ -2,10 +2,12 @@
 import LayoutAdmin from "../layouts/LayoutAdmin";
 import LayoutBasic from "../layouts/LayoutBasic";
 // Admin Pages
-import AdminHome from "../pages/admin";
+//import AdminHome from "../pages/admin";
 import AdminSingIn from "../pages/admin/SingIn";
 import AdminUsers from "../pages/admin/Users";
 import AdminRoles from "../pages/admin/Rols"
+import AdminCarpetas from"../pages/admin/carpetas"
+import Conceptos from "../pages/admin/conceptos";
 
 import Home from "../pages/Home";
 import Contact from "../pages/Contact"; 
@@ -14,9 +16,9 @@ import Error404 from "../pages/Error404";
 
 const routesAdmin = [
     {
-        path:"/admin",
+        path:"/admin/list-conceptos",
         layout: LayoutAdmin,
-        component: AdminHome
+        component: Conceptos
      
     },
     {
@@ -35,6 +37,12 @@ const routesAdmin = [
         path:"/admin/list-roles",
         layout: LayoutAdmin,
         component: AdminRoles,
+        exact: true
+    },
+    {
+        path:"/admin/list-carp",
+        layout: LayoutAdmin,
+        component: AdminCarpetas,
         exact: true
     },
     {
