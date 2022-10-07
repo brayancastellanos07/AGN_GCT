@@ -12,7 +12,7 @@ import {
 import "./MenuSider.scss";
 
 export default function MenuSider(props) {
-  const { menuCollapsed } = props;
+  const { menuCollapsed,listCarpetas } = props;
 
   const { Sider } = Layout;
 
@@ -29,14 +29,14 @@ export default function MenuSider(props) {
         {
           key: "/admin/list-conceptos/2013",
           icon: <FileAddOutlined />,
-          label: <span className="nav-text">2013</span>,
+          label: <span className="nav-text">{}</span>,
         },
         {
           key: "/admin/list-conceptos/2014",
           icon: <FileAddOutlined />,
           label: <span className="nav-text">2014</span>,
-        }
-      ]
+        },
+      ],
     },
     {
       key: "/admin/list-carp",
@@ -58,6 +58,7 @@ export default function MenuSider(props) {
   const menuClick = (e) => {
     const path = e.key;
     navigate(path);
+    console.log(listCarpetas)
   };
 
   return (

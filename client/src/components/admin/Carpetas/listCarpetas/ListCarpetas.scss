@@ -1,3 +1,4 @@
+@import "../../../../scss/index.scss";
 .list-carpetas{
     &__header{
         display: flex;
@@ -5,10 +6,10 @@
         justify-content: space-between;
         margin-bottom: 20px;
        
-    }
+    } 
 
     .carpetas{
-        background-color: #fff;
+        background-color: $background-light;
         padding: 10px 20px;
 
         .ant-list-item-meta {
@@ -16,4 +17,5 @@
             align-items: center;
         }
     }
+    
 }

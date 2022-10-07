@@ -43,10 +43,14 @@
         }
     }
     &__button{
-        width: 50%;
-        font-size: 0em + 22px / $defaultFontSize;
         background-color: $primary-color;
+        border: 0;
         color: $font-light;
+        width: 50%;
+        font-weight: bold;
+        font-size: 0em + 22px / $defaultFontSize;
+        
+        
         height: 32%;
         margin-left: 25%;
 

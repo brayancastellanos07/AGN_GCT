@@ -1,5 +1,6 @@
+@import "../../../../scss/index.scss";
 .list-rols {
-        background-color: #fff;
+        background-color: $background-light;
         padding: 10px 20px;
         &__header{
             // display: flex;
@@ -17,7 +18,7 @@
         .ant-btn{
             border-radius:50px;
             outline:none;
-            border-color: green;
+            border-color: $succes;
         }
     }
 

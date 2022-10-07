@@ -1,6 +1,5 @@
 const {Model, DataTypes, Sequelize} =  require("sequelize");
 const sequelize = require("../database/database.js");
-const {Carpetas} = require("./carpetas");
 class Conceptos extends Model{
     id_concepto;
     nombre;
@@ -12,6 +11,7 @@ class Conceptos extends Model{
     static associate(models){
         Conceptos.belongsTo(models.Carpetas,{
             foreignKey:"id_carpeta",
+            as: 'carpeta',
             onDelete: "RESTRICT",
             onUpdate: "RESTRICT",
         });
@@ -53,6 +53,10 @@ class Conceptos extends Model{
         allowNull:false,
         type: DataTypes.INTEGER,
         field: "carpeta",
+        references:{
+            model: 'Carpetas',
+            key:'id_carpetas',
+        },
     }
 },
 {

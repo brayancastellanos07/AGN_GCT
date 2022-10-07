@@ -4,7 +4,17 @@ const sequelize = require('../database/database');
 class Carpetas extends Model{
     id;
     nombre;
-    descripcion
+    descripcion;
+
+
+    static associate(models){
+        Carpetas.hasMany(models.Conceptos,{
+            foreignKey:"id_concepto",
+            as: 'Conceptos',
+            onDelete: "RESTRICT",
+            onUpdate: "RESTRICT",
+        });
+    }
 }
 Carpetas.init({
     id: {

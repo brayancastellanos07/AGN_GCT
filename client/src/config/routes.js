@@ -2,23 +2,25 @@
 import LayoutAdmin from "../layouts/LayoutAdmin";
 import LayoutBasic from "../layouts/LayoutBasic";
 // Admin Pages
-//import AdminHome from "../pages/admin";
+
 import AdminSingIn from "../pages/admin/SingIn";
 import AdminUsers from "../pages/admin/Users";
 import AdminRoles from "../pages/admin/Rols"
 import AdminCarpetas from"../pages/admin/carpetas"
 import Conceptos from "../pages/admin/conceptos";
 
-import Home from "../pages/Home";
-import Contact from "../pages/Contact"; 
 
+import Contact from "../pages/Contact"; 
 import Error404 from "../pages/Error404";
+
+//Pages Visit
+import listConsept from "../pages/users/conceptos"
 
 const routesAdmin = [
     {
-        path:"/admin/list-conceptos",
+        path:"/admin",
         layout: LayoutAdmin,
-        component: Conceptos
+        component: Conceptos,
      
     },
     {
@@ -56,7 +58,7 @@ const routesClient=[
     {
         path:"/",
         layout: LayoutBasic,
-        component: Home,
+        component: listConsept,
     },
     {
         path:"/contact",

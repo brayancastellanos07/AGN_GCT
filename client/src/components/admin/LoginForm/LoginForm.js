@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Input, Button, notification } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { UserOutlined, LockOutlined,LoginOutlined } from "@ant-design/icons";
 import { LoginApi } from "../../../api/user";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../../utils/constants";
 
@@ -78,7 +78,7 @@ export default function LoginForm() {
       {/* Boton Ingresar */}
       <Form.Item>
         <Button htmlType="submit" className="register-form__button">
-          Ingresar
+        <LoginOutlined/> Ingresar
         </Button>
       </Form.Item>
     </Form>

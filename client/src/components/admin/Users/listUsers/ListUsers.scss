@@ -1,3 +1,4 @@
+@import "../../../../scss/index.scss";
 .list-users {
 
     &__header{
@@ -19,7 +20,7 @@
     }
 
     .users-active {
-        background-color: #fff;
+        background-color: $background-light;
         padding: 10px 20px;
 
         .ant-list-item-meta {

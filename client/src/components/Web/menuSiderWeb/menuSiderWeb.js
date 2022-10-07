@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Layout, Menu } from "antd";
 import { FileTextOutlined, FolderOpenOutlined } from "@ant-design/icons";
 
@@ -9,11 +9,13 @@ export default function MenuSiderWeb(props) {
   const { menuCollapsed } = props;
   const { Sider } = Layout;
 
-  const navigat = useNavigate();
+  const navigate = useNavigate();
+
+  const { pathname } = useLocation();
 
   const menuItems = [
     {
-      key: "/",
+      key: "",
       icon: <FolderOpenOutlined />,
       label: <span className="nav-text">Conceptos</span>,
       children: [
@@ -23,17 +25,17 @@ export default function MenuSiderWeb(props) {
           label: <span className="nav-text">2013</span>,
         },
         {
-          key: "/1",
+          key: "/2",
           icon: <FileTextOutlined />,
           label: <span className="nav-text">2014</span>,
         },
       ],
-    },
+    }
   ];
 
   const menuClick = (e) => {
     const path = e.key;
-    navigat(path);
+    navigate(path);
   };
 
   return (
@@ -41,7 +43,7 @@ export default function MenuSiderWeb(props) {
       <Menu
         theme="dark"
         mode="inline"
-        defaultOpenKeys={["1"]}
+        defaultSelectedKeys={pathname}
         onClick={menuClick}
         items={menuItems}
       ></Menu>

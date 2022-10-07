@@ -1,6 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 const Conceptos = require("../../models/conceptos.js");
+const Carpetas =  require("../../models/carpetas.js");
+
 const colors = require("colors");
 
 async function getPdfs(req, res) {
@@ -34,7 +36,6 @@ async function getConceptos(req, res) {
 
 async function getConceptosByName(req,res){
     const {nombre} =  req.params
-    console.log(nombre)
     try {
         const data =  await Conceptos.findAll({
             where:{
@@ -51,4 +52,20 @@ async function getConceptosByName(req,res){
     }
 }
 
-module.exports = { getPdfs, getConceptos, getConceptosByName};
+async function getConcepbyCarpByName(req, res){
+  const {nombre} = req.params;
+ 
+  const dataCarp = await Conceptos.findAll({
+    
+    include: ['carpeta']
+  });
+  if (!dataCarp.length) {
+    return res.status(404).send(`no se encontro la carpeta con el nombre: ${nombre}`);
+  }
+  
+
+  console.log(dataCarp);
+ 
+}
+
+module.exports = { getPdfs, getConceptos, getConceptosByName,getConcepbyCarpByName};

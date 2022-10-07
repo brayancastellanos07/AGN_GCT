@@ -1,29 +1,44 @@
-// @import '../../../scss/index.scss';
+@import '../../../scss/index.scss';
 
-// .menu-top{
-//     position: sticky;
-//     top: 0;
-//     background-color: $background-dark-web;
-//     border: 0;
-//     display: flex;
-//     align-items: center;
-   
-//     li{
-//         border: 0;
-//         a{
-//             color: #fff !important;
-//             //font-weight: bold;
-//             &:hover{
-//                 color: $primary-color !important;
-//             }
-//         }
-//     }
-//     &__logo{
-//         padding: 10px;
-//         img{
-//             width: 100px;
-//         }
-//     }
+.menu-top-web{
+    display: flex;
 
+    button{
+        color: $font-light;
 
-// } 
+        &:hover{
+            color: $primary-color;
+        }
+        &:focus,
+        &:active {
+            color: $font-light;
+        }
+        
+    }
+    &__left{
+        &-logo{
+            width: 150px;
+            
+            padding: 0, 10px;
+        }
+    }
+    &__right{
+        position: absolute;
+        right: 10px;
+        button{
+            background-color: $primary-color;
+            border: 0;
+            color: $font-light;
+            font-weight: bold;
+            font-size: 0em + 20px / $defaultFontSize;
+
+            &:hover{
+                background-color:  $primary-color-hover;
+                color: $font-light;
+            }
+        }
+
+        
+    }
+
+} 

@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Layout } from "antd";
 import MenuTop from "../components/admin/MenuTop";
 import MenuSider from "../components/admin/MenuSider";
 import AdminSingIn from "../pages/admin/SingIn";
 import useAuth from "../hooks/useAuth";
 import "./LayoutAdmin.scss";
-
+import { getCarpetasMenuApi } from "../api/carpetas";
+ 
 //import { Routes } from "react-router-dom";
 
 export default function LayoutAdmin(props) {
@@ -14,7 +15,14 @@ export default function LayoutAdmin(props) {
   const [menuCollapsed, setMenuCollapsed] = useState(false);
   const { Header, Content, Footer } = Layout;
   const {user, isLoading} = useAuth();
+  const [listCarpetas, setListCarpetas] = useState([]);
+  // useEffect(()=>{
+  //   getCarpetasMenuApi().then(response =>{
+  //     setListCarpetas(response.data)
+  //   });
+  // });
 
+ 
   if (!user && !isLoading) {
     return (
       <>
@@ -23,10 +31,12 @@ export default function LayoutAdmin(props) {
     );
   }
 
+  
+
   if (user && !isLoading) {
     return (
       <Layout>
-        <MenuSider menuCollapsed={menuCollapsed} />
+        <MenuSider listCarpetas={listCarpetas}  menuCollapsed={menuCollapsed} />
         <Layout
           className="layout-admin"
           style={{ marginLeft: menuCollapsed ? "90px" : "200px" }}
