@@ -15,12 +15,14 @@ export default function LayoutAdmin(props) {
   const [menuCollapsed, setMenuCollapsed] = useState(false);
   const { Header, Content, Footer } = Layout;
   const {user, isLoading} = useAuth();
+  const [reloadCarpetas, setReloadCarpetas] = useState(false);
   const [listCarpetas, setListCarpetas] = useState([]);
-  // useEffect(()=>{
-  //   getCarpetasMenuApi().then(response =>{
-  //     setListCarpetas(response.data)
-  //   });
-  // });
+  useEffect(()=>{
+    getCarpetasMenuApi().then(response =>{
+      setListCarpetas(response.data)
+    });
+    setReloadCarpetas(false);
+  },[reloadCarpetas]);
 
  
   if (!user && !isLoading) {

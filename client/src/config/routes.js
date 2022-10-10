@@ -7,7 +7,7 @@ import AdminSingIn from "../pages/admin/SingIn";
 import AdminUsers from "../pages/admin/Users";
 import AdminRoles from "../pages/admin/Rols"
 import AdminCarpetas from"../pages/admin/carpetas"
-import Conceptos from "../pages/admin/conceptos";
+import ConceptosAdmin from "../pages/admin/conceptos";
 
 
 import Contact from "../pages/Contact"; 
@@ -20,7 +20,7 @@ const routesAdmin = [
     {
         path:"/admin",
         layout: LayoutAdmin,
-        component: Conceptos,
+        component: ConceptosAdmin,
      
     },
     {

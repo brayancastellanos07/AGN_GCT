@@ -21,13 +21,7 @@ export default function ListCarpetas(props) {
   const [isVisibleModal, setIsVisibleModal] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
   const [modalContent, setModalContent] = useState(null);
-  // const [datasort, setDataordenada] = useState([]);
-
-  // useEffect(()=>{
-  //   const datasortfinal = [...datasort].sort((a,b) => (a.nombre > b.nombre)? -1:1)
-  //   setDataordenada(datasortfinal);
-  //   console.log("aqui",datasortfinal);
-  // },[])
+ 
 
   const showDeletConfirm = (data) => {
     const accesToken = getAccessToken();

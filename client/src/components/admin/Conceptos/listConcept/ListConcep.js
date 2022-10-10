@@ -1,67 +1,47 @@
-import React, { useState } from "react";
+import React from "react";
 import avatar from "../../../../assets/img/jpg/background_login_1.jpeg";
-import { Button, Modal, Row, Col, Card } from "antd";
-import { HighlightOutlined } from "@ant-design/icons";
+import { Button, Row, Col, Card } from "antd";
+import { LoginOutlined } from "@ant-design/icons";
 import "./ListConcep.scss";
-
+import { Link } from "react-router-dom";
 export default function ListConceptos(props) {
+  const { data } = props;
   return (
-    <div className="list-conceptos">
-      <div className="list-carpetas__header">
-        <h2>Conceptos Tecnicos</h2>
-        <Button
-          type="primary"
-          icon={<HighlightOutlined />}
-          onClick={() => console.log("Hola")}
-        >
-          Nuevo Concepto
-        </Button>
-      </div>
-      <Row className="Row">
-        <Col lg={24} className="Row__Col">
-          <h2>Listado de Años </h2>
+    <div className="carpetas-list">
+    <Row className="Row">
+      <Col lg={24} className="Row__Col">
+        <h2>Listado de Años </h2>
+      </Col>
+      <Row className="Row__row-courses">
+      {data.map((data) => (
+        <Col key={data.id_carpeta} md={6}>
+          <CardCarpetas imagen={avatar} data={data} />
         </Col>
-        <Col lg={4} />
-        <Col lg={24}>
-          <Row className="Row__row-courses">
-            <Col md={6}>
-              <CardCarpetas imagen={avatar} />
-            </Col>
-            <Col md={6}>
-              <CardCarpetas imagen={avatar} />
-            </Col>
-            <Col md={6}>
-              <CardCarpetas imagen={avatar} />
-            </Col>
-            <Col md={6}>
-              <CardCarpetas imagen={avatar} />
-            </Col>
-          </Row>
-        </Col>
-        <Col lg={4} />
+      ))}
       </Row>
-      <Modal
-        title={"modalTitle"}
-        isVisible={"isVisibleModal"}
-        setIsVisible={"setIsVisibleModal"}
-      >
-        {"modalContent"}
-      </Modal>
-    </div>
+    </Row>
+  </div>
   );
 }
 
 function CardCarpetas(props) {
-  const { imagen, nombre, descripcion } = props;
+  const { imagen, data } = props;
   const { Meta } = Card;
 
   return (
     <Card
-      className="home-carpetas__card"
-      cover={<img src={imagen} alt="2013"></img>}
-      actions={[<Button>Ingresar</Button>]}
-    >
-      <Meta title="2013" description="Conceptos generados en el año 2013" />
-    </Card>
+    className="home-carpetas__card"
+    cover={<img src={imagen} alt="Carpetas"></img>}
+    actions={[
+      <Link to={`list-conceptos/${data.nombre}`} >
+      <Button>
+        <LoginOutlined />
+        Ingresar
+      </Button>,
+      </Link>
+    ]}
+  >
+    <Meta title={`${data.nombre}`} description={`${data.descripcion}`} />
+  </Card>
   );
 }

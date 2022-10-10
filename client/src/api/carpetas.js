@@ -24,6 +24,23 @@ export function getCarpetasApi(token){
 
 }
 
+export function getCarpetasHomeApi(){
+    const url = `${basePath}/list-carp-home`;
+
+
+    return fetch(url)
+    .then((response)=>{
+        return response.json();
+    })
+    .then((result)=>{
+        return result;
+    })
+    .catch((err)=>{
+        return err.message;
+    });
+
+}
+
 export function getCarpetasMenuApi(){
     const url = `${basePath}/list-carp-menu`;
 

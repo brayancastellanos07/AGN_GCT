@@ -20,6 +20,8 @@ export default function MenuSider(props) {
 
   const {pathname} = useLocation(); 
 
+  console.log(listCarpetas)
+
   const menuItems = [
     {
       key: "/admin/list-conceptos",
@@ -29,7 +31,7 @@ export default function MenuSider(props) {
         {
           key: "/admin/list-conceptos/2013",
           icon: <FileAddOutlined />,
-          label: <span className="nav-text">{}</span>,
+          label: <span className="nav-text">{`${listCarpetas}`}</span>,
         },
         {
           key: "/admin/list-conceptos/2014",
@@ -58,7 +60,6 @@ export default function MenuSider(props) {
   const menuClick = (e) => {
     const path = e.key;
     navigate(path);
-    console.log(listCarpetas)
   };
 
   return (
@@ -68,6 +69,7 @@ export default function MenuSider(props) {
         mode="inline"
         defaultSelectedKeys={pathname}
         onClick={menuClick}
+        
         items={menuItems}
       ></Menu>
     </Sider>
