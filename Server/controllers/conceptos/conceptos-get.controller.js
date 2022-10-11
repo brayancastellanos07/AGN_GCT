@@ -79,11 +79,11 @@ async function getConcepbyCarpByName(req, res) {
     if (!data.length) {
       return res
         .status(404)
-        .send(`no se encontraron conceptos en el año: ${nombre}`);
+        .send({message:`no se encontraron conceptos en el año: ${nombre}`});
     }
     return res.status(200).json({ data });
   } catch (error) {
-    console.log(colors.red("Error en getConcepbyCarpByName"), error);
+    console.log(colors.red({message:"Error en getConcepbyCarpByName"}), error);
     return res.status(500).send({ message: "Error en el servidor" });
   }
 }

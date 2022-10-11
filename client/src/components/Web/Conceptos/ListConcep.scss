@@ -3,7 +3,7 @@
 .conceptos-list {
     .Row {
         background-color: $background-light;
-        padding: 10px 20px;
+        padding: 10px 10px;
 
         &__Col {
             //display: flex;
@@ -38,17 +38,20 @@
                     .ant-card-body {
                         font-size: 10px;
                         text-align: justify;
-
+                            
                         .ant-card-meta-title,
                         .ant-card-meta-description {
                             color: $font-light;
-                            // padding-left: 15px;
+                            
 
                         }
 
                         .ant-card-meta-title {
                             font-weight: bold;
                             text-transform: uppercase;
+   
+                      
+                           
                         }
 
                     }

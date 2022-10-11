@@ -5,6 +5,7 @@ import { getAccessToken } from "../../../api/auth";
 import ListConceptos from "../../../components/Web/Conceptos/ListConcep";
 import { useParams } from "react-router-dom";
 
+
 export default function ConcepList() {
   const { nombre } = useParams();
   const token = getAccessToken();
@@ -13,7 +14,7 @@ export default function ConcepList() {
     getConcepbyCarpByNameApi(token, nombre)
       .then((response) => {
         if (!response.data) {
-          notification["warning"]({
+          notification["warning"]({ 
             message: response.message,
           });
         } else {
@@ -28,13 +29,13 @@ export default function ConcepList() {
   }, [token, nombre]);
 
   return (
-    <Row>
+    <Row className="Row">
       <Col md={4} />
       <Col md={24}>
         {!data ? (
           <Spin
             tip="Cargando Conceptos"
-            style={{ textAling: "center", with: "100%", padding: "20px" }}
+            style={{ textAling: "center",  width: "100%", padding: "20%" }}
           />
         ) : (
           <ListConceptos data={data} />

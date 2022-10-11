@@ -1,13 +1,12 @@
 import React from "react";
 import { Row, Col, Card, Button,} from "antd";
 import "./ListConcep.scss";
-import imagen from "../../../assets/img/png/pdf.PNG";
+import imagen from "../../../assets/img/png/pdf_1.jpg";
 import { useParams } from "react-router-dom";
 
 export default function ListConceptos(props) {
  const {data} = props
  const { nombre } = useParams();
- console.log(data)
   return (
     <div className="conceptos-list">
       <Row className="Row">
@@ -16,7 +15,7 @@ export default function ListConceptos(props) {
         </Col>
         <Row className="Row__row-conceptos">
         {data.map((data) => (
-          <Col key={data.id_carpeta} md={6}>
+          <Col key={data.id_concepto} md={6}>
             <Conceptos  imagen={imagen}data={data} />
           </Col>
         ))}
