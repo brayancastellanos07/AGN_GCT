@@ -2,19 +2,20 @@
 import LayoutAdmin from "../layouts/LayoutAdmin";
 import LayoutBasic from "../layouts/LayoutBasic";
 // Admin Pages
-
 import AdminSingIn from "../pages/admin/SingIn";
 import AdminUsers from "../pages/admin/Users";
 import AdminRoles from "../pages/admin/Rols"
 import AdminCarpetas from"../pages/admin/carpetas"
 import ConceptosAdmin from "../pages/admin/conceptos";
 
+//Pages Visit
+import listCarp from "../pages/users/carpetas";
+import ConceptLis from"../pages/users/conceptos";
+
 
 import Contact from "../pages/Contact"; 
 import Error404 from "../pages/Error404";
 
-//Pages Visit
-import listConsept from "../pages/users/conceptos"
 
 const routesAdmin = [
     {
@@ -58,7 +59,12 @@ const routesClient=[
     {
         path:"/",
         layout: LayoutBasic,
-        component: listConsept,
+        component: listCarp,
+    },
+    {
+        path:"/list-conceptos/:nombre",
+        layout: LayoutBasic,
+        component: ConceptLis,
     },
     {
         path:"/contact",
@@ -69,7 +75,7 @@ const routesClient=[
         path:"*",
         layout:LayoutBasic,
         component: Error404,
-    }
+    },
 
 ]
 

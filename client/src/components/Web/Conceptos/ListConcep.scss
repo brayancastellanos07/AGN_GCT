@@ -1,13 +1,6 @@
-@import "../../../../scss/index.scss";
+@import "../../../scss/index.scss";
 
-.list-conceptos {
-    &__header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 20px
-    }
-
+.conceptos-list {
     .Row {
         background-color: $background-light;
         padding: 10px 20px;
@@ -26,54 +19,62 @@
             }
         }
 
-        &__row-courses {
+        &__row-conceptos {
             .ant-col {
                 padding: 15px !important;
 
             }
 
-            .home-carpetas {
+            .home-conceptos {
                 &__card {
                     border: 0;
                     background-color: $background-dark-light-web;
                     border-radius: 10px;
-                    overflow:  hidden;
-                    box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
-                    -webkit-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
-                    -moz-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
+                    overflow: hidden;
+                    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.75);
+                    -webkit-box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.75);
+                    -moz-box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.75);
 
-                    .ant-card-body{
-                        
-                        text-align: center ;
+                    .ant-card-body {
+                        font-size: 10px;
+                        text-align: justify;
+
                         .ant-card-meta-title,
-                        .ant-card-meta-description{
+                        .ant-card-meta-description {
                             color: $font-light;
-                           // padding-left: 15px;
-                           
+                            // padding-left: 15px;
+
                         }
 
-                        .ant-card-meta-title{
-                            font-weight:bold;
+                        .ant-card-meta-title {
+                            font-weight: bold;
+                            text-transform: uppercase;
                         }
-                       
+
                     }
-                    .ant-card-actions{
-                        background-color: transparent;
-                        border: 0;  
 
-                        button{
+                    .ant-card-actions {
+                        background-color: transparent;
+                        border: 0;
+
+                        button {
                             width: 80%;
-                            height:35px;
+                            height: 35px;
                             background-color: transparent;
                             color: $font-light;
                             border: 1px solid $primary-color;
-                            
+
+                            &:hover {
+                                color: $primary-color;
+                            }
                         }
                     }
-                    
+
                 }
             }
         }
+
+
     }
 
 }

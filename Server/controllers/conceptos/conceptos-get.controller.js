@@ -1,7 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 const Conceptos = require("../../models/conceptos.js");
-const Carpetas =  require("../../models/carpetas.js");
+const sequelize = require("../../database/database");
+const { QueryTypes } = require("sequelize");
 
 const colors = require("colors");
 
@@ -22,50 +23,74 @@ async function getPdfs(req, res) {
 async function getConceptos(req, res) {
   try {
     const data = await Conceptos.findAll({
-      attributes: ["id_concepto","nombre", "descripcion", "archivo", "fecha", "carpeta"],
+      attributes: [
+        "id_concepto",
+        "nombre",
+        "descripcion",
+        "archivo",
+        "fecha",
+        "carpeta",
+      ],
     });
     if (!data.length) {
-        return res.status(404).send({message:"No se encontraron resgistros. "});
+      return res
+        .status(404)
+        .send({ message: "No se encontraron resgistros. " });
     }
-    return res.status(200).json({data});
+    return res.status(200).json({ data });
   } catch (error) {
     console.log(colors.red("Error en getConceptos"), error);
-    return res.status(500).send({message:"Error en el servidor"});
+    return res.status(500).send({ message: "Error en el servidor" });
   }
 }
 
-async function getConceptosByName(req,res){
-    const {nombre} =  req.params
-    try {
-        const data =  await Conceptos.findAll({
-            where:{
-                nombre:nombre
-            },
-        });
-        if (!data.length) {
-            return res.status(404).send({message:`El concepto con el nombre ${nombre} no esta registrado`});
-        }
-        return res.status(200).json({data})
-    } catch (error) {
-        console.log(colors.red("Error en getConceptosByName"), error);
-        return res.status(500).send({message:"Error en el servidor"})
+async function getConceptosByName(req, res) {
+  const { nombre } = req.params;
+  try {
+    const data = await Conceptos.findAll({
+      where: {
+        nombre: nombre,
+      },
+    });
+    if (!data.length) {
+      return res.status(404).send({
+        message: `El concepto con el nombre ${nombre} no esta registrado`,
+      });
     }
-}
-
-async function getConcepbyCarpByName(req, res){
-  const {nombre} = req.params;
- 
-  const dataCarp = await Conceptos.findAll({
-    
-    include: ['carpeta']
-  });
-  if (!dataCarp.length) {
-    return res.status(404).send(`no se encontro la carpeta con el nombre: ${nombre}`);
+    return res.status(200).json({ data });
+  } catch (error) {
+    console.log(colors.red("Error en getConceptosByName"), error);
+    return res.status(500).send({ message: "Error en el servidor" });
   }
-  
-
-  console.log(dataCarp);
- 
 }
 
-module.exports = { getPdfs, getConceptos, getConceptosByName,getConcepbyCarpByName};
+async function getConcepbyCarpByName(req, res) {
+  const { nombre } = req.params;
+  try {
+    const data = await sequelize.query(
+      `SELECT CN.id_concepto, CN.nombre, CN.descripcion, CN.archivo, CN.fecha,
+      CA.nombre AS carpeta
+	FROM conceptos AS CN 
+	INNER JOIN carpetas AS CA
+	ON CA.id_carpeta = CN.carpeta 
+	WHERE CA.nombre = '${nombre}'`,
+      { type: QueryTypes.SELECT }
+    );
+    if (!data.length) {
+      return res
+        .status(404)
+        .send(`no se encontraron conceptos en el año: ${nombre}`);
+    }
+    return res.status(200).json({ data });
+  } catch (error) {
+    console.log(colors.red("Error en getConcepbyCarpByName"), error);
+    return res.status(500).send({ message: "Error en el servidor" });
+  }
+}
+
+module.exports = {
+  getPdfs,
+  getConceptos,
+  getConceptosByName,
+  getConcepbyCarpByName,
+};

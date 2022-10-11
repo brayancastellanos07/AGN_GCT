@@ -5,6 +5,8 @@ import imagen from "../../../assets/img/jpg/background_login_1.jpeg";
 import { LoginOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
+
+
 export default function CarpetasList(props) {
   const { data } = props;
 
@@ -29,12 +31,13 @@ export default function CarpetasList(props) {
 function Carpetas(props) {
   const { data, imagen } = props;
   const { Meta } = Card;
+
   return (
     <Card
       className="home-carpetas__card"
       cover={<img src={imagen} alt="Carpetas"></img>}
       actions={[
-        <Link to={`list-conceptos/${data.nombre}`} >
+        <Link to={`list-conceptos/${data.nombre}`}>
         <Button>
           <LoginOutlined />
           Ingresar
@@ -45,4 +48,7 @@ function Carpetas(props) {
       <Meta title={`${data.nombre}`} description={`${data.descripcion}`} />
     </Card>
   );
+
+ 
+
 }

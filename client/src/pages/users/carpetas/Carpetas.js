@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col, Spin, notification } from "antd";
-import { getConcepbyCarpByNameApi } from "../../../api/conceptos";
-import { getAccessToken } from "../../../api/auth";
-import ListConceptos from "../../../components/Web/Conceptos/ListConcep";
-import { useParams } from "react-router-dom";
-
-export default function ConcepList() {
-  const { nombre } = useParams();
-  const token = getAccessToken();
+import { getCarpetasHomeApi } from "../../../api/carpetas";
+import CarpetasList from "../../../components/Web/Carpetas";
+export default function Carpetas() {
   const [data, setData] = useState(null);
   useEffect(() => {
-    getConcepbyCarpByNameApi(token, nombre)
+    getCarpetasHomeApi()
       .then((response) => {
         if (!response.data) {
           notification["warning"]({
@@ -25,7 +20,7 @@ export default function ConcepList() {
           message: "Error del servidor intentelo mas tarde.",
         });
       });
-  }, [token, nombre]);
+  }, []);
 
   return (
     <Row>
@@ -33,11 +28,11 @@ export default function ConcepList() {
       <Col md={24}>
         {!data ? (
           <Spin
-            tip="Cargando Conceptos"
+            tip="Cargando Carpetas"
             style={{ textAling: "center", with: "100%", padding: "20px" }}
           />
         ) : (
-          <ListConceptos data={data} />
+          <CarpetasList data={data} />
         )}
       </Col>
       <Col md={4} />
