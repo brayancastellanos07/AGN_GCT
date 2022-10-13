@@ -17,7 +17,7 @@ const md_auth = require("../middleware/authenticated.js");
 const md_update_avatar = multipart({ uploadDir: "./uploads/avatar" });
 
 const router = express.Router();
-
+// User Admin
 router.get("/list-usuarios", [md_auth.ensureAuth], getUsuario);
 router.get(
   "/list-usuarios-activos/:status",

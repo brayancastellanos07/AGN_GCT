@@ -1,1 +1,1 @@
-export {default} from "./ListConcep";
+export {default} from"./listConceptos";

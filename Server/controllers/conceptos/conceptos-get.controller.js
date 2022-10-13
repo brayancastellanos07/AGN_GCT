@@ -6,6 +6,7 @@ const { QueryTypes } = require("sequelize");
 
 const colors = require("colors");
 
+// User Admin
 async function getPdfs(req, res) {
   const fileName = req.params.pdfName;
   const filePath = "./uploads/pdfs/" + fileName;
@@ -64,6 +65,32 @@ async function getConceptosByName(req, res) {
   }
 }
 
+async function getConcepbyCarpByNameAdmin(req, res) {
+  const { nombre } = req.params;
+  try {
+    const data = await sequelize.query(
+      `SELECT CN.id_concepto, CN.nombre, CN.descripcion, CN.archivo, CN.fecha,
+      CA.nombre AS carpeta
+	FROM conceptos AS CN 
+	INNER JOIN carpetas AS CA
+	ON CA.id_carpeta = CN.carpeta 
+	WHERE CA.nombre = '${nombre}'`,
+      { type: QueryTypes.SELECT }
+    );
+    if (!data.length) {
+      return res
+        .status(404)
+        .send({message:`no se encontraron conceptos en el año: ${nombre}`});
+    }
+    return res.status(200).json({ data });
+  } catch (error) {
+    console.log(colors.red({message:"Error en getConcepbyCarpByName"}), error);
+    return res.status(500).send({ message: "Error en el servidor" });
+  }
+}
+
+
+// User Visit
 async function getConcepbyCarpByName(req, res) {
   const { nombre } = req.params;
   try {
@@ -88,9 +115,13 @@ async function getConcepbyCarpByName(req, res) {
   }
 }
 
+
+
+
 module.exports = {
   getPdfs,
   getConceptos,
   getConceptosByName,
   getConcepbyCarpByName,
+  getConcepbyCarpByNameAdmin
 };

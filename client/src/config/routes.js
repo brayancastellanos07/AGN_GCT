@@ -6,6 +6,7 @@ import AdminSingIn from "../pages/admin/SingIn";
 import AdminUsers from "../pages/admin/Users";
 import AdminRoles from "../pages/admin/Rols"
 import AdminCarpetas from"../pages/admin/carpetas"
+import CarpconceptosAdmin from "../pages/admin/Carpconceptos";
 import ConceptosAdmin from "../pages/admin/conceptos";
 
 //Pages Visit
@@ -21,8 +22,8 @@ const routesAdmin = [
     {
         path:"/admin",
         layout: LayoutAdmin,
-        component: ConceptosAdmin,
-     
+        component: CarpconceptosAdmin,
+    
     },
     {
         path:"/admin/login",
@@ -46,6 +47,12 @@ const routesAdmin = [
         path:"/admin/list-carp",
         layout: LayoutAdmin,
         component: AdminCarpetas,
+        exact: true
+    },
+    {
+        path:"/admin/list-conceptos/:nombre",
+        layout: LayoutAdmin,
+        component: ConceptosAdmin,
         exact: true
     },
     {

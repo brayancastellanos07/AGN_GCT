@@ -1,43 +1,24 @@
 import React,{useState, useEffect} from "react";
-import { Row, Col, Spin, notification } from "antd";
-import {getCarpetasApi} from"../../../api/carpetas";
-import { getAccessToken } from "../../../api/auth";
-import ListConceptos from"../../../components/admin/Conceptos/listConcept"
+import {getAccessToken} from"../../../api/auth";
+import {getConcepbyCarpByNameAdminApi} from"../../../api/conceptos";
+import { useParams } from "react-router-dom";
+import ListConceptos from "../../../components/admin/Conceptos/listConcept";
 export default function ConceptosAdmin(){
-    const [data, setData] = useState(null);
-    const accesToken = getAccessToken();
+    const [reloadConceptos, setReloadConceptos] = useState(false);
+    const [listConceptos, setListConceptos] =  useState([]);
+    const token =  getAccessToken();
+    const {nombre} =  useParams();
 
-    useEffect(() => {
-        getCarpetasApi(accesToken)
-          .then((response) => {
-            if (!response.data) {
-              notification["warning"]({
-                message: response.message,
-              });
-            } else {
-              setData(response.data);
-            }
-          })
-          .catch(() => {
-            notification["error"]({
-              message: "Error del servidor intentelo mas tarde.",
-            });
-          });
-      }, [accesToken]);
+    useEffect(()=>{
+        getConcepbyCarpByNameAdminApi(token,nombre)
+        .then(response =>{
+        setListConceptos(response.data);
+        });
+        setReloadConceptos(false);
+    },[reloadConceptos, token, nombre]);
     return(
-        <Row>
-      <Col md={4} />
-      <Col md={24}>
-        {!data ? (
-          <Spin
-            tip="Cargando Carpetas"
-            style={{ textAling: "center", with: "100%", padding: "20px" }}
-          />
-        ) : (
-          < ListConceptos data={data} />
-        )}
-      </Col>
-      <Col md={4} />
-    </Row>
-    )
+       <div className="conceptos">
+            <ListConceptos  listConceptos={listConceptos} setReloadConceptos={setReloadConceptos}/>
+       </div>
+    );
 }

@@ -1,1 +1,1 @@
-export {default} from "./Conceptos";
+export {default} from"./Conceptos";

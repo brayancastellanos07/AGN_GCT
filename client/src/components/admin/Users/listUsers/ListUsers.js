@@ -205,7 +205,7 @@ function UserActive(props) {
                   
                   ${data.apellido}
                   `}
-        description={`${data.tipodocumento}
+        description={`${data.tipodocumento}: 
                   ${data.documento}
                   Telefono:
                   ${data.telefono}

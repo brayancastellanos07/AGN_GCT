@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col, Spin, notification } from "antd";
 import { getConcepbyCarpByNameApi } from "../../../api/conceptos";
-import { getAccessToken } from "../../../api/auth";
 import ListConceptos from "../../../components/Web/Conceptos/ListConcep";
 import { useParams } from "react-router-dom";
 
 
 export default function ConcepList() {
   const { nombre } = useParams();
-  const token = getAccessToken();
   const [data, setData] = useState(null);
   useEffect(() => {
-    getConcepbyCarpByNameApi(token, nombre)
+    getConcepbyCarpByNameApi( nombre)
       .then((response) => {
         if (!response.data) {
           notification["warning"]({ 
@@ -26,7 +24,7 @@ export default function ConcepList() {
           message: "Error del servidor intentelo mas tarde.",
         });
       });
-  }, [token, nombre]);
+  }, [ nombre]);
 
   return (
     <Row className="Row">
