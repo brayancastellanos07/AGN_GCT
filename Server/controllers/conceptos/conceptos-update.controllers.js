@@ -40,6 +40,7 @@ async function updateConcepto(req, res) {
         message: "La extensión del archivo debe ser .pdf",
       });
     }
+  } else{
     // asignación del archivo y el nombre a las variables para registro
     conceptos.archivo = fileName;
     conceptos.nombre = finalName.toLowerCase();

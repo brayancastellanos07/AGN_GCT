@@ -28,7 +28,7 @@ export default function AddUserForm(props) {
     
    
     let userCreateData = userData;
-    console.log(userCreateData)
+  
     if (
       !userCreateData.Nombre ||
       !userCreateData.Apellido ||

@@ -52,9 +52,8 @@ function AddForm(props) {
   const { carpetasData, setCarpetasData, addCarpetas } = props;
 
   return (
-    <Form className="form-add" onFinish={addCarpetas}>
-      <Row gutter={24}>
-        <Col span={12}>
+    <Form className="form-carpetas" onFinish={addCarpetas}>
+     
           <Form.Item>
             <Input
               prefix={<FolderAddOutlined />}
@@ -66,18 +65,16 @@ function AddForm(props) {
               }
             />
           </Form.Item>
-        </Col>
-        <Col span={12}>
+      
           <Form.Item>
             <TextArea 
             placeholder="Descripción" 
             value={carpetasData.descripcion}
             minLength={5}
             onChange={ e => setCarpetasData({ ...carpetasData, Descripcion: e.target.value})}
+            showCount maxLength={100}
             />
           </Form.Item>
-        </Col>
-      </Row>
       <Form.Item>
         <Button type="primary" htmlType="submit" className="btn-submit">
           Crear Carpeta

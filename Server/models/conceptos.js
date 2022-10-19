@@ -47,7 +47,7 @@ class Conceptos extends Model{
         allowNull: false,
         type: DataTypes.DATE,
         field: 'fecha',
-        defaultValue: sequelize.NOW
+       
     },
     carpeta:{
         allowNull:false,

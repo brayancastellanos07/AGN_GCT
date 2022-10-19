@@ -71,7 +71,6 @@ export function uploadAvatarApi(token, avatar, id) {
   const url = `${basePath}/update-avatar/${id}`;
 
   const formData = new FormData();
-  console.log(avatar);
   formData.append("avatar", avatar, avatar.name);
 
   const params = {

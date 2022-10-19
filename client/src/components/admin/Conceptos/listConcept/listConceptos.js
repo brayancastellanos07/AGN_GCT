@@ -1,52 +1,77 @@
-import { Table, List, Button, Modal as ModalAntd, notification  } from "antd";
-import React from "react";
+import { List, Button, Modal as ModalAntd, notification } from "antd";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import Modal from "../../../modal/Modal";
-import {v4 as uuid} from"uuid";
+import * as dayjs from "dayjs";
+import AddConcepForm from "../AddConcepForm/AddConcepForm";
+import { getAccessToken } from "../../../../api/auth";
 import {
   EditOutlined,
   DeleteOutlined,
-  FolderOutlined,
   FolderAddOutlined,
 } from "@ant-design/icons";
+import { deleteConceptApi } from "../../../../api/conceptos";
+import EditConceptForm from"../EditConceptForm/EditConceptForm";
+import "./listConceptos.scss";
 
+const { confirm } = ModalAntd;
 
 export default function LisConceptos(props) {
   const { listConceptos, setReloadConceptos } = props;
+  const [isVisibleModal, setIsVisibleModal] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalContent, setModalContent] = useState(null);
   const { nombre } = useParams();
-  const keyMap = listConceptos.map((id_concepto)=>({...id_concepto}))
-  console.log("aqui",keyMap)
-  const colums=[
-    {
-        title:"Nombre", 
-        dataIndex:"nombre",
-        key: 'nombre',
-    }, 
-    {
-        title:"Descripción",
-        dataIndex: "descripcion",
-        key:'descripcion'
-    },
-    {
-        title:"Carpeta",
-        dataIndex: "carpeta",
-        key:'carpeta'
-    }
-    ,
-    {
-        title:"Archivo",
-        dataIndex: "archivo",
-        key:'archivo'
-    }
-    ,
-    {
-        title:"Fecha",
-        dataIndex: "fecha",
-        key:'fecha'
-    }
-]
+
+  const showDeleteConfirmConcept = (data) => {
+    const accesToken = getAccessToken();
+    confirm({
+      title: "Eliminar Concepto",
+      content: `¿Esta seguro de Eliminar el concepto ${data.nombre}`,
+      okText: "Eliminar",
+      okType: "danger",
+      cancelText: "Cancelar",
+      onOk() {
+        deleteConceptApi(accesToken, data.id_concepto)
+          .then((response) => {
+            notification["success"]({
+              message: response,
+            });
+            setReloadConceptos(true);
+          })
+          .catch((err) => {
+            notification["err"]({
+              message: err.message,
+            });
+          });
+      },
+    });
+  };
+
+  const AddConcepModal = () => {
+    setIsVisibleModal(true);
+    setModalTitle("Creando nuevo concepto.");
+    setModalContent(
+      <AddConcepForm
+        setIsVisibleModal={setIsVisibleModal}
+        setReloadConceptos={setReloadConceptos}
+      />
+    );
+  };
+
+  const EditConceptos = (data) =>{
+    setIsVisibleModal(true);
+    setModalTitle(`Editar el concepto: ${data.nombre}`);
+    setModalContent(
+      <EditConceptForm
+      data={data}
+      setIsVisibleModal={setIsVisibleModal}
+      setReloadConceptos={setReloadConceptos}
+      />
+    )
+  }
   return (
-    <div className="list-conceptios">
+    <div className="list-conceptos">
       <div className="list-conceptos__header">
         <h2 className="list-conceptos__header__h2">
           {`Conceptos del año ${nombre}`}
@@ -54,60 +79,63 @@ export default function LisConceptos(props) {
         <Button
           type="primary"
           icon={<FolderAddOutlined />}
-          onClick={() => console.log("Aqui vamos")}
+          onClick={AddConcepModal}
         >
           Nuevo Concepto
         </Button>
       </div>
-      < Table columns={colums} dataSource={listConceptos} rowKey={uuid()}  />
-      {/* <List
-      className="conceptos"
-      itemLayout="horizontal"
-      dataSource={listConceptos}
-      renderItem={(data) => (
-        <ListConceptosAdmin
-        data={data}
-        setReloadConceptos={setReloadConceptos}
-       />
+      <List
+        className="conceptos"
+        itemLayout="vertical"
+        dataSource={listConceptos}
+        renderItem={(data) => (
+          <ListConceptosAdmin
+            data={data}
+            setReloadConceptos={setReloadConceptos}
+            showDeleteConfirmConcept={showDeleteConfirmConcept}
+            EditConceptos={EditConceptos}
+          />
         )}
-        /> */}
-      
+      />
+
       <Modal
-        // title={modalTitle}
-        // isVisible={isVisibleModal}
-        // setIsVisible={setIsVisibleModal}
+        title={modalTitle}
+        isVisible={isVisibleModal}
+        setIsVisible={setIsVisibleModal}
       >
-        {/* {modalContent} */}
+        {modalContent}
       </Modal>
     </div>
   );
 }
 
 function ListConceptosAdmin(props) {
-    const {data, setReloadConceptos} = props;
-   
-  return(
-    <List.Item
-    actions={[
-        <Button type="primary" onClick={()=> console.log("Funciona")}>
-            <EditOutlined />
-        </Button>,
-        <Button type="danger" onClick={()=> console.log("vamos melos")}>
-            <DeleteOutlined />
-        </Button>
-    ]}
-    > 
-    <List.Item.Meta 
-     title={`Concepto: ${data.nombre}`}
-     description={`Carpeta: ${data.carpeta}
-    
-     Archivo:  ${data.archivo} 
+  const { data, showDeleteConfirmConcept,EditConceptos } = props;
 
-     Fecha: ${data.fecha}
+  return (
+    <List.Item
+      actions={[
+        <Button type="primary" onClick={() => EditConceptos(data)}>
+          <EditOutlined />
+        </Button>,
+        <Button type="danger" onClick={() => showDeleteConfirmConcept(data)}>
+          <DeleteOutlined />
+        </Button>,
+      ]}
+    >
+      <List.Item.Meta
+        title={`Concepto: ${data.nombre}`}
+        description={`
      
-     Descripción: ${data.descripcion}
+     Carpeta: ${data.carpeta},
+    
+     Archivo:  ${data.archivo},
+
+     Fecha: ${dayjs(data.fecha).format("YYYY/MM/DD")}
+     
      `}
-    />
+      />
+      Descripción: {data.descripcion}
     </List.Item>
   );
 }
