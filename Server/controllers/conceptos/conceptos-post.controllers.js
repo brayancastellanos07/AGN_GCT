@@ -4,8 +4,10 @@ const Carpetas = require("../../models/carpetas.js");
 const fs = require('fs');
 
 async function postConceptos(req, res) {
+  console.log(req.files)
+  console.log("body",req.body)
   if (req.files) {
-    let filePath = req.files.concepto.path.split("\\").join("/");
+    let filePath = req.files.archivo.path.split("\\").join("/");
     let fileSplit = filePath.split("/");
     let fileName = fileSplit[2];
     let extSplit = fileName.split(".");
@@ -21,7 +23,7 @@ async function postConceptos(req, res) {
 
       req.body.archivo = fileName;
 
-      let fileOriginalName = req.files.concepto.originalFilename;
+      let fileOriginalName = req.files.archivo.originalFilename;
       let extSplitName = fileOriginalName.split(".");
       let finalName = extSplitName[0];
 
@@ -55,6 +57,7 @@ async function postConceptos(req, res) {
           message: "El Concepto se ha almacenado de forma correcta. ",
         });
       } catch (error) {
+        fs.unlinkSync('./uploads/pdfs/' + fileName);
         console.log(colors.red("Error en postConceptos"), error);
         return res.status(500).send({ message: "Error en el servidor" });
       }

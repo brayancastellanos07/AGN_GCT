@@ -26,14 +26,24 @@ export function getConcepbyCarpByNameAdminApi(token, nombre){
 
 export function createConcepApi(token, data){
     const url =  `${basePath}/create-concepto`;
+    console.log("desde api",data)
+    const formData = new FormData();
+    Object.keys(data).forEach((key)=>{
+        formData.append(key,data[key]);
+    });
+
+    if(data.archivo){
+        formData.append("archivo", data.archivo)
+    }
+    
     
     const params = {
         method: "POST",
         headers:{
-            "Content-Type": "application/json",
+            // "Content-Type": "application/json",
             Authorization: token,
         },
-        body: JSON.stringify(data),
+        body: formData,
     };
     return fetch(url, params)
     .then(( response)=>{

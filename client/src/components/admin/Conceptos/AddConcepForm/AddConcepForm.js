@@ -1,25 +1,93 @@
-import React, { useCallback, useState } from "react";
-import { Form, Input, Select, Button, DatePicker, Upload } from "antd";
-import { InboxOutlined } from "@ant-design/icons";
+import React, { useCallback, useState, useEffect } from "react";
+import {
+  Form,
+  Input,
+  Select,
+  Button,
+  DatePicker,
+  notification
+} from "antd";
 import { useDropzone } from "react-dropzone";
 import { createConcepApi } from "../../../../api/conceptos";
 import { getAccessToken } from "../../../../api/auth";
-
+import { getCarpetasMenuApi } from "../../../../api/carpetas";
+import { useFormik } from "formik";
+import { initialValues, validationSchema } from "./ConceptForm.form";
 import "./AddConcepForm.scss";
-
 const { TextArea } = Input;
-const { Dragger } = Upload;
 
 export default function AddConcepForm(props) {
   const { setIsVisibleModal, setReloadConceptos } = props;
+  const [pdf, setPdf] = useState(null);
   const [concepData, setConcepData] = useState({});
 
-  //para subir el pdf
+  useEffect(() => {
+    if (pdf) {
+      setConcepData({ ...concepData, archivo: pdf.file });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pdf]);
 
-  const onDrop = useCallback((acceptedFiles) => {
-    const file = acceptedFiles[0];
-    console.log(file);
-  });
+  // para cargar las carpetas en el select del formulario
+  const [listCarpetas, setListCarpetas] = useState([]);
+  useEffect(() => {
+    getCarpetasMenuApi().then((response) => {
+      setListCarpetas(response.data);
+    });
+  }, []);
+
+  // para realizar el envio de la data
+
+  const CreateConcep = (e) => {
+    const token = getAccessToken();
+    let concepCreate = concepData;
+
+    if (
+      !concepCreate.descripcion ||
+      !concepCreate.archivo ||
+      !concepCreate.fecha ||
+      !concepCreate.carpeta
+    ) {
+      notification["error"]({
+        message: "Todos los campos son obligatorios. ",
+      });
+      return;
+    }
+    if (typeof concepCreate.archivo === "object") {
+      console.log("dentro del create",concepCreate);
+      createConcepApi(token, concepCreate).then((result) => {
+        notification["success"]({
+          message: result.message,
+        });
+        setReloadConceptos(true);
+      });
+    }
+    setIsVisibleModal(false);
+  };
+
+  // const formik = useFormik({
+  //   initialValues: initialValues(),
+  //   validationSchema: validationSchema(),
+  //   validateOnChange: false,
+  //   onSubmit: async (formValue) => {
+  //     try {
+  //       console.log("FormValue",formValue);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   },
+  // });
+
+  //para subir el pdf
+  const onDrop = useCallback(
+    (acceptedFiles) => {
+      const file = acceptedFiles[0];
+      // formik.setFieldValue("archivo", URL.createObjectURL(file));
+      // formik.setFieldValue("file", file);
+      setPdf({ file, concepto: URL.createObjectURL(file) });
+    },
+    [setPdf]
+  );
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: ".pdf",
@@ -27,112 +95,90 @@ export default function AddConcepForm(props) {
   });
 
   const getConcepto = () => {
+    if (pdf) {
+      const { file } = pdf;
+      const name = file.path;
+      return name;
+    }
     return null;
   };
-  const AddConcep = (event) => {
-    // let concepCreateData = concepData;
-    // //console.log("Aqui esta la data", concepCreateData);
-    // if (
-    //   //!concepCreateData.concepto ||
-    //   !concepCreateData.descripcion ||
-    //   !concepCreateData.carpeta ||
-    //   !concepCreateData.fecha
-    // ) {
-    //   notification["error"]({
-    //     message: "Todos los campos son obligatorios",
-    //   });
-    // } else {
-    //   const accesToken = getAccessToken();
-    //   createConcepApi(accesToken, concepCreateData)
-    //     .then((response) => {
-    //       notification["success"]({
-    //         message: response,
-    //       });
-    //       setIsVisibleModal(false);
-    //       setReloadConceptos(true);
-    //       setConcepData({});
-    //     })
-    //     .catch((err) => {
-    //       notification["error"]({
-    //         message: err,
-    //       });
-    //     });
-    // }
-  };
+
   return (
     <div className="add-concept-form">
       <AddForm
         conceptData={concepData}
         setConcepData={setConcepData}
-        AddConcep={AddConcep}
         getConcepto={getConcepto}
         getRootProps={getRootProps}
         getInputProps={getInputProps}
+        listCarpetas={listCarpetas}
+        CreateConcep={CreateConcep}
       />
     </div>
   );
 }
 
 function AddForm(props) {
-  const { conceptData, setConcepData, AddConcep, getRootProps, getInputProps } =
-    props;
+  const {
+    conceptData,
+    setConcepData,
+    getRootProps,
+    getInputProps,
+    getConcepto,
+    listCarpetas,
+    CreateConcep,
+  } = props;
   const { Option } = Select;
 
   return (
-    <Form className="form-add" onFinish={AddConcep}>
+    <Form className="form-add" onFinish={CreateConcep}>
       <Form.Item>
         <div className="form-add__miniature" {...getRootProps()}>
-          <input {...getInputProps()}/>
-          <span>Haga clic o arrastre el archivo a esta área para cargarlo</span>
-          
-          {/* <Dragger >
-            
-             
-            <p className="ant-upload-drag-icon">
-              <InboxOutlined />
-            </p>
-            <p className="ant-upload-text">
-              Click or drag file to this area to upload
-            </p>
-            <p className="ant-upload-hint">
-              Support for a single or bulk upload. Strictly prohibit from
-              uploading company data or other band files
-            </p>
-          </Dragger> */}
+          <input {...getInputProps()} />
+          {getConcepto() ? (
+            <span>{getConcepto()}</span>
+          ) : (
+            <span>
+              Haga clic o arrastre el archivo a esta área para cargarlo
+            </span>
+          )}
         </div>
       </Form.Item>
 
       <Form.Item>
         <TextArea
           placeholder="Descripción"
+          name="descripcion"
+          showCount
+          maxLength={100}
           value={conceptData.descripcion}
-          minLength={5}
           onChange={(e) =>
             setConcepData({ ...conceptData, descripcion: e.target.value })
           }
-          showCount
-          maxLength={100}
         />
       </Form.Item>
 
       <Form.Item>
         <Select
           placeholder="Carpeta"
-          onChange={(e) => setConcepData({ ...conceptData, carpeta: e })}
-          value={conceptData.carpeta}
+          name="carpeta"
+          onChange={(e) => {
+            setConcepData({ ...conceptData, carpeta: e });
+          }}
         >
-          <Option value="2013" name="2013">
-            2013
-          </Option>
-          <Option value="2014" name="2014">
-            2014
-          </Option>
+          {listCarpetas.map((data) => (
+            <Option key={data.id_carpeta} value={data.id_carpeta} name="2013">
+              {data.nombre}
+            </Option>
+          ))}
         </Select>
       </Form.Item>
 
       <Form.Item>
         <DatePicker
-          onChange={(e) => setConcepData({ ...conceptData, fecha: e })}
+          onChange={(e) => {
+            setConcepData({ ...conceptData, fecha: e });
+          }}
         />
       </Form.Item>
       <Form.Item>

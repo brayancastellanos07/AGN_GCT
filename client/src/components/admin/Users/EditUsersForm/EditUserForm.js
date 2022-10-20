@@ -33,6 +33,7 @@ export default function EditUserForm(props) {
   const [avatar, setAvatar] = useState(null);
   const [userData, setUserData] = useState({});
 
+  // carga los datos en el formulario 
   useEffect(() => {
     setUserData({
       nombre: data.nombre,
@@ -49,6 +50,7 @@ export default function EditUserForm(props) {
     });
   }, [data]);
 
+  // revisa si se tiene avatar y lo carga en el formulario 
   useEffect(() => {
     if (data.avatar) {
       getAvatarApi(data.avatar).then((response) => {
@@ -59,6 +61,7 @@ export default function EditUserForm(props) {
     }
   }, [data]);
 
+  // carga el archivo en la data 
   useEffect(() => {
     if (avatar) {
       setUserData({ ...userData, avatar: avatar.file });
@@ -157,6 +160,7 @@ function UploadAvatar(props) {
     (acceptedFiles) => {
       const file = acceptedFiles[0];
       setAvatar({ file, preview: URL.createObjectURL(file) });
+      console.log(file)
     },
     [setAvatar]
   );

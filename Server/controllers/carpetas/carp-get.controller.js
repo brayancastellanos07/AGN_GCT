@@ -22,7 +22,7 @@ async function getCarp(req, res) {
 async function getCarpMenu(req, res) {
   try {
     const data = await sequelize.query(
-      `SELECT  nombre
+      `SELECT  id_carpeta, nombre
     FROM public.carpetas
     ORDER BY nombre ASC`,
       { type: QueryTypes.SELECT }

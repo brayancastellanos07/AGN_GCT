@@ -26,7 +26,7 @@ async function updateAvatar(req, res) {
       let extSplit = fileName.split(".");
       let fileExt = extSplit[1];
       if (fileExt !== "png" && fileExt !== "jpg") {
-        fs.unlinkSync('./uploads/pdfs/' + fileName);
+        fs.unlinkSync('./uploads/avatar/' + fileName);
         return res.status(400).send({
           message:
             "La extensión de la imagen no es válida. (Extensiones permitidas: .png y .jpg )",
@@ -52,12 +52,14 @@ async function updateAvatar(req, res) {
           }
           return res.status(200).send({ datauser });
         } catch (error) {
+          fs.unlinkSync('./uploads/avatar/' + fileName);
           console.log(colors.red("Error en updateAvatar. "), error);
           return res.status(500).send({ message: "Error en el servidor. " });
         }
       }
     }
   } catch (error) {
+    fs.unlinkSync('./uploads/avatar/' + fileName);
     console.log(colors.red("Error en updateAvatar. "), error);
     return res.status(500).send({ message: "Error en el servidor. " });
   }
