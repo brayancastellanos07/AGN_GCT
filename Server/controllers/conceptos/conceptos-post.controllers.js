@@ -4,9 +4,10 @@ const Carpetas = require("../../models/carpetas.js");
 const fs = require('fs');
 
 async function postConceptos(req, res) {
-  console.log(req.files)
+  console.log(req.files.archivo)
   console.log("body",req.body)
   if (req.files) {
+    
     let filePath = req.files.archivo.path.split("\\").join("/");
     let fileSplit = filePath.split("/");
     let fileName = fileSplit[2];
