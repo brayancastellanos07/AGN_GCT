@@ -19,12 +19,14 @@ async function updateAvatar(req, res) {
     }
     const { dataValues } = data;
     const user = dataValues;
+
     if (req.files) {
       let filePath = req.files.avatar.path.split("\\").join("/");
       let fileSplit = filePath.split("/");
       let fileName = fileSplit[2];
       let extSplit = fileName.split(".");
       let fileExt = extSplit[1];
+      // verificación del  tipo de archivo 
       if (fileExt !== "png" && fileExt !== "jpg") {
         fs.unlinkSync('./uploads/avatar/' + fileName);
         return res.status(400).send({

@@ -70,6 +70,7 @@ export default function EditUserForm(props) {
   }, [avatar]);
 
   const updateUser = (e) => {
+    
     const token = getAccessToken();
     let userUpdate = userData;
      
@@ -100,10 +101,12 @@ export default function EditUserForm(props) {
       }
       
     }
-
-    
+      delete userUpdate.repetirContrasena
+      userUpdate.contrasena = data.contrasena
+      console.log(userUpdate)
 
     if (typeof userUpdate.avatar === "object") {
+      // esta entrando al if cuando el avatar esta vacio y se estalla 
       uploadAvatarApi(token, userUpdate.avatar, data.id).then((response) => {
         userUpdate.avatar = response.avatarName;
         

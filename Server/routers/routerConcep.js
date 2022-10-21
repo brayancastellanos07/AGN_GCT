@@ -1,5 +1,5 @@
 const express = require("express");
-const {postConceptos, getPdfs,getConceptos, getConceptosByName, updateConcepto, deleteConceptos,getConcepbyCarpByName,getConcepbyCarpByNameAdmin} = require("../controllers/conceptos/index.js");
+const {postConceptos, getPdfs,getConceptos, getConceptosByName, updateConcepto, deleteConceptos,getConcepbyCarpByName,getConcepbyCarpByNameAdmin,updatePdf} = require("../controllers/conceptos/index.js");
 const multipart = require("connect-multiparty");
 const md_auth = require("../middleware/authenticated.js");
 const md_update_pdfs = multipart({ uploadDir: "./uploads/pdfs" });
@@ -13,6 +13,7 @@ router.get("/get-pdfs/:pdfName", [md_auth.ensureAuth],getPdfs);
 router.get("/Admin/list-conceptos/:nombre",[md_auth.ensureAuth],getConcepbyCarpByNameAdmin);
 router.post("/create-concepto",[md_auth.ensureAuth,md_update_pdfs],postConceptos);
 router.put("/update-conceptos/:id",[md_auth.ensureAuth,md_update_pdfs],updateConcepto);
+router.put("/update-pdf/:id",[md_auth.ensureAuth,md_update_pdfs], updatePdf);
 router.delete("/delete-conceptos/:id",[md_auth.ensureAuth], deleteConceptos);    
 
 // user visit

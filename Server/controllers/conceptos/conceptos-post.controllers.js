@@ -4,8 +4,7 @@ const Carpetas = require("../../models/carpetas.js");
 const fs = require('fs');
 
 async function postConceptos(req, res) {
-  console.log(req.files)
-  console.log("body",req.body)
+  try {
   if (req.files) {
     let filePath = req.files.archivo.path.split("\\").join("/");
     let fileSplit = filePath.split("/");
@@ -19,7 +18,7 @@ async function postConceptos(req, res) {
         message: "La extensión del archivo debe ser .pdf",
       });
       
-    } else {
+    } else { 
 
       req.body.archivo = fileName;
 
@@ -63,6 +62,11 @@ async function postConceptos(req, res) {
       }
     }
   }
+} catch (error) {
+  fs.unlinkSync("./uploads/pdfs/" + fileName);
+  console.log(colors.red("Error en crearConcepto. "), error);
+  return res.status(500).send({ message: "Error en el servidor. " });
+}
 }
 
 module.exports = { postConceptos };

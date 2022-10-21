@@ -32,7 +32,7 @@ export function createConcepApi(token, data){
         formData.append(key,data[key]);
     });
 
-    if(data.archivo){
+    if(!data.archivo){
         formData.append("archivo", data.archivo)
     }
     
