@@ -48,7 +48,7 @@ export default function LisConceptos(props) {
     });
   };
 
-  const AddConcepModal = () => {
+  const AddConcepModal = () => { 
     setIsVisibleModal(true);
     setModalTitle("Creando nuevo concepto.");
     setModalContent(

@@ -2,6 +2,7 @@
 
 .menu-top{
     display: flex;
+    z-index: 2000 !important;
     Button{
         color: $font-light;
 

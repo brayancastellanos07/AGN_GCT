@@ -6,6 +6,7 @@ const fs = require('fs');
 async function postConceptos(req, res) {
   try {
   if (req.files) {
+    
     let filePath = req.files.archivo.path.split("\\").join("/");
     let fileSplit = filePath.split("/");
     let fileName = fileSplit[2];
