@@ -10,6 +10,9 @@ const colors = require("colors");
 async function getPdfs(req, res) {
   const fileName = req.params.pdfName;
   const filePath = "./uploads/pdfs/" + fileName;
+   
+
+
 
   fs.exists(filePath, (exists) => {
     if (!exists) {
@@ -46,18 +49,23 @@ async function getConceptos(req, res) {
 }
 
 async function getConceptosByName(req, res) {
-  const { nombre } = req.params;
+  const { nameArchivo } = req.params;
   try {
     const data = await Conceptos.findAll({
       where: {
-        nombre: nombre,
+        archivo: nameArchivo,
       },
+      attributes: [
+        "archivo",
+        
+      ],
     });
     if (!data.length) {
       return res.status(404).send({
         message: `El concepto con el nombre ${nombre} no esta registrado`,
       });
     }
+    console.log(data)
     return res.status(200).json({ data });
   } catch (error) {
     console.log(colors.red("Error en getConceptosByName"), error);

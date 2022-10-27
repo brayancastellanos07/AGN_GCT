@@ -1,1 +1,22 @@
 @import "../../../../scss/index.scss";
+ .edit-concept-form{
+    .form-edit{
+        &__miniature{
+            margin-bottom: 16px;
+            width: 100%;
+            min-height: 120px;
+            border: 2px dashed $primary-color;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &:hover{
+                opacity: 0.6;
+                cursor: pointer;
+            }
+        }
+        .btn-submit{
+            width: 100%;
+        }
+    }
+ }

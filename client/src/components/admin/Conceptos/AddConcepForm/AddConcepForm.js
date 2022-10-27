@@ -7,12 +7,11 @@ import {
   DatePicker,
   notification
 } from "antd";
+import moment from 'moment';
 import { useDropzone } from "react-dropzone";
 import { createConcepApi } from "../../../../api/conceptos";
 import { getAccessToken } from "../../../../api/auth";
 import { getCarpetasMenuApi } from "../../../../api/carpetas";
-import { useFormik } from "formik";
-import { initialValues, validationSchema } from "./ConceptForm.form";
 import "./AddConcepForm.scss";
 const { TextArea } = Input;
 
@@ -65,32 +64,18 @@ export default function AddConcepForm(props) {
     setIsVisibleModal(false);
   };
 
-  // const formik = useFormik({
-  //   initialValues: initialValues(),
-  //   validationSchema: validationSchema(),
-  //   validateOnChange: false,
-  //   onSubmit: async (formValue) => {
-  //     try {
-  //       console.log("FormValue",formValue);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   },
-  // });
 
   //para subir el pdf
   const onDrop = useCallback(
     (acceptedFiles) => {
       const file = acceptedFiles[0];
-      // formik.setFieldValue("archivo", URL.createObjectURL(file));
-      // formik.setFieldValue("file", file);
       setPdf({ file, concepto: URL.createObjectURL(file) });
     },
     [setPdf]
   );
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: ".pdf",
+    accept: {'image/pdf': ['.pdf']},
     onDrop,
   });
 
@@ -176,6 +161,7 @@ function AddForm(props) {
 
       <Form.Item>
         <DatePicker
+        defaultValue={moment()}
           onChange={(e) => {
             setConcepData({ ...conceptData, fecha: e });
           }}

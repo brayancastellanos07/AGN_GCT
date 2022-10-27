@@ -91,7 +91,7 @@ export function uploadAvatarApi(token, avatar, id) {
     .catch((err) => {
       return err.message;
     });
-}
+} 
 
 export function getAvatarApi(avatarName) {
   const url = `${basePath}/get-avatar/${avatarName}`;

@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useEffect } from "react";
 import {
-  Avatar,
+  Avatar, 
   Form,
   Input,
   Select,
@@ -32,7 +32,7 @@ export default function EditUserForm(props) {
   const { data, setIsVisibleModal, setReloadUsers } = props;
   const [avatar, setAvatar] = useState(null);
   const [userData, setUserData] = useState({});
-
+  
   // carga los datos en el formulario 
   useEffect(() => {
     setUserData({
@@ -44,7 +44,7 @@ export default function EditUserForm(props) {
       rol: data.rol,
       correo: data.correo,
       contrasena: "",
-      repetirContrasena:"",
+      repetirContrasena: "",
       status: data.status,
       avatar: data.avatar,
     });
@@ -99,11 +99,7 @@ export default function EditUserForm(props) {
       else{
         delete userUpdate.repetirContrasena
       }
-      
     }
-      delete userUpdate.repetirContrasena
-      userUpdate.contrasena = data.contrasena
-      console.log(userUpdate)
 
     if (typeof userUpdate.avatar === "object") {
       // esta entrando al if cuando el avatar esta vacio y se estalla 
@@ -163,7 +159,7 @@ function UploadAvatar(props) {
     (acceptedFiles) => {
       const file = acceptedFiles[0];
       setAvatar({ file, preview: URL.createObjectURL(file) });
-      console.log(file)
+      
     },
     [setAvatar]
   );
