@@ -8,7 +8,6 @@ const router =  express.Router();
 
 // user admin
 router.get("/get-conceptos",[md_auth.ensureAuth], getConceptos)
-router.get("/get-conceptos/:nameArchivo",[md_auth.ensureAuth],getConceptosByName)
 router.get("/get-pdfs/:pdfName",getPdfs);
 router.get("/Admin/list-conceptos/:nombre",[md_auth.ensureAuth],getConcepbyCarpByNameAdmin);
 router.post("/create-concepto",[md_auth.ensureAuth,md_update_pdfs],postConceptos);

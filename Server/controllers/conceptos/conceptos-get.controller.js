@@ -48,30 +48,7 @@ async function getConceptos(req, res) {
   }
 }
 
-async function getConceptosByName(req, res) {
-  const { nameArchivo } = req.params;
-  try {
-    const data = await Conceptos.findAll({
-      where: {
-        archivo: nameArchivo,
-      },
-      attributes: [
-        "archivo",
-        
-      ],
-    });
-    if (!data.length) {
-      return res.status(404).send({
-        message: `El concepto con el nombre ${nombre} no esta registrado`,
-      });
-    }
-    console.log(data)
-    return res.status(200).json({ data });
-  } catch (error) {
-    console.log(colors.red("Error en getConceptosByName"), error);
-    return res.status(500).send({ message: "Error en el servidor" });
-  }
-}
+
 
 async function getConcepbyCarpByNameAdmin(req, res) {
   const { nombre } = req.params;
@@ -129,7 +106,6 @@ async function getConcepbyCarpByName(req, res) {
 module.exports = {
   getPdfs,
   getConceptos,
-  getConceptosByName,
   getConcepbyCarpByName,
   getConcepbyCarpByNameAdmin
 };

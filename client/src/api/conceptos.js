@@ -89,27 +89,8 @@ export function getPdfApi(pdfName) {
       return err.message;
     });
 }
-// obtiene la data segun el nombre del archivo del concepto
-export function getConceptosByNameApi(pdfName, token) {
-  const url = `${basePath}/get-conceptos/${pdfName}`;
-  const params = {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: token,
-    },
-  };
-  return fetch(url, params)
-    .then((response) => {
-      return response.json();
-    })
-    .then((result) => {
-      return result;
-    })
-    .catch((err) => {
-      return err.message;
-    });
-}
+
+
 // User Visit
 export function getConcepbyCarpByNameApi(nombre) {
   const url = `${basePath}/list-conceptos/${nombre}`;

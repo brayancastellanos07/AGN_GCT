@@ -4,8 +4,8 @@ import moment from "moment";
 import { useDropzone } from "react-dropzone";
 import { getCarpetasMenuApi } from "../../../../api/carpetas";
 import "./EditConceptForm.scss";
-import { getConceptosByNameApi, getPdfApi } from "../../../../api/conceptos";
-import { getAccessToken } from "../../../../api/auth";
+import {  getPdfApi } from "../../../../api/conceptos";
+
 
 const { TextArea } = Input;
 
@@ -13,15 +13,15 @@ export default function EditConceptForm(props) {
   const { data, setIsVisibleModal, setReloadConceptos } = props;
   const [conceptData, setConceptData] = useState({});
   const [pdf, setPdf] = useState(null);
-  const [archivoName, setarchivoName] = useState(null);
-  const token = getAccessToken();
+
+  
   // carag los datos en el formulaario
   useEffect(() => {
     setConceptData({
-      concepto: data.concepto,
       descripcion: data.descripcion,
       carpeta: data.carpeta,
       fecha: data.fecha,
+      nombre: data.nombre
     });
   }, [data]);
 
@@ -39,13 +39,10 @@ export default function EditConceptForm(props) {
   // si existe un archivo del concepto, obtiene la data del registro
   useEffect(() => {
     if (data.archivo) {
-      getConceptosByNameApi(data.archivo, token).then((response) => {
-        setarchivoName(response);
-      });
-    } else {
-      setarchivoName(null);
+     console.log("si tiene archivo");
     }
-  }, [data, token]);
+  });
+
 
   // carag el archivo en la data
   useEffect(() => {
@@ -66,13 +63,15 @@ export default function EditConceptForm(props) {
     });
   }, []);
 
+  
+  
   return (
     <div className="edit-concept-form">
       <UploadPdf
         pdf={pdf}
         setPdf={setPdf}
-        archivoName={archivoName}
-        setarchivoName={setarchivoName}
+        conceptData={conceptData}
+    
       />
       <EditConcept
         data={data}
@@ -86,17 +85,17 @@ export default function EditConceptForm(props) {
 }
 
 function UploadPdf(props) {
-  const { pdf, setPdf, archivoName, setarchivoName } = props;
+  const { pdf, setPdf, archivoName, conceptData } = props;
   const [pdfName, setPdfName] = useState(null);
-
   useEffect(() => {
     if (pdf) {
       setPdfName(archivoName);
-      console.log("setPdfName", pdfName);
+   
     } else {
       setPdfName(pdf);
     }
   }, [pdf,archivoName,pdfName]);
+  
   // const getConcepto = () => {
   //   if (pdf) {
   //     const { file } = pdf;
@@ -105,42 +104,45 @@ function UploadPdf(props) {
   //   }
   //   return null;
   // };
-  // const onDrop = useCallback(
-  //   (acceptedFiles) => {
-  //     const file = acceptedFiles[0];
-  //     setPdf({ file, concepto: URL.createObjectURL(file) });
-  //   },
-  //   [setPdf]
-  // );
-  // const { getRootProps, getInputProps } = useDropzone({
-  //   accept: { "image/pdf": [".pdf"] },
-  //   onDrop,
-  // });
-
+  const onDrop = useCallback(
+    (acceptedFiles) => {
+      const file = acceptedFiles[0];
+      setPdf({ file, concepto: URL.createObjectURL(file) });
+    },
+    [setPdf]
+  );
+  const { getRootProps, getInputProps,isDragActive } = useDropzone({
+    accept: { "image/pdf": [".pdf"] },
+    noKeyboard: true,
+    onDrop,
+  });
+   
+  
   return (
-    //   <div className="form-edit__miniature" {...getRootProps()}>
-    //   <input {...getInputProps()} />
-    //   {getConcepto() ? (
-    //     <span>{getConcepto()}</span>
-    //   ) : (
-    //     <span>
-    //       Haga clic o arrastre el archivo a esta área para cargarlo
-    //     </span>
-    //   )}
-    // </div>
-    <span>Hola</span>
+      <div className="form-edit__miniature" {...getRootProps()}>
+      <input {...getInputProps()} />
+      {isDragActive ? (
+        <span>Haga clic o arrastre el archivo a esta área para cargarlo</span>
+      ) : (
+       
+          <span >{conceptData.nombre} </span>
+     
+         
+      )}
+    </div>
+
   );
 }
 
 function EditConcept(props) {
   const {
     conceptData,
-
     setConceptData,
     updateConceptos,
     listCarpetas,
   } = props;
   const { Option } = Select;
+  
   return (
     <Form className="form-edit" on onFinish={updateConceptos}>
       <Form.Item>
