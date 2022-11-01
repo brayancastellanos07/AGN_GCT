@@ -90,7 +90,57 @@ export function getPdfApi(pdfName) {
     });
 }
 
+// actualizacion del archivo pdf
+export function updatePdfApi(token,archivo, id){
+  const url = `${basePath}/update-pdf/${id}`;
 
+  const formData =  new FormData();
+  
+  formData.append("archivo", archivo );
+
+  const params = {
+    method: "PUT",
+    body: formData,
+    headers:{
+      Authorization: token,
+    }
+  };
+
+  return fetch(url,params)
+  .then((response)=>{
+    return response.json();
+  })
+  .then((result)=>{
+    return result;
+  })
+  .catch((err)=>{
+    return err.message;
+  });
+}
+
+export function updateConceptApi(token,data,id){
+  const url = `${basePath}/update-conceptos/${id}`;
+
+  const params = {
+    method: "PUT",
+    headers:{
+      "Content-Type": "application/json",
+      Authorization: token,
+    },
+    body: JSON.stringify(data),
+  };
+
+  return fetch(url, params)
+  .then((response)=>{
+    return response.json();
+  })
+  .then((result)=>{
+    return result;
+  })
+  .catch((err) =>{
+    return err.message;
+  });
+}
 // User Visit
 export function getConcepbyCarpByNameApi(nombre) {
   const url = `${basePath}/list-conceptos/${nombre}`;

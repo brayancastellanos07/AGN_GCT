@@ -68,7 +68,9 @@
                             border: 1px solid $primary-color;
 
                             &:hover {
-                                color: $primary-color;
+                                color: $primary-color-hover;
+                                background-color: $primary-color-hover-button;
+                                border: 1px dashed $error;
                             }
                         }
                     }

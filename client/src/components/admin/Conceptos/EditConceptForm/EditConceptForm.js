@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Form, Input, Button, Select, DatePicker } from "antd";
+import { Form, Input, Button, Select, DatePicker, notification } from "antd";
 import moment from "moment";
 import { useDropzone } from "react-dropzone";
 import { getCarpetasMenuApi } from "../../../../api/carpetas";
 import "./EditConceptForm.scss";
-import {  getPdfApi } from "../../../../api/conceptos";
-
+import {  getPdfApi,updatePdfApi, updateConceptApi } from "../../../../api/conceptos";
+import { getAccessToken } from "../../../../api/auth";
 
 const { TextArea } = Input;
 
@@ -18,13 +18,14 @@ export default function EditConceptForm(props) {
   // carag los datos en el formulaario
   useEffect(() => {
     setConceptData({
+      id: data.id_concepto,
       descripcion: data.descripcion,
       carpeta: data.carpeta,
       fecha: data.fecha,
       nombre: data.nombre
     });
   }, [data]);
-
+ 
   // revisa si existe un concepto y lo carga
   useEffect(() => {
     if (data.archivo) {
@@ -36,24 +37,56 @@ export default function EditConceptForm(props) {
     }
   }, [data]);
 
-  // si existe un archivo del concepto, obtiene la data del registro
-  useEffect(() => {
-    if (data.archivo) {
-     console.log("si tiene archivo");
-    }
-  });
-
-
   // carag el archivo en la data
   useEffect(() => {
     if (pdf) {
-      console.log("Ruta del archivo: ", pdf);
       setConceptData({ ...conceptData, archivo: pdf.file });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pdf]);
 
-  const updateConceptos = (e) => {};
+  const updateConceptos = (e) => {
+    const token = getAccessToken();
+    let  conceptUpdate =  conceptData;
+
+    if(conceptUpdate.carpeta === data.carpeta){
+         
+          conceptUpdate.carpeta= data.id_carpeta;
+    }
+
+    if(!conceptUpdate.descripcion ||
+      !conceptUpdate.fecha ||
+      !conceptUpdate.carpeta
+      ){
+        notification["error"]({
+          message: "Todos los campos son obligatorios. ",
+        });
+        return;
+    }
+    if(typeof conceptUpdate.archivo === "object"){
+        console.log("Desde Update",conceptUpdate.archivo)
+        console.log("data del cocnepto", conceptData)
+
+         updatePdfApi(token, conceptUpdate.archivo,conceptData.id ).then((response)=>{
+            conceptUpdate.nombre =  response.nombre
+          
+            updateConceptApi(token,conceptUpdate, conceptData.id).then(result =>{
+              notification["success"]({
+                message: result.message,
+              });
+              setReloadConceptos(true);
+            });
+         });
+      }else{
+        updateConceptApi(token,conceptUpdate, conceptData.id).then(result =>{
+          notification["success"]({
+            message: result.message,
+          });
+          setReloadConceptos(true);
+        });
+      }
+      setIsVisibleModal(false);
+  };
 
   // para cargar las carpetas en el select del formulario
   const [listCarpetas, setListCarpetas] = useState([]);
@@ -85,29 +118,26 @@ export default function EditConceptForm(props) {
 }
 
 function UploadPdf(props) {
-  const { pdf, setPdf, archivoName, conceptData } = props;
-  const [pdfName, setPdfName] = useState(null);
-  useEffect(() => {
-    if (pdf) {
-      setPdfName(archivoName);
-   
-    } else {
-      setPdfName(pdf);
-    }
-  }, [pdf,archivoName,pdfName]);
+  const { pdf,setPdf, conceptData } = props;
+  const [pdfName, setPdfNew] = useState(null);
   
-  // const getConcepto = () => {
-  //   if (pdf) {
-  //     const { file } = pdf;
-  //     const name = file.path;
-  //     return name;
-  //   }
-  //   return null;
-  // };
+  const getConceptName = () => {
+    if (pdf) {
+      const {file} = pdf
+      const {name} =  file;
+      const nombre =  name;
+      return nombre
+    } 
+     return null;
+    
+  };
+  
   const onDrop = useCallback(
     (acceptedFiles) => {
       const file = acceptedFiles[0];
       setPdf({ file, concepto: URL.createObjectURL(file) });
+      setPdfNew({ file, concepto: URL.createObjectURL(file) });
+      
     },
     [setPdf]
   );
@@ -116,19 +146,18 @@ function UploadPdf(props) {
     noKeyboard: true,
     onDrop,
   });
+
    
   
   return (
       <div className="form-edit__miniature" {...getRootProps()}>
       <input {...getInputProps()} />
       {isDragActive ? (
-        <span>Haga clic o arrastre el archivo a esta área para cargarlo</span>
+        <span >Haga clic o arrastre el archivo a esta área para cargarlo </span>
       ) : (
-       
-          <span >{conceptData.nombre} </span>
-     
-         
-      )}
+           <span>{!pdfName ? conceptData.nombre : getConceptName()}</span>
+      )
+      }
     </div>
 
   );

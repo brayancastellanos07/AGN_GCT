@@ -53,9 +53,8 @@ export default function AddConcepForm(props) {
       return;
     }
     if (typeof concepCreate.archivo === "object") {
-      console.log("dentro del create",concepCreate);
       createConcepApi(token, concepCreate).then((result) => {
-        notification["success"]({
+        notification["success"]({ 
           message: result.message,
         });
         setReloadConceptos(true);

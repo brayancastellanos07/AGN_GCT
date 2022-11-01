@@ -9,9 +9,13 @@ import {
   EditOutlined,
   DeleteOutlined,
   FolderAddOutlined,
+  FullscreenOutlined,
+  ArrowDownOutlined,
 } from "@ant-design/icons";
-import { deleteConceptApi } from "../../../../api/conceptos";
-import EditConceptForm from"../EditConceptForm/EditConceptForm";
+import { deleteConceptApi, getPdfApi } from "../../../../api/conceptos";
+import EditConceptForm from "../EditConceptForm/EditConceptForm";
+import DocViewer from "react-doc-viewer";
+
 import "./listConceptos.scss";
 
 const { confirm } = ModalAntd;
@@ -21,6 +25,7 @@ export default function LisConceptos(props) {
   const [isVisibleModal, setIsVisibleModal] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
   const [modalContent, setModalContent] = useState(null);
+  const [pdfArchivo, setpdfArchivo] = useState(null);
   const { nombre } = useParams();
 
   const showDeleteConfirmConcept = (data) => {
@@ -48,7 +53,14 @@ export default function LisConceptos(props) {
     });
   };
 
-  const AddConcepModal = () => { 
+  const getPdfDocument = (data) =>{
+    console.log("Obetener pdf", data.archivo);
+    getPdfApi(data.archivo).then((response)=>{
+      setpdfArchivo(response);
+    })
+  };
+  console.log("ruta del pdf",pdfArchivo)
+  const AddConcepModal = () => {
     setIsVisibleModal(true);
     setModalTitle("Creando nuevo concepto.");
     setModalContent(
@@ -58,18 +70,17 @@ export default function LisConceptos(props) {
       />
     );
   };
-
-  const EditConceptos = (data) =>{
+  const EditConceptos = (data) => {
     setIsVisibleModal(true);
     setModalTitle(`Editar el concepto: ${data.nombre}`);
     setModalContent(
       <EditConceptForm
-      data={data}
-      setIsVisibleModal={setIsVisibleModal}
-      setReloadConceptos={setReloadConceptos}
+        data={data}
+        setIsVisibleModal={setIsVisibleModal}
+        setReloadConceptos={setReloadConceptos}
       />
-    )
-  }
+    );
+  };
   return (
     <div className="list-conceptos">
       <div className="list-conceptos__header">
@@ -94,6 +105,9 @@ export default function LisConceptos(props) {
             setReloadConceptos={setReloadConceptos}
             showDeleteConfirmConcept={showDeleteConfirmConcept}
             EditConceptos={EditConceptos}
+            getPdfDocument={getPdfDocument}
+            pdfArchivo={pdfArchivo}
+            DocViewer={DocViewer}
           />
         )}
       />
@@ -110,7 +124,7 @@ export default function LisConceptos(props) {
 }
 
 function ListConceptosAdmin(props) {
-  const { data, showDeleteConfirmConcept,EditConceptos } = props;
+  const { data, DocViewer,showDeleteConfirmConcept, EditConceptos,getPdfDocument,pdfArchivo } = props;
 
   return (
     <List.Item
@@ -120,6 +134,14 @@ function ListConceptosAdmin(props) {
         </Button>,
         <Button type="danger" onClick={() => showDeleteConfirmConcept(data)}>
           <DeleteOutlined />
+        </Button>,
+        <Button type="default" onClick={()=> console.log("Previsualizar")}>
+          <FullscreenOutlined />
+        </Button>,
+
+        
+        <Button type="dashed" onClick={() => getPdfDocument(data)}>
+          <ArrowDownOutlined /> 
         </Button>,
       ]}
     >

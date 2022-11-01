@@ -1,31 +1,19 @@
 const Usuario = require("../../models/user.js");
 const colors = require("colors");
 const bcrypt = require("bcrypt-nodejs");
-const fs = (require = "fs");
+const fs = require("fs");
 
 async function updateAvatar(req, res) {
   const { id } = req.params;
 
   try {
-    const data = await Usuario.findOne({
-      where: {
-        id_usuario: id,
-      },
-    });
-    if (!data) {
-      return res
-        .status(404)
-        .send({ message: "No se ha encontrado ningún usuario. " });
-    }
-    const { dataValues } = data;
-    const user = dataValues;
-
     if (req.files) {
       let filePath = req.files.avatar.path.split("\\").join("/");
       let fileSplit = filePath.split("/");
       let fileName = fileSplit[2];
       let extSplit = fileName.split(".");
       let fileExt = extSplit[1];
+
       // verificación del  tipo de archivo
       if (fileExt !== "png" && fileExt !== "jpg") {
         fs.unlinkSync("./uploads/avatar/" + fileName);
@@ -34,6 +22,26 @@ async function updateAvatar(req, res) {
             "La extensión de la imagen no es válida. (Extensiones permitidas: .png y .jpg )",
         });
       } else {
+        const data = await Usuario.findOne({
+          where: {
+            id_usuario: id,
+          },
+        });
+    
+        const { dataValues } = data;
+        const user = dataValues;
+        const { avatar } = user;
+     
+        if (!data) {
+          return res
+            .status(404)
+            .send({ message: "No se ha encontrado ningún usuario. " });
+        } else {
+          if(avatar){
+          fs.unlinkSync("./uploads/avatar/" + avatar);
+          }
+        }
+
         user.avatar = fileName;
 
         try {
@@ -61,7 +69,7 @@ async function updateAvatar(req, res) {
       }
     }
   } catch (error) {
-    fs.unlinkSync("./uploads/avatar/" + fileName);
+    //fs.unlinkSync("./uploads/avatar/" + fileName);
     console.log(colors.red("Error en updateAvatar. "), error);
     return res.status(500).send({ message: "Error en el servidor. " });
   }
@@ -75,44 +83,45 @@ async function updateUser(req, res) {
   }
 
   if (userData.contrasena) {
-    await bcrypt.hash(userData.contrasena,null,null,(err,hash)=>{
+    await bcrypt.hash(userData.contrasena, null, null, (err, hash) => {
       if (err) {
-        return res.status(500).send({message: "Error al encriptar la contraseña. "});
-      }else{
+        return res
+          .status(500)
+          .send({ message: "Error al encriptar la contraseña. " });
+      } else {
         userData.contrasena = hash;
-
       }
     });
-  }else{
-    delete userData.contrasena
+  } else {
+    delete userData.contrasena;
   }
 
-    try {
-      const data = await Usuario.update(
-        {
-          nombre: userData.nombre,
-          apellido: userData.apellido,
-          tipodocumento: userData.tipodocumento,
-          documento: userData.documento,
-          telefono: userData.telefono,
-          rol: userData.rol,
-          correo: userData.correo,
-          contrasena: userData.contrasena,
-          avatar: userData.avatar,
+  try {
+    const data = await Usuario.update(
+      {
+        nombre: userData.nombre,
+        apellido: userData.apellido,
+        tipodocumento: userData.tipodocumento,
+        documento: userData.documento,
+        telefono: userData.telefono,
+        rol: userData.rol,
+        correo: userData.correo,
+        contrasena: userData.contrasena,
+        avatar: userData.avatar,
+      },
+      {
+        where: {
+          id: id,
         },
-        {
-          where: {
-            id: id,
-          },
-        }
-      );
-      return res
-        .status(200)
-        .send({ message: "Usuario actualizado correctamente. " });
-    } catch (error) {
-      console.log(colors.red("Error en updateUser. ", error));
-      return res.status(500).send({ message: "Error en el servidor.  " });
-    }
+      }
+    );
+    return res
+      .status(200)
+      .send({ message: "Usuario actualizado correctamente. " });
+  } catch (error) {
+    console.log(colors.red("Error en updateUser. ", error));
+    return res.status(500).send({ message: "Error en el servidor.  " });
+  }
   // } catch (error) {
   //   console.log(colors.red({ message: "Error en login" }), error);
   //   return res

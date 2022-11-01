@@ -10,9 +10,6 @@ const colors = require("colors");
 async function getPdfs(req, res) {
   const fileName = req.params.pdfName;
   const filePath = "./uploads/pdfs/" + fileName;
-   
-
-
 
   fs.exists(filePath, (exists) => {
     if (!exists) {
@@ -20,7 +17,8 @@ async function getPdfs(req, res) {
         .status(404)
         .send({ message: "El Concepto que busca no esta Almacenado" });
     }
-    res.sendFile(path.resolve(filePath));
+    console.log(filePath)
+    return res.sendFile(path.resolve(filePath));
   });
 }
 
@@ -54,7 +52,7 @@ async function getConcepbyCarpByNameAdmin(req, res) {
   const { nombre } = req.params;
   try {
     const data = await sequelize.query(
-      `SELECT CN.id_concepto, CN.nombre, CN.descripcion, CN.archivo, CN.fecha,
+      `SELECT CN.id_concepto, CN.nombre, CN.descripcion, CN.archivo, CN.fecha,CN.carpeta AS id_Carpeta,
       CA.nombre AS carpeta
 	FROM conceptos AS CN 
 	INNER JOIN carpetas AS CA

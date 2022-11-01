@@ -3,7 +3,10 @@ import { Row, Col, Card, Button,} from "antd";
 import "./ListConcep.scss";
 import imagen from "../../../assets/img/png/pdf_1.jpg";
 import { useParams } from "react-router-dom";
-
+import {
+  FullscreenOutlined,
+  ArrowDownOutlined,
+} from "@ant-design/icons";
 export default function ListConceptos(props) {
  const {data} = props
  const { nombre } = useParams();
@@ -34,9 +37,11 @@ export default function ListConceptos(props) {
       cover={<img src={imagen} alt="Conceptos"></img>}
       actions={[
         //<Link to={`list-conceptos/${data.nombre}`}>
-        <Button>
-        
-          Ingresar
+        <Button type="default" onClick={() => console.log("Previsualizar")}>
+          <FullscreenOutlined /> Previsualizar
+        </Button>,
+        <Button type="dashed" onClick={() => console.log("Descargar")}>
+          <ArrowDownOutlined /> Descargar
         </Button>,
        // </Link>
       ]}

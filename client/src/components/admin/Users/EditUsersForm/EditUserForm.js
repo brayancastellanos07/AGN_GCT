@@ -73,7 +73,7 @@ export default function EditUserForm(props) {
     
     const token = getAccessToken();
     let userUpdate = userData;
-     
+      
     if (
       !userUpdate.nombre ||
       !userUpdate.apellido ||
@@ -147,6 +147,7 @@ function UploadAvatar(props) {
     if (avatar) {
       if (avatar.preview) {
         setAvatarUrl(avatar.preview);
+       
       } else {
         setAvatarUrl(avatar);
       }
