@@ -9,6 +9,7 @@ const colors = require("colors");
 // User Admin
 async function getPdfs(req, res) {
   const fileName = req.params.pdfName;
+  console.log(fileName)
   const filePath = "./uploads/pdfs/" + fileName;
 
   fs.exists(filePath, (exists) => {

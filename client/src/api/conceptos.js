@@ -81,9 +81,15 @@ export function deleteConceptApi(token, id_concepto) {
 export function getPdfApi(pdfName) {
   const url = `${basePath}/get-pdfs/${pdfName}`;
 
-  return fetch(url)
+  return fetch(url
+  //   ,{
+  //   responseType: 'blob',
+  // }
+  )
     .then((response) => {
+      console.log("Desde api",response)
       return response.url;
+      
     })
     .catch((err) => {
       return err.message;

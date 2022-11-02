@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import Modal from "../../../modal/Modal";
 import * as dayjs from "dayjs";
+//import fileDownload from "js-file-download";
 import AddConcepForm from "../AddConcepForm/AddConcepForm";
 import { getAccessToken } from "../../../../api/auth";
 import {
@@ -25,7 +26,6 @@ export default function LisConceptos(props) {
   const [isVisibleModal, setIsVisibleModal] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
   const [modalContent, setModalContent] = useState(null);
-  const [pdfArchivo, setpdfArchivo] = useState(null);
   const { nombre } = useParams();
 
   const showDeleteConfirmConcept = (data) => {
@@ -53,13 +53,20 @@ export default function LisConceptos(props) {
     });
   };
 
-  const getPdfDocument = (data) =>{
-    console.log("Obetener pdf", data.archivo);
-    getPdfApi(data.archivo).then((response)=>{
-      setpdfArchivo(response);
-    })
+  const previewPdfDocument = (data) => {
+    getPdfApi(data.archivo).then((response) => {
+      const fileUrl = response;
+      let alink = document.createElement("a");
+      alink.href = fileUrl;
+      alink.target = "_blank";
+      alink.title = data.nombre;
+      alink.click();
+      alink.download = data.nombre;
+      //  const fileUrl =  window.URL.createObjectURL( response,{type: "application/pdf"});
+      //  fileDownload(fileUrl, data.nombre);
+    });
   };
-  console.log("ruta del pdf",pdfArchivo)
+
   const AddConcepModal = () => {
     setIsVisibleModal(true);
     setModalTitle("Creando nuevo concepto.");
@@ -105,8 +112,7 @@ export default function LisConceptos(props) {
             setReloadConceptos={setReloadConceptos}
             showDeleteConfirmConcept={showDeleteConfirmConcept}
             EditConceptos={EditConceptos}
-            getPdfDocument={getPdfDocument}
-            pdfArchivo={pdfArchivo}
+            previewPdfDocument={previewPdfDocument}
             DocViewer={DocViewer}
           />
         )}
@@ -124,7 +130,8 @@ export default function LisConceptos(props) {
 }
 
 function ListConceptosAdmin(props) {
-  const { data, DocViewer,showDeleteConfirmConcept, EditConceptos,getPdfDocument,pdfArchivo } = props;
+  const { data, showDeleteConfirmConcept, EditConceptos, previewPdfDocument } =
+    props;
 
   return (
     <List.Item
@@ -135,13 +142,12 @@ function ListConceptosAdmin(props) {
         <Button type="danger" onClick={() => showDeleteConfirmConcept(data)}>
           <DeleteOutlined />
         </Button>,
-        <Button type="default" onClick={()=> console.log("Previsualizar")}>
+
+        <Button type="default" onClick={() => previewPdfDocument(data)}>
           <FullscreenOutlined />
         </Button>,
-
-        
-        <Button type="dashed" onClick={() => getPdfDocument(data)}>
-          <ArrowDownOutlined /> 
+        <Button type="dashed" onClick={() => console.log("descargar")}>
+          <ArrowDownOutlined />
         </Button>,
       ]}
     >

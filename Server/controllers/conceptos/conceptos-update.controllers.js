@@ -46,15 +46,18 @@ async function updatePdf(req, res) {
             .status(404)
             .send({ message: "No se encontraron registros. " });
         } else {
-          if(archivo){
-          fs.unlinkSync("./uploads/pdfs/" + archivo);
+          if (archivo) {
+            fs.unlinkSync("./uploads/pdfs/" + archivo);
           }
         }
-        
-        // asignación del archivo y el nombre a las variables para registr
-        conceptos.archivo = fileName;
-        conceptos.nombre = finalName.toLowerCase();
 
+        // asignación del archivo y el nombre a las variables para registr
+        conceptos.archivo = fileOriginalName;
+        conceptos.nombre = finalName.toLowerCase();
+        fs.renameSync(
+          "./uploads/pdfs/" + fileName,
+          "./uploads/pdfs/" + fileOriginalName
+        );
         try {
           const data = await Conceptos.update(
             {
@@ -74,7 +77,7 @@ async function updatePdf(req, res) {
           }
           return res.status(200).send({ data });
         } catch (error) {
-          fs.unlinkSync("./uploads/pdfs/" + fileName);
+          fs.unlinkSync("./uploads/pdfs/" + fileOriginalName);
           console.log(colors.red("Error en updatePdf. "), error);
           return res.status(500).send({ message: "Error en el servidor. " });
         }
