@@ -24,7 +24,7 @@ router.get(
   [md_auth.ensureAuth],
   getUsuarioActive
 );
-router.get("/list-usuarios/:id", [md_auth.ensureAuth], getUsuarioById);
+router.get("/list-usuarios/:nombre", [md_auth.ensureAuth], getUsuarioById);
 router.get("/get-avatar/:avatarName", getAvatar);
 router.post("/create-usuarios", [md_auth.ensureAuth], postUsuarios);
 router.post("/login-usuarios", login);

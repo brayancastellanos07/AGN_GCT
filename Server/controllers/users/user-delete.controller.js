@@ -27,7 +27,12 @@ async function deleteUsuario(req, res) {
         id_usuario: id,
       },
     });
-    fs.unlinkSync('./uploads/avatar/' + avatar);
+
+    // si el usuario tienen un avatar asigando se elimina 
+    if(avatar){
+      fs.unlinkSync('./uploads/avatar/' + avatar);
+    }
+   
     return res.status(200).send({ message:"El usuario ha sido Eliminado." });
   } catch (error) {
     console.log(colors.red({ message:"Error en deleteUsuario." }), error);

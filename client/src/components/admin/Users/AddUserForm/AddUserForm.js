@@ -37,6 +37,7 @@ export default function AddUserForm(props) {
       !userCreateData.telefono ||
       !userCreateData.rol ||
       !userCreateData.Correo ||
+      !userCreateData.status ||
       !userCreateData.contrasena ||
       !userCreateData.repetirContrasena
     ) {
@@ -90,7 +91,7 @@ function AddForm(props) {
             <Input
               prefix={<UserOutlined />}
               placeholder="Nombre"
-              value={userData.nombre}
+              
               minLength={5}
               onChange={(e) =>
                 setUserData({ ...userData, Nombre: e.target.value })
@@ -103,7 +104,7 @@ function AddForm(props) {
             <Input
               prefix={<UserOutlined />}
               placeholder="Apellido"
-              value={userData.apellido}
+             
               minLength={5}
               onChange={(e) =>
                 setUserData({ ...userData, Apellido: e.target.value })
@@ -118,7 +119,7 @@ function AddForm(props) {
             <Select
               placeholder="Tipo Documento"
               onChange={(e) => setUserData({ ...userData, tipodocumento: e })}
-              value={userData.tipodocumento}
+              
             >
               <Option value="Cedula" name="Cedula">
                 Cédula
@@ -134,7 +135,7 @@ function AddForm(props) {
             <Input
               prefix={<IdcardOutlined />}
               placeholder="Documento"
-              value={userData.documento}
+              type="number"
               minLength={6}
               onChange={(e) =>
                 setUserData({ ...userData, documento: e.target.value })
@@ -149,7 +150,7 @@ function AddForm(props) {
             <Input
               prefix={<TabletOutlined />}
               placeholder="Telefono"
-              value={userData.telefono}
+             
               type="number"
               onChange={(e) =>
                 setUserData({ ...userData, telefono: e.target.value })
@@ -164,7 +165,7 @@ function AddForm(props) {
               onChange={(e) => {
                 setUserData({ ...userData, rol: e });
               }}
-              value={userData.rol}
+              
             >
               {userData.rol === 1 ? "Super Administrador" : "Administrador"}
               <Option value={1}>Super Administrador</Option>
@@ -180,7 +181,7 @@ function AddForm(props) {
               prefix={<MailOutlined />}
               placeholder="Correo"
               type="email"
-              value={userData.correo}
+             
               onChange={(e) =>
                 setUserData({ ...userData, Correo: e.target.value })
               }
@@ -190,7 +191,7 @@ function AddForm(props) {
         <Col span={12}>
           <Form.Item>
             <Checkbox
-              checked={userData.status}
+              checked={userData.status =  true}
               onChange={(e) =>
                 setUserData({ ...userData, status: e.target.checked })
               }
@@ -210,7 +211,7 @@ function AddForm(props) {
               onChange={(e) =>
                 setUserData({ ...userData, contrasena: e.target.value })
               }
-              value={userData.contrasena}
+              
             />
           </Form.Item>
         </Col>
@@ -223,7 +224,7 @@ function AddForm(props) {
               onChange={(e) =>
                 setUserData({ ...userData, repetirContrasena: e.target.value })
               }
-              value={userData.repetirContrasena}
+              
             />
           </Form.Item>
         </Col>

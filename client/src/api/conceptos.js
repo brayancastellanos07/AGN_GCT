@@ -81,19 +81,27 @@ export function deleteConceptApi(token, id_concepto) {
 export function getPdfApi(pdfName) {
   const url = `${basePath}/get-pdfs/${pdfName}`;
 
-  return fetch(url
-  //   ,{
-  //   responseType: 'blob',
-  // }
-  )
+  return fetch(url)
     .then((response) => {
-      console.log("Desde api",response)
       return response.url;
       
     })
     .catch((err) => {
       return err.message;
     });
+}
+export function  dowLoadPdf(pdfName){
+  const url = `${basePath}/get-pdfs/${pdfName}`;
+  return fetch (url).then((response)=>{
+    if(response.ok){
+      return response.blob();
+    }else{
+      return response.json();
+    }
+  })
+  .catch((err) => {
+    return err.message;
+  });
 }
 
 // actualizacion del archivo pdf

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { List, Button, Modal as ModalAntd } from "antd";
+import { List, Popover, Button, Modal as ModalAntd } from "antd";
 import { EditOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import Modal from "../../../modal/Modal";
 
@@ -38,6 +38,11 @@ export default function ListRols(props) {
     });
   };
 
+  const content = {
+    botonActualizar: "Boton Actualizar",
+    ContenidoBotonActualizar:
+      "Permite actualizar la infromación de un registro ",
+  };
   return (
     <div className="list-rols">
       <div className="list-rols__header">
@@ -54,6 +59,7 @@ export default function ListRols(props) {
             setIsVisibleModal={setIsVisibleModal}
             setModalTitle={setModalTitle}
             setModalContent={setModalContent}
+            content={content}
           />
         )}
       />
@@ -69,27 +75,40 @@ export default function ListRols(props) {
 }
 
 function ListRol(props) {
-  const { data, setReloadRols,setModalContent, setModalTitle, showHelpRols,setIsVisibleModal } = props;
- 
-  const editarrol= (data)=>{
+  const {
+    data,
+    setReloadRols,
+    setModalContent,
+    setModalTitle,
+    showHelpRols,
+    setIsVisibleModal,
+    content,
+  } = props;
+
+  const editarrol = (data) => {
     setIsVisibleModal(true);
-    setModalTitle(`Editar ${data.Nombre}`)
+    setModalTitle(`Editar ${data.Nombre}`);
     setModalContent(
-      <EditRolsForm 
-       data={data}
-       setIsVisibleModal={setIsVisibleModal}
-       setReloadRols={setReloadRols}
+      <EditRolsForm
+        data={data}
+        setIsVisibleModal={setIsVisibleModal}
+        setReloadRols={setReloadRols}
       />
     );
   };
 
-
   return (
     <List.Item
       actions={[
-        <Button type="primary" onClick={() => editarrol(data)}>
-          <EditOutlined />
-        </Button>,
+        <Popover
+          content={content.ContenidoBotonActualizar}
+          title={content.botonActualizar}
+        >
+          <Button type="primary" onClick={() => editarrol(data)}>
+            <EditOutlined />
+          </Button>
+          
+        </Popover>
       ]}
     >
       <List.Item.Meta

@@ -1,9 +1,8 @@
-import { List, Button, Modal as ModalAntd, notification } from "antd";
+import { List, Popover, Button, Modal as ModalAntd, notification } from "antd";
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import Modal from "../../../modal/Modal";
 import * as dayjs from "dayjs";
-//import fileDownload from "js-file-download";
 import AddConcepForm from "../AddConcepForm/AddConcepForm";
 import { getAccessToken } from "../../../../api/auth";
 import {
@@ -13,9 +12,12 @@ import {
   FullscreenOutlined,
   ArrowDownOutlined,
 } from "@ant-design/icons";
-import { deleteConceptApi, getPdfApi } from "../../../../api/conceptos";
+import {
+  deleteConceptApi,
+  getPdfApi,
+  dowLoadPdf,
+} from "../../../../api/conceptos";
 import EditConceptForm from "../EditConceptForm/EditConceptForm";
-import DocViewer from "react-doc-viewer";
 
 import "./listConceptos.scss";
 
@@ -62,8 +64,20 @@ export default function LisConceptos(props) {
       alink.title = data.nombre;
       alink.click();
       alink.download = data.nombre;
-      //  const fileUrl =  window.URL.createObjectURL( response,{type: "application/pdf"});
-      //  fileDownload(fileUrl, data.nombre);
+    });
+  };
+
+  const dowloadPdf = (data) => {
+    dowLoadPdf(data.archivo).then((response) => {
+      var fileUrl = window.URL.createObjectURL(response, {
+        type: "application/pdf",
+      });
+      var a = document.createElement("a");
+      a.setAttribute("download", data.nombre);
+      a.setAttribute("href", fileUrl);
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     });
   };
 
@@ -88,6 +102,22 @@ export default function LisConceptos(props) {
       />
     );
   };
+
+  const content = {
+    botonActualizar: "Boton Actualizar",
+    ContenidoBotonActualizar:
+      "Permite actualizar la infromación y el avatar del usuario ",
+
+    botonEliminar: "Boton Eliminar",
+    ContenidoBotonEliminar: "Permite Eliminar un registro",
+
+    botonPrevisualizar: "Previsualizar Concepto",
+    ContenidoBotonPrevisualizar: "Permite ver el concepto en una ventana nueva",
+
+    botonDescargar: "Descargar Concepto",
+    ContenidoBotonDescargar: "Permite descargar una copia del concepto",
+  };
+
   return (
     <div className="list-conceptos">
       <div className="list-conceptos__header">
@@ -109,11 +139,11 @@ export default function LisConceptos(props) {
         renderItem={(data) => (
           <ListConceptosAdmin
             data={data}
-            setReloadConceptos={setReloadConceptos}
             showDeleteConfirmConcept={showDeleteConfirmConcept}
             EditConceptos={EditConceptos}
             previewPdfDocument={previewPdfDocument}
-            DocViewer={DocViewer}
+            dowloadPdf={dowloadPdf}
+            content={content}
           />
         )}
       />
@@ -130,25 +160,51 @@ export default function LisConceptos(props) {
 }
 
 function ListConceptosAdmin(props) {
-  const { data, showDeleteConfirmConcept, EditConceptos, previewPdfDocument } =
-    props;
+  const {
+    data,
+    showDeleteConfirmConcept,
+    EditConceptos,
+    previewPdfDocument,
+    dowloadPdf,
+    content,
+  } = props;
 
   return (
     <List.Item
       actions={[
-        <Button type="primary" onClick={() => EditConceptos(data)}>
-          <EditOutlined />
-        </Button>,
-        <Button type="danger" onClick={() => showDeleteConfirmConcept(data)}>
-          <DeleteOutlined />
-        </Button>,
+        <Popover
+          content={content.ContenidoBotonActualizar}
+          title={content.botonActualizar}
+        >
+          <Button type="primary" onClick={() => EditConceptos(data)}>
+            <EditOutlined />
+          </Button>
+        </Popover>,
 
-        <Button type="default" onClick={() => previewPdfDocument(data)}>
-          <FullscreenOutlined />
-        </Button>,
-        <Button type="dashed" onClick={() => console.log("descargar")}>
-          <ArrowDownOutlined />
-        </Button>,
+        <Popover
+          content={content.ContenidoBotonEliminar}
+          title={content.botonEliminar}
+        >
+          <Button type="danger" onClick={() => showDeleteConfirmConcept(data)}>
+            <DeleteOutlined />
+          </Button>
+        </Popover>,
+        <Popover
+          content={content.ContenidoBotonPrevisualizar}
+          title={content.botonPrevisualizar}
+        >
+          <Button type="default" onClick={() => previewPdfDocument(data)}>
+            <FullscreenOutlined />
+          </Button>
+        </Popover>,
+        <Popover
+          content={content.ContenidoBotonDescargar}
+          title={content.botonDescargar}
+        >
+          <Button type="dashed" onClick={() => dowloadPdf(data)}>
+            <ArrowDownOutlined />
+          </Button>
+        </Popover>,
       ]}
     >
       <List.Item.Meta

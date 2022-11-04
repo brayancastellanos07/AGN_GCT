@@ -53,6 +53,7 @@ export default function MenuSiderWeb(props) {
   const menuClick = (e) => {
     const path = e.key;
     navigate(path);
+    console.log(data)
   };
 
   return (

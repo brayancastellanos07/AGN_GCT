@@ -1,22 +1,27 @@
 @import "../../../../scss/index.scss";
+
 .list-users {
 
-    &__header{
+    &__header {
         display: flex;
         align-items: center;
         justify-content: space-between;
         margin-bottom: 20px;
 
-
-        &-switch {
-            display: flex;
-            align-items: center;
-           
     
-            button {
-                margin-right: 20px;
-            }
+        &__switch {
+            display: flex;
+            margin-right: auto;
+
         }
+
+        button {
+            margin-right: 20px;
+        }
+
+       
+
+       
     }
 
     .users-active {

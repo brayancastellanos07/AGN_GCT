@@ -55,17 +55,16 @@ async function getUsuarioActive(req, res) {
 }
 
 async function getUsuarioById(red, res) {
-  const { id } = red.params;
+  const { nombre } = red.params;
   try {
     const data = await Usuario.findAll({
       where: {
-        id_usuario: id,
+        nombre: nombre,
       },
     });
+  
     if (!data.length) {
-      return res
-        .status(404)
-        .send({ message: `No se encontro el Usuario con el id ${id}` });
+      return res.status(404).send({ message: "No se ha encontrado ningún usuario. " });
     }
     return res.status(200).json({ data });
   } catch (error) {

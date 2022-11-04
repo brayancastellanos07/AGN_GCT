@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { List, Button, Modal as ModalAntd, notification } from "antd";
+import { List, Popover, Button, Modal as ModalAntd, notification } from "antd";
 import Modal from "../../../modal/Modal";
 import {
   EditOutlined,
@@ -71,6 +71,15 @@ export default function ListCarpetas(props) {
       />
     );
   };
+  const content = (
+    {
+        botonActualizar:"Boton Actualizar",
+        ContenidoBotonActualizar:"Permite actualizar la infromación de un registro  ",
+       
+        botonEliminar:"Boton Eliminar",
+        ContenidoBotonEliminar:"Permite Eliminar un registro",
+    }
+  )
   return (
     <div className="list-carpetas">
       <div className="list-carpetas__header">
@@ -96,6 +105,7 @@ export default function ListCarpetas(props) {
             setModalTitle={setModalTitle}
             setModalContent={setModalContent}
             showDeletConfirm={showDeletConfirm}
+            content={content}
           />
         )}
       />
@@ -110,21 +120,52 @@ export default function ListCarpetas(props) {
   );
 }
 function ListCarpeta(props) {
-  const { data, EditCarpetas, showDeletConfirm } = props;
+  const { data, EditCarpetas, showDeletConfirm, content } = props;
+  const { info } = ModalAntd;
+  const showHelpRols = () => {
+    info({
+      title: "Descripción de las carpetas",
+      content: (
+        <>
+          <div>
+            <h3>Carpetas </h3>
+            <p>
+              Una <b>"carpeta"</b> permite ordenar los 
+              conceptos, El nombre de las carpetas se asignan segun el año
+            </p>
+            <p>
+              Para eliminar una carpeta esta no debe tener <b>ningun concepto asigando</b>
+            </p>
+          </div>
+        </>
+      ),
+    });
+  };
 
   return (
     <List.Item
       actions={[
+        <Popover content={content.ContenidoBotonActualizar} title={content.botonActualizar}>
         <Button type="primary" onClick={() => EditCarpetas(data)}>
           <EditOutlined />
-        </Button>,
+        </Button>
+        </Popover>,
+
+         <Popover content={content.ContenidoBotonEliminar} title={content.botonEliminar}>
         <Button type="danger" onClick={() => showDeletConfirm(data)}>
           <DeleteOutlined />
-        </Button>,
+        </Button>
+        </Popover>
+        ,
       ]}
     >
       <List.Item.Meta
-        avatar={<FolderOutlined />}
+       
+        avatar={
+        <Button icon={<FolderOutlined />}
+        onClick={() => showHelpRols()}
+        />
+        }
         title={`
         Carpeta: ${data.nombre}`}
         description={`Descripción: ${data.descripcion}`}

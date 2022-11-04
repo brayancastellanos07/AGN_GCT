@@ -51,7 +51,7 @@ async function postConceptos(req, res) {
               fecha,
               carpeta,
             },
-            {
+            { 
               fields: ["nombre", "descripcion", "archivo", "fecha", "carpeta"],
             }
           );
