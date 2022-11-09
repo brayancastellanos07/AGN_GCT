@@ -1,4 +1,4 @@
-import { List, Popover, Button, Modal as ModalAntd, notification } from "antd";
+import { List, Popover, Button, Modal as ModalAntd, notification, Input } from "antd";
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import Modal from "../../../modal/Modal";
@@ -22,6 +22,7 @@ import EditConceptForm from "../EditConceptForm/EditConceptForm";
 import "./listConceptos.scss";
 
 const { confirm } = ModalAntd;
+const { Search } = Input;
 
 export default function LisConceptos(props) {
   const { listConceptos, setReloadConceptos } = props;
@@ -106,7 +107,7 @@ export default function LisConceptos(props) {
   const content = {
     botonActualizar: "Boton Actualizar",
     ContenidoBotonActualizar:
-      "Permite actualizar la infromación y el avatar del usuario ",
+      "Permite actualizar la infromación  y el avatar del usuario ",
 
     botonEliminar: "Boton Eliminar",
     ContenidoBotonEliminar: "Permite Eliminar un registro",
@@ -121,9 +122,18 @@ export default function LisConceptos(props) {
   return (
     <div className="list-conceptos">
       <div className="list-conceptos__header">
-        <h2 className="list-conceptos__header__h2">
+
+      <Search
+          placeholder="Buscar conceptos por palabras clave"
+          style={{ width: 400 }}
+          allowClear
+          
+        />
+        <div className="list-conceptos__header__h2">
+        <h2>
           {`Conceptos del año ${nombre}`}
         </h2>
+        </div>
         <Button
           type="primary"
           icon={<FolderAddOutlined />}
@@ -174,7 +184,8 @@ function ListConceptosAdmin(props) {
       actions={[
         <Popover
           content={content.ContenidoBotonActualizar}
-          title={content.botonActualizar}
+          title={content.botonActualizar} 
+          placement="rightBottom"
         >
           <Button type="primary" onClick={() => EditConceptos(data)}>
             <EditOutlined />

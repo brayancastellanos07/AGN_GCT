@@ -42,25 +42,25 @@ export default function ListUsers(props) {
   const [findUser, setfindUser] = useState({});
   const [viewUser, setviewUser] = useState(false);
 
-  const content = (
-    {
-        titleActualizarInactivo:"Boton Actualizar",
-        contenidoActualizarInactivo:"El usuario no esta activo, un usuario inactivo no se puede actualizar",
+  const content = {
+    titleActualizarInactivo: "Boton Actualizar",
+    contenidoActualizarInactivo:
+      "El usuario no esta activo, un usuario inactivo no se puede actualizar",
 
-        botonActualizar:"Boton Actualizar",
-        ContenidoBotonActualizar:"Permite actualizar la infromación y el avatar del usuario ",
+    botonActualizar: "Boton Actualizar",
+    ContenidoBotonActualizar:
+      "Permite actualizar la infromación y el avatar del usuario ",
 
-        botonDesactivar:"Boton Desactivar Usuario",
-        ContenidoBotonDesactivar:"Permite desactivar un usuario, \n los usuarios desactivados no pueden ingresar al sistema",
+    botonDesactivar: "Boton Desactivar Usuario",
+    ContenidoBotonDesactivar:
+      "Permite desactivar un usuario, \n los usuarios desactivados no pueden ingresar al sistema",
 
-        botonActivar:"Boton Activar Usuario",
-        ContenidoBotonActivar:"Permite activar un usuario",
+    botonActivar: "Boton Activar Usuario",
+    ContenidoBotonActivar: "Permite activar un usuario",
 
-        botonEliminar:"Boton Eliminar",
-        ContenidoBotonEliminar:"Permite Eliminar un registro",
-    }
-  )
-
+    botonEliminar: "Boton Eliminar",
+    ContenidoBotonEliminar: "Permite Eliminar un registro",
+  };
 
   const accesToken = getAccessToken();
 
@@ -100,27 +100,32 @@ export default function ListUsers(props) {
   };
 
   const search = (searchUser) => {
-    searchUsersApi(accesToken, searchUser)
-      .then((response) => {
-        notification["success"]({
-          message: "Usuario Encontrado",
+    console.log("searchUser", searchUser);
+    if (searchUser) {
+      searchUsersApi(accesToken, searchUser)
+        .then((response) => {
+          notification["success"]({
+            message: "Usuario Encontrado",
+          });
+          setfindUser(response.data);
+          setviewUser(true);
+        })
+        .catch((err) => {
+          notification["error"]({
+            message: err.message,
+          });
+          setfindUser({});
+          setviewUser(false);
         });
-        setfindUser(response.data);
-        setviewUser(true);
-      })
-      .catch((err) => {
-        notification["error"]({
-          message: err.message,
-        });
-        setfindUser({});
-        setviewUser(false);
-      });
+    } else {
+      setfindUser({});
+      setviewUser(false);
+    }
   };
- 
+
   return (
     <div className="list-users">
       <div className="list-users__header">
-     
         <Search
           placeholder="Buscar Usuarios por nombre"
           style={{ width: 400 }}
@@ -130,7 +135,7 @@ export default function ListUsers(props) {
             setsearchUser({ ...searchUser, dato: e.target.value })
           }
         />
-       
+
         <div className="list-users__header__switch">
           <Switch
             defaultChecked
@@ -206,7 +211,6 @@ function UsersActive(props) {
         data={data}
         setIsVisibleModal={setIsVisibleModal}
         setReloadUsers={setReloadUsers}
-        
       />
     );
   };
@@ -229,7 +233,7 @@ function UsersActive(props) {
 }
 
 function UserActive(props) {
-  const { data, edituser, setReloadUsers, showDeletConfirm,content } = props;
+  const { data, edituser, setReloadUsers, showDeletConfirm, content } = props;
   const [avatar, setAvatar] = useState(null);
 
   useEffect(() => {
@@ -262,21 +266,31 @@ function UserActive(props) {
   return (
     <List.Item
       actions={[
-        <Popover content={content.ContenidoBotonActualizar} title={content.botonActualizar}>
+        <Popover
+          content={content.ContenidoBotonActualizar}
+          title={content.botonActualizar}
+        >
           <Button type="primary" onClick={() => edituser(data)}>
             <EditOutlined />
           </Button>
-          </Popover>,
-       <Popover content={content.ContenidoBotonDesactivar} title={content.botonDesactivar}>
-       <Button type="danger" onClick={desactivateUser}>
-         <StopOutlined />
-       </Button> 
-       </Popover>,
-        <Popover content={content.ContenidoBotonEliminar} title={content.botonEliminar}>
-        <Button type="danger" onClick={() => showDeletConfirm(data)}>
-          <DeleteOutlined />
-        </Button>,
-        </Popover>
+        </Popover>,
+        <Popover
+          content={content.ContenidoBotonDesactivar}
+          title={content.botonDesactivar}
+        >
+          <Button type="danger" onClick={desactivateUser}>
+            <StopOutlined />
+          </Button>
+        </Popover>,
+        <Popover
+          content={content.ContenidoBotonEliminar}
+          title={content.botonEliminar}
+        >
+          <Button type="danger" onClick={() => showDeletConfirm(data)}>
+            <DeleteOutlined />
+          </Button>
+          ,
+        </Popover>,
       ]}
     >
       <List.Item.Meta
@@ -302,7 +316,7 @@ function UserActive(props) {
 }
 
 function UsersInactive(props) {
-  const { userInActive, setReloadUsers, showDeletConfirm,content } = props;
+  const { userInActive, setReloadUsers, showDeletConfirm, content } = props;
   return (
     <List
       className="users-active"
@@ -353,16 +367,23 @@ function UserInactive(props) {
   return (
     <List.Item
       actions={[
-        <Popover content={content.ContenidoBotonActivar} title={content.botonActivar}>
-        <Button type="primary" onClick={activateUser}>
-        <CheckOutlined />
-      </Button>
-      </Popover>,
-        <Popover content={content.ContenidoBotonEliminar} title={content.botonEliminar}>
-        <Button type="danger" onClick={() => showDeletConfirm(data)}>
-          <DeleteOutlined />
-        </Button>,
-        </Popover>
+        <Popover
+          content={content.ContenidoBotonActivar}
+          title={content.botonActivar}
+        >
+          <Button type="primary" onClick={activateUser}>
+            <CheckOutlined />
+          </Button>
+        </Popover>,
+        <Popover
+          content={content.ContenidoBotonEliminar}
+          title={content.botonEliminar}
+        >
+          <Button type="danger" onClick={() => showDeletConfirm(data)}>
+            <DeleteOutlined />
+          </Button>
+          ,
+        </Popover>,
       ]}
     >
       <List.Item.Meta
@@ -399,8 +420,9 @@ function FindUsers(props) {
     setModalContent,
     setReloadUsers,
     showDeletConfirm,
-    content
+    content,
   } = props;
+
   const edituser = (data) => {
     setIsVisibleModal(true);
     setModalTitle(`Editar ${data.nombre} ${data.apellido}`);
@@ -433,9 +455,8 @@ function FindUsers(props) {
 }
 
 function ListfindUsers(props) {
-  const { data, edituser, setReloadUsers, showDeletConfirm,content } = props;
+  const { data, edituser, setReloadUsers, showDeletConfirm, content } = props;
   const [avatar, setAvatar] = useState(null);
-  
 
   useEffect(() => {
     if (data.avatar) {
@@ -482,45 +503,58 @@ function ListfindUsers(props) {
   };
 
   return (
-    
     <List.Item
       actions={[
         // activación del boton actualizar
-        (data.status === true ? 
-          <Popover content={content.ContenidoBotonActualizar} title={content.botonActualizar}>
-          <Button type="primary" onClick={() => edituser(data)}>
-            <EditOutlined />
-          </Button>
+        data.status === true ? (
+          <Popover
+            content={content.ContenidoBotonActualizar}
+            title={content.botonActualizar}
+          >
+            <Button type="primary" onClick={() => edituser(data)}>
+              <EditOutlined />
+            </Button>
           </Popover>
-         : 
-         // desactivación del boton actualizar
-         <Popover content={content.contenidoActualizarInactivo} title={content.titleActualizarInactivo}>
-          <Button type="primary" onClick={() => edituser(data)} disabled>
-            <EditOutlined />
-          </Button>
+        ) : (
+          // desactivación del boton actualizar
+          <Popover
+            content={content.contenidoActualizarInactivo}
+            title={content.titleActualizarInactivo}
+          >
+            <Button type="primary" onClick={() => edituser(data)} disabled>
+              <EditOutlined />
+            </Button>
           </Popover>
         ),
-
         // cambio del boton activar por el desactivar
-        (data.status === true ?
-          <Popover content={content.ContenidoBotonDesactivar} title={content.botonDesactivar}>
-        <Button type="danger" onClick={desactivateUser}>
-          <StopOutlined />
-        </Button> 
-        </Popover>
-        :
-        <Popover content={content.ContenidoBotonActivar} title={content.botonActivar}>
-        <Button type="primary" onClick={activateUser}>
-        <CheckOutlined />
-      </Button>
-      </Popover>
+        data.status === true ? (
+          <Popover
+            content={content.ContenidoBotonDesactivar}
+            title={content.botonDesactivar}
+          >
+            <Button type="danger" onClick={desactivateUser}>
+              <StopOutlined />
+            </Button>
+          </Popover>
+        ) : (
+          <Popover
+            content={content.ContenidoBotonActivar}
+            title={content.botonActivar}
+          >
+            <Button type="primary" onClick={activateUser}>
+              <CheckOutlined />
+            </Button>
+          </Popover>
         ),
-
-        <Popover content={content.ContenidoBotonEliminar} title={content.botonEliminar}>
-        <Button type="danger" onClick={() => showDeletConfirm(data)}>
-          <DeleteOutlined />
-        </Button>,
-        </Popover>
+        <Popover
+          content={content.ContenidoBotonEliminar}
+          title={content.botonEliminar}
+        >
+          <Button type="danger" onClick={() => showDeletConfirm(data)}>
+            <DeleteOutlined />
+          </Button>
+          ,
+        </Popover>,
       ]}
     >
       <List.Item.Meta

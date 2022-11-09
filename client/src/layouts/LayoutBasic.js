@@ -1,18 +1,26 @@
-import React, { useState } from "react";
+import React, {useEffect, useState } from "react";
 import { Layout } from "antd";
 import MenuSiderWeb from "../components/Web/menuSiderWeb";
 import MenuTopWeb from "../components/Web/menuTopWeb";
-//import FooterwEB from "../components/Web/footer/Footer";
+import { getCarpetasMenuApi } from "../api/carpetas";
 import "./LayoutBasic.scss";
 
 export default function LayoutBasic(props) {
   const { children } = props;
   const [menuCollapsed, setMenuCollapsed] = useState(false);
   const { Header, Content, Footer } = Layout;
+  const [reloadCarpetas, setReloadCarpetas] = useState(false);
+  const [listCarpetas, setListCarpetas] = useState([]);
+  useEffect(()=>{
+    getCarpetasMenuApi().then(response =>{
+      setListCarpetas(response.data)
+    });
+    setReloadCarpetas(false);
+  },[reloadCarpetas]);
 
   return (
     <Layout>
-      <MenuSiderWeb menuCollapsed={menuCollapsed} />
+      <MenuSiderWeb listCarpetas={listCarpetas} menuCollapsed={menuCollapsed} />
       <Layout
         className="layout-basic"
         style={{ marginLeft: menuCollapsed ? "90px" : "200px" }}

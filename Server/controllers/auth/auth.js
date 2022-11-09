@@ -28,7 +28,7 @@ async function refreshAccessToken(req, res) {
 
     const data = await Usuario.findOne({ where: { id_usuario: id } });
     const { dataValues } = data;
-
+ 
     try {
       if (!data) {
         return res.status(404).send(`No se encontro el  Usuario ${id}`);

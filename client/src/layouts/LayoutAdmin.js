@@ -3,7 +3,7 @@ import { Layout } from "antd";
 import MenuTop from "../components/admin/MenuTop";
 import MenuSider from "../components/admin/MenuSider";
 import AdminSingIn from "../pages/admin/SingIn";
-import useAuth from "../hooks/useAuth";
+import {useAuth} from "../hooks";
 import "./LayoutAdmin.scss";
 import { getCarpetasMenuApi } from "../api/carpetas";
  
@@ -11,6 +11,7 @@ import { getCarpetasMenuApi } from "../api/carpetas";
 
 export default function LayoutAdmin(props) {
   // destructuring
+ 
   const { children } = props;
   const [menuCollapsed, setMenuCollapsed] = useState(false);
   const { Header, Content, Footer } = Layout;

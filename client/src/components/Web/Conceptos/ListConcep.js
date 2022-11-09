@@ -47,7 +47,9 @@ export default function ListConceptos(props) {
               imagen={imagen} 
               data={data} 
               previewPdfDocument={previewPdfDocument}
-              dowloadPdf={dowloadPdf}
+              dowloadPdf={dowloadPdf} 
+             
+              
               />
             </Col>
           ))}
@@ -64,6 +66,7 @@ export default function ListConceptos(props) {
       <Card
         className="home-conceptos__card"
         cover={<img src={imagen} alt="Conceptos"></img>}
+        
         actions={[
          
           <Button type="default" onClick={() => previewPdfDocument(data)}>
