@@ -33,5 +33,21 @@
             align-items: center;
         }
     }
+    .ant-back-top {
+        height: 40px;
+        width: 40px;
+        line-height: 40px;
+        border-radius: 4px;
+        background-color: $primary-color;
+        color: #fff;
+        text-align: center;
+        font-size: 14px;
+
+        &:hover {
+            
+            background-color: $primary-color-hover;
+            border: 1px dashed $error;
+        }
+    }
 
 }

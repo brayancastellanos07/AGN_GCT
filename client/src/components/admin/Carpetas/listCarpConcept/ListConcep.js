@@ -1,7 +1,7 @@
 import React from "react";
 import avatar from "../../../../assets/img/jpg/background_login_1.jpeg";
-import { Button, Row, Col, Card } from "antd";
-import { LoginOutlined } from "@ant-design/icons";
+import { Button, Row, Col, Card,BackTop } from "antd";
+import { LoginOutlined,UpCircleOutlined } from "@ant-design/icons";
 import "./ListConcep.scss";
 import { Link } from "react-router-dom";
 export default function ListConceptos(props) {
@@ -20,6 +20,9 @@ export default function ListConceptos(props) {
       ))}
       </Row>
     </Row>
+    <BackTop>
+      <div className="Up"><UpCircleOutlined /></div>
+    </BackTop>
   </div>
   );
 }

@@ -1,4 +1,4 @@
-import { List, Popover, Button, Modal as ModalAntd, notification, Input } from "antd";
+import { List, Popover, Button, Modal as ModalAntd, notification, Input, BackTop } from "antd";
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import Modal from "../../../modal/Modal";
@@ -11,6 +11,7 @@ import {
   FolderAddOutlined,
   FullscreenOutlined,
   ArrowDownOutlined,
+  UpCircleOutlined,
 } from "@ant-design/icons";
 import {
   deleteConceptApi,
@@ -165,6 +166,9 @@ export default function LisConceptos(props) {
       >
         {modalContent}
       </Modal>
+      <BackTop>
+      <div className="Up"><UpCircleOutlined /></div>
+    </BackTop>
     </div>
   );
 }

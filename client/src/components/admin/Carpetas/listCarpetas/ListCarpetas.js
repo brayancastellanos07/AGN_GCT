@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { List, Popover, Button, Modal as ModalAntd, notification } from "antd";
+import { List, Popover, Button, Modal as ModalAntd, notification,BackTop } from "antd";
 import Modal from "../../../modal/Modal";
 import {
   EditOutlined,
   DeleteOutlined,
   FolderOutlined,
   FolderAddOutlined,
+  UpCircleOutlined,
 } from "@ant-design/icons";
 
 import EditCarpetasForm from "../EditCarpetasForm/EditCarpetasForm";
@@ -92,6 +93,7 @@ export default function ListCarpetas(props) {
           Nuevo Carpeta
         </Button>
       </div>
+      
       <List
         className="carpetas"
         itemLayout="horizontal"
@@ -116,6 +118,9 @@ export default function ListCarpetas(props) {
       >
         {modalContent}
       </Modal>
+      <BackTop>
+      <div className="Up"><UpCircleOutlined /></div>
+    </BackTop>
     </div>
   );
 }

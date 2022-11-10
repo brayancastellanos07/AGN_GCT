@@ -1,8 +1,8 @@
 import React from "react";
-import { Row, Col, Card, Button } from "antd";
+import { Row, Col, Card, Button,BackTop } from "antd";
 import "./listCarpetas.scss";
 import imagen from "../../../assets/img/jpg/background_login_1.jpeg";
-import { LoginOutlined } from "@ant-design/icons";
+import { LoginOutlined,UpCircleOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
 export default function CarpetasList(props) {
@@ -22,6 +22,9 @@ export default function CarpetasList(props) {
           ))}
         </Row>
       </Row>
+      <BackTop>
+      <div className="Up"><UpCircleOutlined /></div>
+    </BackTop>
     </div>
   );
 }

@@ -8,6 +8,7 @@ import {
   Modal as ModalAntd,
   Input,
   Popover,
+  BackTop
 } from "antd";
 import Noavatar from "../../../../assets/img/png/no-avatar.png";
 import {
@@ -15,6 +16,7 @@ import {
   DeleteOutlined,
   StopOutlined,
   CheckOutlined,
+  UpCircleOutlined
 } from "@ant-design/icons";
 import Modal from "../../../modal/Modal";
 import EditUserForm from "../EditUsersForm/EditUserForm";
@@ -188,6 +190,9 @@ export default function ListUsers(props) {
       >
         {modalContent}
       </Modal>
+      <BackTop>
+      <div className="Up"><UpCircleOutlined /></div>
+    </BackTop>
     </div>
   );
 }

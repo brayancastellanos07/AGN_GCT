@@ -1,9 +1,13 @@
 import React from "react";
-import { Row, Col, Card, Button } from "antd";
+import { Row, Col, Card, Button, BackTop, Popover } from "antd";
 import "./ListConcep.scss";
 import imagen from "../../../assets/img/png/pdf_1.jpg";
 import { useParams } from "react-router-dom";
-import { FullscreenOutlined, ArrowDownOutlined } from "@ant-design/icons";
+import {
+  FullscreenOutlined,
+  ArrowDownOutlined,
+  UpCircleOutlined,
+} from "@ant-design/icons";
 import { getPdfApi, dowLoadPdf } from "../../../api/conceptos";
 
 export default function ListConceptos(props) {
@@ -23,9 +27,10 @@ export default function ListConceptos(props) {
   };
 
   const dowloadPdf = (data) => {
-    dowLoadPdf(data.archivo)
-    .then((response) => {
-      var fileUrl =  window.URL.createObjectURL( response,{type: "application/pdf"});
+    dowLoadPdf(data.archivo).then((response) => {
+      var fileUrl = window.URL.createObjectURL(response, {
+        type: "application/pdf",
+      });
       var a = document.createElement("a");
       a.setAttribute("download", data.nombre);
       a.setAttribute("href", fileUrl);
@@ -33,7 +38,7 @@ export default function ListConceptos(props) {
       a.click();
       document.body.removeChild(a);
     });
-  }
+  };
   return (
     <div className="conceptos-list">
       <Row className="Row">
@@ -43,39 +48,58 @@ export default function ListConceptos(props) {
         <Row className="Row__row-conceptos">
           {data.map((data) => (
             <Col key={data.id_concepto} md={6}>
-              <Conceptos 
-              imagen={imagen} 
-              data={data} 
-              previewPdfDocument={previewPdfDocument}
-              dowloadPdf={dowloadPdf} 
-             
-              
+              <Conceptos
+                imagen={imagen}
+                data={data}
+                previewPdfDocument={previewPdfDocument}
+                dowloadPdf={dowloadPdf}
               />
             </Col>
           ))}
         </Row>
       </Row>
+      <BackTop>
+        <div className="Up">
+          <UpCircleOutlined />
+        </div>
+      </BackTop>
     </div>
   );
 
   function Conceptos(props) {
-    const { data,previewPdfDocument, dowloadPdf } = props;
+    const { data, previewPdfDocument, dowloadPdf } = props;
     const { Meta } = Card;
+
+    const content = {
+      botonPrevisualizar: "Previsualizar Concepto",
+      ContenidoBotonPrevisualizar:
+        "Permite ver el concepto en una ventana nueva",
+
+      botonDescargar: "Descargar Concepto",
+      ContenidoBotonDescargar: "Permite descargar una copia del concepto",
+    };
 
     return (
       <Card
         className="home-conceptos__card"
         cover={<img src={imagen} alt="Conceptos"></img>}
-        
         actions={[
-         
-          <Button type="default" onClick={() => previewPdfDocument(data)}>
-            <FullscreenOutlined /> Previsualizar
-          </Button>,
-          <Button type="dashed" onClick={() => dowloadPdf(data)}>
-            <ArrowDownOutlined /> Descargar
-          </Button>,
-      
+          <Popover
+            content={content.ContenidoBotonPrevisualizar}
+            title={content.botonPrevisualizar}
+          >
+            <Button type="default" onClick={() => previewPdfDocument(data)}>
+              <FullscreenOutlined />
+            </Button>
+          </Popover>,
+          <Popover
+            content={content.ContenidoBotonDescargar}
+            title={content.botonDescargar}
+          >
+            <Button type="dashed" onClick={() => dowloadPdf(data)}>
+              <ArrowDownOutlined />
+            </Button>
+          </Popover>,
         ]}
       >
         <Meta title={`${data.nombre}`} description={`${data.descripcion}`} />
