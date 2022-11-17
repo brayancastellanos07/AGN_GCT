@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { Button } from "antd";
 import {
   MenuFoldOutlined,
@@ -17,6 +17,15 @@ export default function MenuTop(props) {
     window.location.reload();
    
   } 
+
+  // para bloquear el boton del menu, terminar 
+  useEffect(() => { 
+    if(window.innerWidth < 1024){
+      
+    }
+  });
+  
+
 
   return (
     <div className="menu-top">

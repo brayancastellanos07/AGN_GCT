@@ -29,7 +29,7 @@ export default function Carpetas() {
         {!data ? (
           <Spin
             tip="Cargando Carpetas"
-            style={{ textAling: "center", with: "100%", padding: "20px" }}
+            style={{ textAling: "center", with: "100%", padding: "20%" }}
           />
         ) : (
           <CarpetasList data={data} />

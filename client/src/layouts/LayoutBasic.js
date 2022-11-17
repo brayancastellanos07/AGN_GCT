@@ -1,8 +1,9 @@
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Layout } from "antd";
 import MenuSiderWeb from "../components/Web/menuSiderWeb";
 import MenuTopWeb from "../components/Web/menuTopWeb";
 import { getCarpetasMenuApi } from "../api/carpetas";
+import FooterWeb from "../components/Web/footer";
 import "./LayoutBasic.scss";
 
 export default function LayoutBasic(props) {
@@ -11,12 +12,12 @@ export default function LayoutBasic(props) {
   const { Header, Content, Footer } = Layout;
   const [reloadCarpetas, setReloadCarpetas] = useState(false);
   const [listCarpetas, setListCarpetas] = useState([]);
-  useEffect(()=>{
-    getCarpetasMenuApi().then(response =>{
-      setListCarpetas(response.data)
+  useEffect(() => {
+    getCarpetasMenuApi().then((response) => {
+      setListCarpetas(response.data);
     });
     setReloadCarpetas(false);
-  },[reloadCarpetas]);
+  }, [reloadCarpetas]);
 
   return (
     <Layout>
@@ -32,7 +33,9 @@ export default function LayoutBasic(props) {
           />
         </Header>
         <Content className="layout-basic__content">{children}</Content>
-        <Footer className="layout-basic__footer">Brayan Castellanos 24</Footer>
+        <Footer className="layout-basic__footer">
+          <FooterWeb />
+        </Footer>
       </Layout>
     </Layout>
   );

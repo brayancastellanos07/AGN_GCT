@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Card, Button, BackTop, Popover } from "antd";
+import { Row, Col, Card, Button, BackTop, Popover, Input } from "antd";
 import "./ListConcep.scss";
 import imagen from "../../../assets/img/png/pdf_1.jpg";
 import { useParams } from "react-router-dom";
@@ -10,6 +10,7 @@ import {
 } from "@ant-design/icons";
 import { getPdfApi, dowLoadPdf } from "../../../api/conceptos";
 
+const { Search } = Input;
 export default function ListConceptos(props) {
   const { data } = props;
   const { nombre } = useParams();
@@ -42,8 +43,16 @@ export default function ListConceptos(props) {
   return (
     <div className="conceptos-list">
       <Row className="Row">
-        <Col lg={24} className="Row__Col">
+        <Col lg={8} className="Row__Col" />
+        <Col lg={8} className="Row__Col">
           <h2>{`Listado de conceptos del año ${nombre}`} </h2>
+        </Col>
+        <Col lg={8} className="Row__Col">
+          <Search
+            placeholder="Buscar conceptos por palabras clave"
+            //style={{ width: 400 }}
+            allowClear
+          />
         </Col>
         <Row className="Row__row-conceptos">
           {data.map((data) => (

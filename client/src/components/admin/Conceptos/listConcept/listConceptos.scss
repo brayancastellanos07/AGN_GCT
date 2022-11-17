@@ -2,17 +2,27 @@
 
 .list-conceptos {
     
-    &__header {
+    &__header { 
         display: flex;
         align-items: center;
         justify-content: space-between;
         margin-bottom: 20px;
-        
-        &__h2 {
+
+        &__div {
             display: flex;
             margin-right: auto;
+        }
+
+        &__h2 {
+
+            color: $font-grey;
+            font-weight: bold;
+            font-size: 20px;
+            text-transform: uppercase;
+            text-align: center;
 
         }
+
         button {
             margin-right: 20px;
         }
@@ -22,15 +32,15 @@
     .conceptos {
         background-color: $background-light;
         padding: 10px 20px;
-        m
 
-        .ant-list-item-meta {
+        m .ant-list-item-meta {
             display: flex;
             align-items: center;
             margin-top: 50px;
         }
-       
+
     }
+
     .ant-back-top {
         height: 40px;
         width: 40px;
@@ -42,7 +52,7 @@
         font-size: 14px;
 
         &:hover {
-            
+
             background-color: $primary-color-hover;
             border: 1px dashed $error;
         }

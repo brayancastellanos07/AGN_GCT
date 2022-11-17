@@ -1,23 +1,29 @@
 @import "../../../scss/index.scss";
 
 .footer {
-     background-color: $background-dark-web;
-     border-top: 3px solid $primary-color;
-     
-     top: 80%;
-     position: absolute;
-    
+    background-color: $menu-color;
+    border-top: 3px solid $primary-color;
 
-    
-    
-    &__copyright{
-     
+    &__copyright {
+
         font-size: 1rem;
 
-        .ant-col{
+        @media only screen and (max-width: 500px) {
+            span {
+                font-size: 65%;
+            }
+        }
+
+        @media only screen and (max-width: 768px) {
+            span {
+                font-size: 65%;
+            }
+        }
+
+        .ant-col {
             color: $primary-color-dark;
 
-            &:last-of-type{
+            &:last-of-type {
                 text-align: left;
             }
         }

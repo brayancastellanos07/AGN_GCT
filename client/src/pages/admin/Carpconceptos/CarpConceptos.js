@@ -31,7 +31,7 @@ export default function CarpConceptosAdmin(){
         {!data ? (
           <Spin
             tip="Cargando Carpetas"
-            style={{ textAling: "center", with: "100%", padding: "20px" }}
+            style={{ textAling: "center", width: "100%", padding: "20%" }}
           />
         ) : (
           < ListConceptos data={data} />

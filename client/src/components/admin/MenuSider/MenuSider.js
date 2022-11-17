@@ -21,9 +21,11 @@ export default function MenuSider(props) {
 
   const { pathname } = useLocation();
 
+
   const {
     user: { rol },
   } = useAuth();
+
 
   const isSuperAdmin = rol === 1;
 

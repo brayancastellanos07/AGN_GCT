@@ -6,9 +6,9 @@
         padding: 10px 20px;
 
         &__Col {
-            //display: flex;
-            align-items: center;
-
+            display: flex;
+            justify-content: space-around;
+ 
             h2 {
                 color: $font-grey;
                 font-weight: bold;
@@ -17,6 +17,11 @@
                 text-align: center;
 
             }
+        }
+        &__right{
+            right: 0px;
+            justify-content: space-between;
+            
         }
 
         &__row-courses {

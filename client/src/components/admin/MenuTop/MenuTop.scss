@@ -1,30 +1,33 @@
 @import '../../../scss/index.scss';
 
-.menu-top{
+.menu-top {
     display: flex;
     z-index: 2000 !important;
-    Button{
+
+    Button {
         color: $font-light;
 
-        &:hover{
+        &:hover {
             color: $primary-color;
         }
+
         &:focus,
         &:active {
             color: $font-light;
         }
-        
+
     }
-    &__left{
-        &-logo{
+
+    &__left {
+        &-logo {
             width: 150px;
-            
             padding: 0, 10px;
         }
     }
-    &__right{
+
+    &__right {
         position: absolute;
-       right: 0px;
-        
+        right: 0px;
+
     }
 }

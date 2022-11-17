@@ -1,14 +1,23 @@
 @import "../../../../scss/index.scss";
-.list-carpetas{
-    &__header{
+
+.list-carpetas {
+    &__header {
         display: flex;
         align-items: center;
         justify-content: space-between;
         margin-bottom: 20px;
-       
-    } 
 
-    .carpetas{
+        &__h2 {
+            color: $font-grey;
+            font-weight: bold;
+            font-size: 20px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+    }
+
+    .carpetas {
         background-color: $background-light;
         padding: 10px 20px;
 
@@ -17,6 +26,7 @@
             align-items: center;
         }
     }
+
     .ant-back-top {
         height: 40px;
         width: 40px;
@@ -28,7 +38,7 @@
         font-size: 14px;
 
         &:hover {
-            
+
             background-color: $primary-color-hover;
             border: 1px dashed $error;
         }

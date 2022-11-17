@@ -120,7 +120,7 @@ export default function LisConceptos(props) {
     ContenidoBotonDescargar: "Permite descargar una copia del concepto",
   };
 
-  return (
+  return ( 
     <div className="list-conceptos">
       <div className="list-conceptos__header">
 
@@ -129,9 +129,9 @@ export default function LisConceptos(props) {
           style={{ width: 400 }}
           allowClear
           
-        />
-        <div className="list-conceptos__header__h2">
-        <h2>
+        /> 
+        <div className="list-conceptos__header__div">
+        <h2 className="list-conceptos__header__h2">
           {`Conceptos del año ${nombre}`}
         </h2>
         </div>

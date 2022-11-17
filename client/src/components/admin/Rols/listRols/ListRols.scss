@@ -1,28 +1,35 @@
 @import "../../../../scss/index.scss";
+
 .list-rols {
-        background-color: $background-light;
-        padding: 10px 20px;
-        &__header{
-            // display: flex;
-            margin-bottom: 20px;
-            
-           
-            &__h2{
-                text-align: center; 
-            }
+    background-color: $background-light;
+    padding: 10px 20px;
+
+    &__header {
+        // display: flex;
+        margin-bottom: 20px;
+
+
+        &__h2 {
+            text-align: center;
+            color: $font-grey;
+            font-weight: bold;
+            font-size: 20px;
+            text-transform: uppercase;
+            text-align: center;
         }
+    }
+
     .ant-list-item-meta {
         display: flex;
         align-items: center;
-        
-        .ant-btn{
-            border-radius:50px;
-            outline:none;
+
+        .ant-btn {
+            border-radius: 50px;
+            outline: none;
             border-color: $succes;
         }
     }
 
 
-    
-}
 
+}

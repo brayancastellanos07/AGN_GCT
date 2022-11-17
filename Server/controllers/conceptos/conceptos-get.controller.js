@@ -47,8 +47,6 @@ async function getConceptos(req, res) {
   }
 }
 
-
-
 async function getConcepbyCarpByNameAdmin(req, res) {
   const { nombre } = req.params;
   try {
@@ -72,7 +70,6 @@ async function getConcepbyCarpByNameAdmin(req, res) {
     return res.status(500).send({ message: "Error en el servidor" });
   }
 }
-
 
 // User Visit
 async function getConcepbyCarpByName(req, res) {

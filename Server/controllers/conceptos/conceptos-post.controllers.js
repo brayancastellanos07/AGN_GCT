@@ -2,8 +2,10 @@ const Conceptos = require("../../models/conceptos.js");
 const colors = require("colors");
 const Carpetas = require("../../models/carpetas.js");
 const fs = require("fs");
+const PdfParse = require("pdf-parse");
 
 async function postConceptos(req, res) {
+
   try {
     if (req.files) {
       let filePath = req.files.archivo.path.split("\\").join("/");
@@ -19,11 +21,25 @@ async function postConceptos(req, res) {
         });
       } else {
         //req.body.archivo = fileName;
-
+        const pdfFile = fs.readFileSync("./uploads/pdfs/" + fileName);
+       
+        // esta funcion sirve para obtener el texto del pdf
+        // PdfParse(pdfFile).then((resultado)=> {
+        //     const pdfText =  resultado.text;
+        //     console.log(pdfText)
+        //     return pdfText;
+        // })
+       
+        const pdfResultado =  PdfParse(pdfFile).then((resultado) => {
+          const pdfText =  resultado.text;
+          
+          return pdfText; 
+        })
+        console.log(pdfText);
         let fileOriginalName = req.files.archivo.originalFilename;
         let extSplitName = fileOriginalName.split(".");
         let finalName = extSplitName[0];
-
+      
         req.body.nombre = finalName.toLowerCase();
         req.body.carpeta = parseInt(req.body.carpeta);
         // si se madrea borrar esto y descomentar la 24

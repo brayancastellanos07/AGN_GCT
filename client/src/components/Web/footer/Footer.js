@@ -11,7 +11,7 @@ export default function Footer(){
         <Footer className="footer">
             <Row>
                 <Col md={4}/>
-                <Col md={16}>
+                <Col md={24}> 
                     <Row>
                         <Col md={12} className="footer__MyInfo">
                             <MyInfo/>
@@ -22,10 +22,10 @@ export default function Footer(){
                     </Row>
                     <Row className="footer__copyright">
                         <Col md={12}>
-                            @ 2022 derechos reservados 
+                           <span className="footer__copyright__span" >@ 2022 derechos reservados</span>  
                         </Col>
                         <Col md={12}>
-                            Archivo General de la Nacion 
+                            <span className="footer__copyright__span">Archivo General de la Nacion</span> 
                         </Col>
                     </Row>
                 </Col>
@@ -35,4 +35,4 @@ export default function Footer(){
         </Footer>
 
     );
-}
+} 

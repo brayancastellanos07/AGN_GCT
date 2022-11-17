@@ -36,7 +36,7 @@ export default function LoginForm() {
         message: "Login correcto. "
       });
 
-      window.location.href = "/admin";
+      window.location.href = "/admin/carpetaslobby";
     }
   };
 
@@ -80,7 +80,9 @@ export default function LoginForm() {
         <Button htmlType="submit" className="register-form__button">
         <LoginOutlined/> Ingresar
         </Button>
+       
       </Form.Item>
+      
     </Form>
   );
 }
