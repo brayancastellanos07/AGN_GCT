@@ -102,7 +102,6 @@ export default function ListUsers(props) {
   };
 
   const search = (searchUser) => {
-    console.log("searchUser", searchUser);
     if (searchUser) {
       searchUsersApi(accesToken, searchUser)
         .then((response) => {

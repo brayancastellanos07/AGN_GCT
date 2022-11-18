@@ -7,6 +7,7 @@ class Conceptos extends Model{
     archivo;
     fecha;
     carpeta;
+    contenido;
 
     static associate(models){
         Conceptos.belongsTo(models.Carpetas,{
@@ -57,6 +58,11 @@ class Conceptos extends Model{
             model: 'Carpetas',
             key:'id_carpetas',
         },
+    },
+    contenido:{
+        allowNull: true,
+        type: DataTypes.STRING,
+        field: 'contenido',
     }
 },
 {

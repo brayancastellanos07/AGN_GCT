@@ -71,6 +71,26 @@ async function getConcepbyCarpByNameAdmin(req, res) {
   }
 }
 
+async function getConcepbyContenido(req, res){
+  const {contenido} = req.params;
+  try {
+    const data = await sequelize.query(
+      `SELECT id_concepto, nombre, descripcion, archivo, fecha, carpeta
+      FROM conceptos
+      WHERE contenido ilike '%${contenido}%';`,
+      { type: QueryTypes.SELECT }
+    );
+    
+    if (!data.length) {
+      return res.status(404).send({ message: "No se ha encontraron coincidencias. " });
+    }
+    return res.status(200).json({ data });
+  } catch (error) {
+    console.log(colors.red("Error en getConcepbyContenido"), error);
+    return res.status(500).send({ message: "Error en el servidor" });
+  }
+}
+
 // User Visit
 async function getConcepbyCarpByName(req, res) {
   const { nombre } = req.params;
@@ -103,5 +123,6 @@ module.exports = {
   getPdfs,
   getConceptos,
   getConcepbyCarpByName,
-  getConcepbyCarpByNameAdmin
+  getConcepbyCarpByNameAdmin,
+  getConcepbyContenido
 };

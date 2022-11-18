@@ -5,7 +5,6 @@ const fs = require("fs");
 const PdfParse = require("pdf-parse");
 
 async function postConceptos(req, res) {
-
   try {
     if (req.files) {
       let filePath = req.files.archivo.path.split("\\").join("/");
@@ -22,24 +21,22 @@ async function postConceptos(req, res) {
       } else {
         //req.body.archivo = fileName;
         const pdfFile = fs.readFileSync("./uploads/pdfs/" + fileName);
-       
+
         // esta funcion sirve para obtener el texto del pdf
-        // PdfParse(pdfFile).then((resultado)=> {
-        //     const pdfText =  resultado.text;
-        //     console.log(pdfText)
-        //     return pdfText;
-        // })
-       
-        const pdfResultado =  PdfParse(pdfFile).then((resultado) => {
-          const pdfText =  resultado.text;
-          
-          return pdfText; 
-        })
-        console.log(pdfText);
+        const Pdfcontenido = await PdfParse(pdfFile).then((resultado) => {
+          return resultado.text;
+        });
+        // eliminación de los salto de linea 
+        const contenido = Pdfcontenido.split("\n").join("");
+        // borrar lineas si el buscador ya esta termiando 
+        //const sinespacios = contenido.split(/\s+/).join('');
+        //const prueba =  contenido.split(" ");
+
+        console.log("prueba",contenido)
         let fileOriginalName = req.files.archivo.originalFilename;
         let extSplitName = fileOriginalName.split(".");
         let finalName = extSplitName[0];
-      
+
         req.body.nombre = finalName.toLowerCase();
         req.body.carpeta = parseInt(req.body.carpeta);
         // si se madrea borrar esto y descomentar la 24
@@ -66,11 +63,20 @@ async function postConceptos(req, res) {
               archivo,
               fecha,
               carpeta,
+              contenido,
             },
-            { 
-              fields: ["nombre", "descripcion", "archivo", "fecha", "carpeta"],
+            {
+              fields: [
+                "nombre",
+                "descripcion",
+                "archivo",
+                "fecha",
+                "carpeta",
+                "contenido",
+              ],
             }
           );
+
           return res.status(200).send({
             message: "El Concepto se ha almacenado de forma correcta. ",
           });

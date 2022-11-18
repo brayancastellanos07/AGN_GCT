@@ -1,4 +1,12 @@
-import { List, Popover, Button, Modal as ModalAntd, notification, Input, BackTop } from "antd";
+import {
+  List,
+  Popover,
+  Button,
+  Modal as ModalAntd,
+  notification,
+  Input,
+  BackTop,
+} from "antd";
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import Modal from "../../../modal/Modal";
@@ -17,6 +25,7 @@ import {
   deleteConceptApi,
   getPdfApi,
   dowLoadPdf,
+  getConceptoSearch,
 } from "../../../../api/conceptos";
 import EditConceptForm from "../EditConceptForm/EditConceptForm";
 
@@ -31,6 +40,9 @@ export default function LisConceptos(props) {
   const [modalTitle, setModalTitle] = useState("");
   const [modalContent, setModalContent] = useState(null);
   const { nombre } = useParams();
+  const [searchConcept, setsearchConcept] = useState({});
+  const [findConcept, setfindConcept] = useState({});
+  const [viewConcept, setviewConcept] = useState(false);
 
   const showDeleteConfirmConcept = (data) => {
     const accesToken = getAccessToken();
@@ -120,20 +132,45 @@ export default function LisConceptos(props) {
     ContenidoBotonDescargar: "Permite descargar una copia del concepto",
   };
 
-  return ( 
+  const searchConceptos = (searchConcept) => {
+    if (searchConcept) {
+      getConceptoSearch(searchConcept)
+        .then((response) => {
+          notification["success"]({
+            message: "Se encontraron coincidencias. ",
+          });
+          setfindConcept(response.data);
+          setviewConcept(true);
+        })
+        .catch((err) => {
+          notification["error"]({
+            message: err.message,
+          });
+          setfindConcept({});
+          setviewConcept(false);
+        });
+    } else {
+      setfindConcept({});
+      setviewConcept(false);
+    }
+  };
+
+  return (
     <div className="list-conceptos">
       <div className="list-conceptos__header">
-
-      <Search
+        <Search
           placeholder="Buscar conceptos por palabras clave"
           style={{ width: 400 }}
           allowClear
-          
-        /> 
+          onSearch={searchConceptos}
+          onChange={(e) =>
+            setsearchConcept({ ...searchConcept, dato: e.target.value })
+          }
+        />
         <div className="list-conceptos__header__div">
-        <h2 className="list-conceptos__header__h2">
-          {`Conceptos del año ${nombre}`}
-        </h2>
+          <h2 className="list-conceptos__header__h2">
+            {`Conceptos del año ${nombre}`}
+          </h2>
         </div>
         <Button
           type="primary"
@@ -143,21 +180,39 @@ export default function LisConceptos(props) {
           Nuevo Concepto
         </Button>
       </div>
-      <List
-        className="conceptos"
-        itemLayout="vertical"
-        dataSource={listConceptos}
-        renderItem={(data) => (
-          <ListConceptosAdmin
-            data={data}
-            showDeleteConfirmConcept={showDeleteConfirmConcept}
-            EditConceptos={EditConceptos}
-            previewPdfDocument={previewPdfDocument}
-            dowloadPdf={dowloadPdf}
-            content={content}
-          />
-        )}
-      />
+      {viewConcept ? (
+        <List
+          className="conceptos"
+          itemLayout="vertical"
+          dataSource={listConceptos}
+          renderItem={(data) => (
+            <ListConceptosAdmin
+              data={data}
+              showDeleteConfirmConcept={showDeleteConfirmConcept}
+              EditConceptos={EditConceptos}
+              previewPdfDocument={previewPdfDocument}
+              dowloadPdf={dowloadPdf}
+              content={content}
+            />
+          )}
+        />
+      ) : (
+        <List
+          className="conceptos"
+          itemLayout="vertical"
+          dataSource={findConcept}
+          renderItem={(data) => (
+            <FindConcept
+              data={data}
+              showDeleteConfirmConcept={showDeleteConfirmConcept}
+              EditConceptos={EditConceptos}
+              previewPdfDocument={previewPdfDocument}
+              dowloadPdf={dowloadPdf}
+              content={content}
+            />
+          )}
+        />
+      )}
 
       <Modal
         title={modalTitle}
@@ -167,8 +222,10 @@ export default function LisConceptos(props) {
         {modalContent}
       </Modal>
       <BackTop>
-      <div className="Up"><UpCircleOutlined /></div>
-    </BackTop>
+        <div className="Up">
+          <UpCircleOutlined />
+        </div>
+      </BackTop>
     </div>
   );
 }
@@ -188,7 +245,72 @@ function ListConceptosAdmin(props) {
       actions={[
         <Popover
           content={content.ContenidoBotonActualizar}
-          title={content.botonActualizar} 
+          title={content.botonActualizar}
+          placement="rightBottom"
+        >
+          <Button type="primary" onClick={() => EditConceptos(data)}>
+            <EditOutlined />
+          </Button>
+        </Popover>,
+
+        <Popover
+          content={content.ContenidoBotonEliminar}
+          title={content.botonEliminar}
+        >
+          <Button type="danger" onClick={() => showDeleteConfirmConcept(data)}>
+            <DeleteOutlined />
+          </Button>
+        </Popover>,
+        <Popover
+          content={content.ContenidoBotonPrevisualizar}
+          title={content.botonPrevisualizar}
+        >
+          <Button type="default" onClick={() => previewPdfDocument(data)}>
+            <FullscreenOutlined />
+          </Button>
+        </Popover>,
+        <Popover
+          content={content.ContenidoBotonDescargar}
+          title={content.botonDescargar}
+        >
+          <Button type="dashed" onClick={() => dowloadPdf(data)}>
+            <ArrowDownOutlined />
+          </Button>
+        </Popover>,
+      ]}
+    >
+      <List.Item.Meta
+        title={`Concepto: ${data.nombre}`}
+        description={`
+     
+     Carpeta: ${data.carpeta},
+    
+     Archivo:  ${data.archivo},
+
+     Fecha: ${dayjs(data.fecha).format("YYYY/MM/DD")}
+     
+     `}
+      />
+      Descripción: {data.descripcion}
+    </List.Item>
+  );
+}
+
+function FindConcept(props) {
+  const {
+    data,
+    showDeleteConfirmConcept,
+    EditConceptos,
+    previewPdfDocument,
+    dowloadPdf,
+    content,
+  } = props;
+  return (
+    <List.Item
+      actions={[
+        <Popover
+          content={content.ContenidoBotonActualizar}
+          title={content.botonActualizar}
           placement="rightBottom"
         >
           <Button type="primary" onClick={() => EditConceptos(data)}>
