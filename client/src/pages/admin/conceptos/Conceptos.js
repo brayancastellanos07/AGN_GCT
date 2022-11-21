@@ -9,7 +9,7 @@ export default function ConceptosAdmin() {
   const [reloadConceptos, setReloadConceptos] = useState(false);
   const [listConceptos, setListConceptos] = useState([]);
   const token = getAccessToken();
-  const { nombre } = useParams();
+  const { nombre } = useParams(); 
 
   useEffect(() => {
     getConcepbyCarpByNameAdminApi(token, nombre).then((response) => {

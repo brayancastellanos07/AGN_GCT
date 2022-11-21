@@ -10,7 +10,7 @@ const router =  express.Router();
 router.get("/get-conceptos",[md_auth.ensureAuth], getConceptos)
 router.get("/get-pdfs/:pdfName",getPdfs);
 router.get("/Admin/list-conceptos/:nombre",[md_auth.ensureAuth],getConcepbyCarpByNameAdmin);
-router.get("/admin/list-conceptos-Contenido/:contenido",getConcepbyContenido);
+router.get("/list-conceptos-contenido/:contenido",getConcepbyContenido);
 router.post("/create-concepto",[md_auth.ensureAuth,md_update_pdfs],postConceptos);
 router.put("/update-conceptos/:id",[md_auth.ensureAuth,md_update_pdfs],updateConcepto);
 router.put("/update-pdf/:id",[md_auth.ensureAuth,md_update_pdfs], updatePdf);

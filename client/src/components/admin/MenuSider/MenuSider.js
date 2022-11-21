@@ -8,6 +8,7 @@ import {
   SolutionOutlined,
   UserAddOutlined,
   FileAddOutlined,
+  TableOutlined,
 } from "@ant-design/icons";
 
 import "./MenuSider.scss";
@@ -21,15 +22,11 @@ export default function MenuSider(props) {
 
   const { pathname } = useLocation();
 
-
   const {
     user: { rol },
   } = useAuth();
 
-
   const isSuperAdmin = rol === 1;
-
-  
 
   const menuClick = (e) => {
     const path = e.key;
@@ -44,22 +41,26 @@ export default function MenuSider(props) {
         defaultSelectedKeys={pathname}
         onClick={menuClick}
       >
-       
         <Menu.SubMenu
           title={
             <>
-              <FileTextOutlined />
+              <FileTextOutlined /> 
               <span>Conceptos</span>
             </>
           }
         >
-          {listCarpetas.map((data)=>(
-             <Menu.Item as={Link} key={`/admin/list-conceptos/${data.nombre}`}>
-             <FileAddOutlined />
-             <span>{data.nombre}</span>
-           </Menu.Item>
+          {listCarpetas.map((data) => (
+            <Menu.Item as={Link} key={`/admin/list-conceptos/${data.nombre}`}>
+              <FileAddOutlined />
+              <span>{data.nombre}</span>
+            </Menu.Item>
           ))}
-         
+
+          <Menu.Item as={Link} key="/admin/carpetaslobby">
+          <TableOutlined />
+            <span>Listado de años</span>
+          </Menu.Item>
+
         </Menu.SubMenu>
         <Menu.Item as={Link} key="/admin/list-carp">
           <FolderOpenOutlined />
@@ -67,16 +68,15 @@ export default function MenuSider(props) {
         </Menu.Item>
         {isSuperAdmin && (
           <>
-       
-        <Menu.Item as={Link} key="/admin/list-roles">
-          <SolutionOutlined />
-          <span>Definición de Roles</span>
-        </Menu.Item>
-        <Menu.Item as={Link} key="/admin/list-usuarios">
-          <UserAddOutlined />
-          <span>Usuarios</span>
-        </Menu.Item>
-        </>
+            <Menu.Item as={Link} key="/admin/list-roles">
+              <SolutionOutlined />
+              <span>Definición de Roles</span>
+            </Menu.Item>
+            <Menu.Item as={Link} key="/admin/list-usuarios">
+              <UserAddOutlined />
+              <span>Usuarios</span>
+            </Menu.Item>
+          </>
         )}
       </Menu>
     </Sider>

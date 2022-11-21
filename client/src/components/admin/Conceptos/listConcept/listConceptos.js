@@ -7,7 +7,7 @@ import {
   Input,
   BackTop,
 } from "antd";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Modal from "../../../modal/Modal";
 import * as dayjs from "dayjs";
@@ -44,6 +44,13 @@ export default function LisConceptos(props) {
   const [findConcept, setfindConcept] = useState({});
   const [viewConcept, setviewConcept] = useState(false);
 
+  useEffect(() => {
+    if (searchConcept === null) {
+      setfindConcept({});
+      setviewConcept(false);
+    }
+  },[searchConcept]);
+
   const showDeleteConfirmConcept = (data) => {
     const accesToken = getAccessToken();
     confirm({
@@ -59,6 +66,8 @@ export default function LisConceptos(props) {
               message: response,
             });
             setReloadConceptos(true);
+            setfindConcept({});
+            setviewConcept(false);
           })
           .catch((err) => {
             notification["err"]({
@@ -180,37 +189,23 @@ export default function LisConceptos(props) {
           Nuevo Concepto
         </Button>
       </div>
-      {viewConcept ? (
-        <List
-          className="conceptos"
-          itemLayout="vertical"
-          dataSource={listConceptos}
-          renderItem={(data) => (
-            <ListConceptosAdmin
-              data={data}
-              showDeleteConfirmConcept={showDeleteConfirmConcept}
-              EditConceptos={EditConceptos}
-              previewPdfDocument={previewPdfDocument}
-              dowloadPdf={dowloadPdf}
-              content={content}
-            />
-          )}
+      {!viewConcept ? (
+        <ListConcep
+          listConceptos={listConceptos}
+          showDeleteConfirmConcept={showDeleteConfirmConcept}
+          EditConceptos={EditConceptos}
+          previewPdfDocument={previewPdfDocument}
+          dowloadPdf={dowloadPdf}
+          content={content}
         />
       ) : (
-        <List
-          className="conceptos"
-          itemLayout="vertical"
-          dataSource={findConcept}
-          renderItem={(data) => (
-            <FindConcept
-              data={data}
-              showDeleteConfirmConcept={showDeleteConfirmConcept}
-              EditConceptos={EditConceptos}
-              previewPdfDocument={previewPdfDocument}
-              dowloadPdf={dowloadPdf}
-              content={content}
-            />
-          )}
+        <ListFindConcept
+          findConcept={findConcept}
+          showDeleteConfirmConcept={showDeleteConfirmConcept}
+          EditConceptos={EditConceptos}
+          previewPdfDocument={previewPdfDocument}
+          dowloadPdf={dowloadPdf}
+          content={content}
         />
       )}
 
@@ -227,6 +222,35 @@ export default function LisConceptos(props) {
         </div>
       </BackTop>
     </div>
+  );
+}
+
+function ListConcep(props) {
+  const {
+    listConceptos,
+    showDeleteConfirmConcept,
+    EditConceptos,
+    previewPdfDocument,
+    dowloadPdf,
+    content,
+  } = props;
+
+  return (
+    <List
+      className="conceptos"
+      itemLayout="vertical"
+      dataSource={listConceptos}
+      renderItem={(data) => (
+        <ListConceptosAdmin
+          data={data}
+          showDeleteConfirmConcept={showDeleteConfirmConcept}
+          EditConceptos={EditConceptos}
+          previewPdfDocument={previewPdfDocument}
+          dowloadPdf={dowloadPdf}
+          content={content}
+        />
+      )}
+    />
   );
 }
 
@@ -293,6 +317,35 @@ function ListConceptosAdmin(props) {
       />
       Descripción: {data.descripcion}
     </List.Item>
+  );
+}
+
+function ListFindConcept(props) {
+  const {
+    findConcept,
+    showDeleteConfirmConcept,
+    EditConceptos,
+    previewPdfDocument,
+    dowloadPdf,
+    content,
+  } = props;
+
+  return (
+    <List
+      className="conceptos"
+      itemLayout="vertical"
+      dataSource={findConcept}
+      renderItem={(data) => (
+        <FindConcept
+          data={data}
+          showDeleteConfirmConcept={showDeleteConfirmConcept}
+          EditConceptos={EditConceptos}
+          previewPdfDocument={previewPdfDocument}
+          dowloadPdf={dowloadPdf}
+          content={content}
+        />
+      )}
+    />
   );
 }
 

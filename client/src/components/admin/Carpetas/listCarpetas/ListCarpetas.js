@@ -61,6 +61,7 @@ export default function ListCarpetas(props) {
       />
     );
   };
+
   const EditCarpetas = (data) => {
     setIsVisibleModal(true);
     setModalTitle(`Editar la carpeta:  ${data.nombre}`);
@@ -72,6 +73,7 @@ export default function ListCarpetas(props) {
       />
     );
   };
+
   const content = (
     {
         botonActualizar:"Boton Actualizar",
@@ -124,6 +126,7 @@ export default function ListCarpetas(props) {
     </div>
   );
 }
+
 function ListCarpeta(props) {
   const { data, EditCarpetas, showDeletConfirm, content } = props;
   const { info } = ModalAntd;

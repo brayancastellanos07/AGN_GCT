@@ -62,7 +62,7 @@ async function getConcepbyCarpByNameAdmin(req, res) {
     if (!data.length) {
       return res
         .status(404)
-        .send({message:`no se encontraron conceptos en el año: ${nombre}`});
+        .send({message:`no se encontraron conceptos`});
     }
     return res.status(200).json({ data });
   } catch (error) {
@@ -75,14 +75,17 @@ async function getConcepbyContenido(req, res){
   const {contenido} = req.params;
   try {
     const data = await sequelize.query(
-      `SELECT id_concepto, nombre, descripcion, archivo, fecha, carpeta
-      FROM conceptos
-      WHERE contenido ilike '%${contenido}%';`,
+      `SELECT CN.id_concepto, CN.nombre, CN.descripcion, CN.archivo, CN.fecha,
+      CA.nombre AS carpeta
+      FROM conceptos AS CN 
+	  INNER JOIN carpetas AS CA
+	  ON CA.id_carpeta = CN.carpeta
+      WHERE CN.contenido ilike '%${contenido}%'`,
       { type: QueryTypes.SELECT }
     );
-    
+      console.log("data",data)
     if (!data.length) {
-      return res.status(404).send({ message: "No se ha encontraron coincidencias. " });
+      return res.status(404).send({ message: 'No se ha encontraron coincidencias. ' });
     }
     return res.status(200).json({ data });
   } catch (error) {
