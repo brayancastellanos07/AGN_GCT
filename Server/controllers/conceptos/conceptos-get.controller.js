@@ -83,8 +83,8 @@ async function getConcepbyContenido(req, res){
       WHERE CN.contenido ilike '%${contenido}%'`,
       { type: QueryTypes.SELECT }
     );
-      console.log("data",data)
-    if (!data.length) {
+      console.log("data",data.length)
+    if (!data) {
       return res.status(404).send({ message: 'No se ha encontraron coincidencias. ' });
     }
     return res.status(200).json({ data });

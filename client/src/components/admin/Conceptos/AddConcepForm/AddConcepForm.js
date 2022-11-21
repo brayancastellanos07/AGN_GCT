@@ -1,13 +1,6 @@
 import React, { useCallback, useState, useEffect } from "react";
-import {
-  Form,
-  Input,
-  Select,
-  Button,
-  DatePicker,
-  notification
-} from "antd";
-import moment from 'moment';
+import { Form, Input, Select, Button, DatePicker, notification } from "antd";
+import moment from "moment";
 import { useDropzone } from "react-dropzone";
 import { createConcepApi } from "../../../../api/conceptos";
 import { getAccessToken } from "../../../../api/auth";
@@ -23,6 +16,8 @@ export default function AddConcepForm(props) {
   useEffect(() => {
     if (pdf) {
       setConcepData({ ...concepData, archivo: pdf.file });
+    } else {
+      setConcepData({});
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pdf]);
@@ -41,6 +36,10 @@ export default function AddConcepForm(props) {
     const token = getAccessToken();
     let concepCreate = concepData;
 
+    if (!concepCreate.fecha) {
+      concepCreate.fecha = moment();
+    }
+
     if (
       !concepCreate.descripcion ||
       !concepCreate.archivo ||
@@ -54,15 +53,19 @@ export default function AddConcepForm(props) {
     }
     if (typeof concepCreate.archivo === "object") {
       createConcepApi(token, concepCreate).then((result) => {
-        notification["success"]({ 
-          message: result.message,
+        notification["success"]({
+          message: result,
         });
         setReloadConceptos(true);
+        setConcepData({});
+        setPdf(null);
       });
     }
     setIsVisibleModal(false);
+    setReloadConceptos(true);
+    setConcepData({});
+    setPdf(null);
   };
-
 
   //para subir el pdf
   const onDrop = useCallback(
@@ -74,7 +77,7 @@ export default function AddConcepForm(props) {
   );
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: {'image/pdf': ['.pdf']},
+    accept: { "image/pdf": [".pdf"] },
     onDrop,
   });
 
@@ -134,7 +137,7 @@ function AddForm(props) {
           placeholder="Descripción"
           name="descripcion"
           showCount
-          maxLength={100}
+          maxLength={1000}
           value={conceptData.descripcion}
           onChange={(e) =>
             setConcepData({ ...conceptData, descripcion: e.target.value })
@@ -146,21 +149,24 @@ function AddForm(props) {
         <Select
           placeholder="Carpeta"
           name="carpeta"
+          value={conceptData.carpeta}
           onChange={(e) => {
             setConcepData({ ...conceptData, carpeta: e });
           }}
         >
-          {listCarpetas.map((data) => (
-            <Option key={data.id_carpeta} value={data.id_carpeta} name="2013">
-              {data.nombre}
-            </Option>
-          ))}
+          {
+            listCarpetas.map((data) => (
+              <Option key={data.id_carpeta} value={data.id_carpeta}>
+                {data.nombre}
+              </Option>
+            ))
+          }
         </Select>
       </Form.Item>
 
       <Form.Item>
         <DatePicker
-        defaultValue={moment()}
+          defaultValue={moment()}
           onChange={(e) => {
             setConcepData({ ...conceptData, fecha: e });
           }}
