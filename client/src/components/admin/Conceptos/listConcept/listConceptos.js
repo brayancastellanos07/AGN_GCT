@@ -6,6 +6,8 @@ import {
   notification,
   Input,
   BackTop,
+  Col,
+  Row
 } from "antd";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -25,7 +27,7 @@ import {
   deleteConceptApi,
   getPdfApi,
   dowLoadPdf,
-  getConceptoSearch,
+  getConceptoSearch, 
 } from "../../../../api/conceptos";
 import EditConceptForm from "../EditConceptForm/EditConceptForm";
 
@@ -167,20 +169,29 @@ export default function LisConceptos(props) {
   return (
     <div className="list-conceptos">
       <div className="list-conceptos__header">
+      <Row className="list-conceptos__header__Row">
+      <Col lg={8} className="Row__Col">
         <Search
           placeholder="Buscar conceptos por palabras clave"
-          style={{ width: 400 }}
+          //style={{ width: 400 }}
           allowClear
           onSearch={searchConceptos}
           onChange={(e) =>
             setsearchConcept({ ...searchConcept, dato: e.target.value })
           }
         />
+        </Col>
+        <Col lg={4} className="Row__Col"/>
+        <Col lg={4} className="Row__Col">
         <div className="list-conceptos__header__div">
           <h2 className="list-conceptos__header__h2">
             {`Conceptos del año ${nombre}`}
           </h2>
         </div>
+        </Col>
+       
+        <Col lg={4} className="Row__Col"/>
+        <Col lg={4} className="Row__Col">
         <Button
           type="primary"
           icon={<FolderAddOutlined />}
@@ -188,6 +199,8 @@ export default function LisConceptos(props) {
         >
           Nuevo Concepto
         </Button>
+        </Col>
+        </Row>
       </div>
       {!viewConcept ? (
         <ListConcep
@@ -233,7 +246,7 @@ function ListConcep(props) {
     previewPdfDocument,
     dowloadPdf,
     content,
-  } = props;
+  } = props; 
 
   return (
     <List

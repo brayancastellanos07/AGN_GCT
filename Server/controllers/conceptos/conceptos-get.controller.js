@@ -9,7 +9,6 @@ const colors = require("colors");
 // User Admin
 async function getPdfs(req, res) {
   const fileName = req.params.pdfName;
-  console.log(fileName)
   const filePath = "./uploads/pdfs/" + fileName;
 
   fs.exists(filePath, (exists) => {
@@ -18,7 +17,7 @@ async function getPdfs(req, res) {
         .status(404)
         .send({ message: "El Concepto que busca no esta Almacenado" });
     }
-    console.log(filePath)
+   
     return res.sendFile(path.resolve(filePath));
   });
 }

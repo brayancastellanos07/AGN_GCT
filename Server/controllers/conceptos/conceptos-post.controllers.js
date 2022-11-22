@@ -5,6 +5,17 @@ const fs = require("fs");
 const PdfParse = require("pdf-parse");
 
 async function postConceptos(req, res) {
+  // let fileOriginalName = req.files.archivo.originalFilename;
+  // const filePathPdf = "./uploads/pdfs/" + fileOriginalName;
+  // fs.existsSync(filePathPdf, (exists) => {
+  //   console.log(exists);
+  //   if (exists) {
+  //     return res
+  //       .status(404)
+  //       .send({ message: "El Concepto que intenta crear ya existe" });
+  //   }
+  // });
+
   try {
     if (req.files) {
       let filePath = req.files.archivo.path.split("\\").join("/");
@@ -13,38 +24,33 @@ async function postConceptos(req, res) {
       let extSplit = fileName.split(".");
       let fileExt = extSplit[1];
 
+      // verificación de la extensión del archivo
       if (fileExt !== "pdf") {
         fs.unlinkSync("./uploads/pdfs/" + fileName);
         return res.status(400).send({
           message: "La extensión del archivo debe ser .pdf",
         });
       } else {
-        //req.body.archivo = fileName;
         const pdfFile = fs.readFileSync("./uploads/pdfs/" + fileName);
 
         // esta funcion sirve para obtener el texto del pdf
         const Pdfcontenido = await PdfParse(pdfFile).then((resultado) => {
           return resultado.text;
         });
-        // eliminación de los salto de linea 
+        // eliminación de los salto de linea
         const contenido = Pdfcontenido.split("\n").join("");
-        // borrar lineas si el buscador ya esta termiando 
-        //const sinespacios = contenido.split(/\s+/).join('');
-        //const prueba =  contenido.split(" ");
 
-        console.log("prueba",contenido)
         let fileOriginalName = req.files.archivo.originalFilename;
         let extSplitName = fileOriginalName.split(".");
         let finalName = extSplitName[0];
-
         req.body.nombre = finalName.toLowerCase();
         req.body.carpeta = parseInt(req.body.carpeta);
-        // si se madrea borrar esto y descomentar la 24
         req.body.archivo = fileOriginalName;
         fs.renameSync(
           "./uploads/pdfs/" + fileName,
           "./uploads/pdfs/" + fileOriginalName
         );
+
         try {
           const carpetaFind = await Carpetas.findAll({
             where: {
@@ -56,7 +62,7 @@ async function postConceptos(req, res) {
           }
           const { nombre, descripcion, fecha, archivo, carpeta } = req.body;
 
-          const data = await Conceptos.create(
+          const data = Conceptos.create(
             {
               nombre,
               descripcion,

@@ -14,16 +14,29 @@ export default function LayoutAdmin(props) {
  
   const { children } = props;
   const [menuCollapsed, setMenuCollapsed] = useState(false);
-  const { Header, Content, Footer } = Layout;
+  const { Header, Content } = Layout;
   const {user, isLoading} = useAuth();
   const [reloadCarpetas, setReloadCarpetas] = useState(false);
   const [listCarpetas, setListCarpetas] = useState([]);
+
+  const [cambioPantalla, setcambioPantalla] =  useState(false);
+
   useEffect(()=>{
     getCarpetasMenuApi().then(response =>{
       setListCarpetas(response.data)
     });
     setReloadCarpetas(false);
   },[reloadCarpetas]);
+
+  // para bloquear el boton del menu, terminar
+  useEffect(() => {
+    if (window.innerWidth <= 1024) {
+     setcambioPantalla(true);
+    }else{
+      setcambioPantalla(false);
+    }
+  },[setcambioPantalla]);
+
 
  
   if (!user && !isLoading) {
@@ -34,15 +47,14 @@ export default function LayoutAdmin(props) {
     );
   }
 
-  
 
   if (user && !isLoading) {
     return (
       <Layout>
-        <MenuSider listCarpetas={listCarpetas}  menuCollapsed={menuCollapsed} />
+        <MenuSider listCarpetas={listCarpetas}  menuCollapsed={ !cambioPantalla ? (menuCollapsed):(true)  } />
         <Layout
-          className="layout-admin"
-          style={{ marginLeft: menuCollapsed ? "90px" : "200px" }}
+          className="layout-admin"       
+          style={  !cambioPantalla ?  ({ marginLeft: menuCollapsed ? "90px" : "200px" }):({ marginLeft: menuCollapsed ? "90px" : "90px" })   }
         >
           <Header className="layout-admin__header">
             <MenuTop
@@ -51,7 +63,7 @@ export default function LayoutAdmin(props) {
             />
           </Header>
           <Content className="layout-admin__content">{children}</Content>
-          <Footer className="layout-admin__footer">Brayan Castellanos 24</Footer>
+          {/* <Footer className="layout-admin__footer">Brayan Castellanos 24</Footer> */}
         </Layout>
       </Layout>
     );

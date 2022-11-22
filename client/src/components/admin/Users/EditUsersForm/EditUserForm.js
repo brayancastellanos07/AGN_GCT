@@ -108,7 +108,7 @@ export default function EditUserForm(props) {
         
         updateUserApi(token, userUpdate, data.id).then(result => {
           notification["success"]({
-            message: result.message,
+            message: result,
           });
           setReloadUsers(true);
         });

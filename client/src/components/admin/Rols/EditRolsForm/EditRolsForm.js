@@ -1,4 +1,4 @@
-import React, {  useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { updateRolsApi } from "../../../../api/rols";
 import { getAccessToken } from "../../../../api/auth";
 
@@ -18,9 +18,8 @@ export default function EditRolsForm(props) {
 
   const updateRols = (e) => {
     const token = getAccessToken();
-    console.log("Data",data)
+
     let rolUpdate = rolData;
-    console.log("RolUpdate",rolUpdate)
 
     if (!rolUpdate.nombre || !rolUpdate.descripcion) {
       notification["error"]({
@@ -33,7 +32,6 @@ export default function EditRolsForm(props) {
           message: result.message,
         });
         setReloadRols(true);
-        console.log(rolUpdate)
       });
     }
     setIsVisibleModal(false);
@@ -57,22 +55,21 @@ function EditRols(props) {
   return (
     <Form className="form-edit" onFinish={updateRols}>
       <Row gutter={24}>
-        <Col span={12}>
+        <Col span={24}>
           <Form.Item>
             <Input
-              //prefix={}
               placeholder="Nombre del Rol "
               value={rolData.nombre}
+              readOnly="readonly"
               onChange={(e) =>
                 setRolData({ ...rolData, nombre: e.target.value })
               }
             />
           </Form.Item>
         </Col>
-        <Col span={12}>
+        <Col span={24}>
           <Form.Item>
             <TextArea
-              //prefix={}
               placeholder="Descripción del Rol "
               value={rolData.descripcion}
               onChange={(e) =>

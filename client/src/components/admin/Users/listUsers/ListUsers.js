@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import {
   Switch,
+  Row,
+  Col,
   List,
   Avatar,
   Button,
@@ -8,7 +10,7 @@ import {
   Modal as ModalAntd,
   Input,
   Popover,
-  BackTop
+  BackTop,
 } from "antd";
 import Noavatar from "../../../../assets/img/png/no-avatar.png";
 import {
@@ -16,7 +18,7 @@ import {
   DeleteOutlined,
   StopOutlined,
   CheckOutlined,
-  UpCircleOutlined
+  UpCircleOutlined,
 } from "@ant-design/icons";
 import Modal from "../../../modal/Modal";
 import EditUserForm from "../EditUsersForm/EditUserForm";
@@ -127,29 +129,39 @@ export default function ListUsers(props) {
   return (
     <div className="list-users">
       <div className="list-users__header">
-        <Search
-          placeholder="Buscar Usuarios por nombre"
-          style={{ width: 400 }}
-          allowClear
-          onSearch={search}
-          onChange={(e) =>
-            setsearchUser({ ...searchUser, dato: e.target.value })
-          }
-        />
-
-        <div className="list-users__header__switch">
-          <Switch
-            defaultChecked
-            onChange={() => setViewUsersActive(!viewUsersActives)}
-          />
-          <span>
-            {viewUsersActives ? "  Usuarios Activos" : "  Usuarios Inactivos"}
-          </span>
-        </div>
-
-        <Button type="primary" onClick={addUserModal}>
-          Nuevo Usuario
-        </Button>
+        <Row className="list-users__header__Row">
+          <Col lg={8} className="Row__Col">
+            <Search
+              placeholder="Buscar Usuarios por nombre"
+              //style={{ width: 400 }}
+              allowClear
+              onSearch={search}
+              onChange={(e) =>
+                setsearchUser({ ...searchUser, dato: e.target.value })
+              }
+            />
+          </Col>
+          <Col lg={4} className="Row__Col" />
+          <Col lg={4} className="Row__Col">
+            <div className="list-users__header__switch">
+              <Switch
+                defaultChecked
+                onChange={() => setViewUsersActive(!viewUsersActives)}
+              />
+              <span>
+                {viewUsersActives
+                  ? "  Usuarios Activos"
+                  : "  Usuarios Inactivos"}
+              </span>
+            </div>
+          </Col>
+          <Col lg={4} className="Row__Col"/>
+          <Col lg={4} className="Row__Col">
+          <Button type="primary" onClick={addUserModal}>
+            Nuevo Usuario
+          </Button>
+          </Col>
+        </Row>
       </div>
       {viewUser ? (
         <FindUsers
@@ -190,8 +202,10 @@ export default function ListUsers(props) {
         {modalContent}
       </Modal>
       <BackTop>
-      <div className="Up"><UpCircleOutlined /></div>
-    </BackTop>
+        <div className="Up">
+          <UpCircleOutlined />
+        </div>
+      </BackTop>
     </div>
   );
 }

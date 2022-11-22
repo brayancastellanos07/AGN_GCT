@@ -32,13 +32,13 @@ export default function MenuSider(props) {
     const path = e.key;
     navigate(path);
   };
-
+ 
   return (
     <Sider className="admin-sider" collapsed={menuCollapsed}>
       <Menu
         theme="dark"
         mode="inline"
-        defaultSelectedKeys={pathname}
+        defaultSelectedKeys={pathname} 
         onClick={menuClick}
       >
         <Menu.SubMenu

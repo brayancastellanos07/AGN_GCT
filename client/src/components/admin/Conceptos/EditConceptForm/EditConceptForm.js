@@ -50,7 +50,6 @@ export default function EditConceptForm(props) {
     let  conceptUpdate =  conceptData;
 
     if(conceptUpdate.carpeta === data.carpeta){
-         
           conceptUpdate.carpeta= data.id_carpeta;
     }
 
@@ -64,9 +63,6 @@ export default function EditConceptForm(props) {
         return;
     }
     if(typeof conceptUpdate.archivo === "object"){
-        console.log("Desde Update",conceptUpdate.archivo)
-        console.log("data del cocnepto", conceptData)
-
          updatePdfApi(token, conceptUpdate.archivo,conceptData.id ).then((response)=>{
             conceptUpdate.nombre =  response.nombre
           
@@ -76,6 +72,7 @@ export default function EditConceptForm(props) {
               });
               setReloadConceptos(true);
             });
+            setReloadConceptos(true);
          });
       }else{
         updateConceptApi(token,conceptUpdate, conceptData.id).then(result =>{
@@ -104,6 +101,7 @@ export default function EditConceptForm(props) {
         pdf={pdf}
         setPdf={setPdf}
         conceptData={conceptData}
+        
     
       />
       <EditConcept
@@ -127,7 +125,8 @@ function UploadPdf(props) {
       const {name} =  file;
       const nombre =  name;
       return nombre
-    } 
+    }
+ 
      return null;
     
   };

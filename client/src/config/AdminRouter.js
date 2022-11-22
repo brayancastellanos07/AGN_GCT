@@ -48,6 +48,11 @@ export function AdminRouter() {
             element={loadLayout(LayoutAdmin, CarpconceptosAdmin)}
           />
 
+          <Route
+            path="/*"
+            element={loadLayout(LayoutAdmin, CarpconceptosAdmin)}
+          />
+
           {/* Ruta para listar los usuarios  */}
           <Route
             path="/admin/list-usuarios"
@@ -80,6 +85,11 @@ export function AdminRouter() {
         <>
           <Route
             path="/admin/carpetaslobby"
+            element={loadLayout(LayoutAdmin, CarpconceptosAdmin)}
+          />
+
+          <Route
+            path="/*"
             element={loadLayout(LayoutAdmin, CarpconceptosAdmin)}
           />
           {/*  Ruta para listar las carpetas  */}

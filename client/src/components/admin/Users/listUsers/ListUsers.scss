@@ -2,13 +2,22 @@
 
 .list-users {
 
-    &__header {
+    &__header { 
         display: flex;
         align-items: center;
         justify-content: space-between;
         margin-bottom: 20px;
+        &__Row {
+            background-color: $background-light;
+            padding: 20px 0px 20px 20px;
+            width: 100%;
+          
+            &__Col {
+                display: flex;
 
-    
+            }   
+            
+        }
         &__switch {
             display: flex;
             margin-right: auto;

@@ -2,12 +2,26 @@
 
 .list-conceptos {
     
-    &__header { 
+    &__header {  
         display: flex;
         align-items: center;
         justify-content: space-between;
         margin-bottom: 20px;
+        &__Row {
+            background-color: $background-light;
+            padding: 20px 0px 0px 20px;
+            width: 100%;
+          
+            &__Col {
+                display: flex;
 
+            }   
+            button {
+         
+                height: 35px;
+            }       
+           
+        }
         &__div {
             display: flex;
             margin-right: auto;
@@ -21,10 +35,6 @@
             text-transform: uppercase;
             text-align: center;
 
-        }
-
-        button {
-            margin-right: 20px;
         }
 
     }
