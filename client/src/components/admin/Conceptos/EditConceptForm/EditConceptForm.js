@@ -4,7 +4,12 @@ import moment from "moment";
 import { useDropzone } from "react-dropzone";
 import { getCarpetasMenuApi } from "../../../../api/carpetas";
 import "./EditConceptForm.scss";
-import {  getPdfApi,updatePdfApi, updateConceptApi } from "../../../../api/conceptos";
+import {
+  getPdfApi,
+  getPdfById,
+  updatePdfApi,
+  updateConceptApi,
+} from "../../../../api/conceptos";
 import { getAccessToken } from "../../../../api/auth";
 
 const { TextArea } = Input;
@@ -12,9 +17,9 @@ const { TextArea } = Input;
 export default function EditConceptForm(props) {
   const { data, setIsVisibleModal, setReloadConceptos } = props;
   const [conceptData, setConceptData] = useState({});
+  const [archivoPdf, setarchivoPdf] = useState({});
   const [pdf, setPdf] = useState(null);
-
-  
+  const token = getAccessToken();
   // carag los datos en el formulaario
   useEffect(() => {
     setConceptData({
@@ -22,21 +27,26 @@ export default function EditConceptForm(props) {
       descripcion: data.descripcion,
       carpeta: data.carpeta,
       fecha: data.fecha,
-      nombre: data.nombre
+      nombre: data.nombre,
     });
   }, [data]);
- 
+
   // revisa si existe un concepto y lo carga
   useEffect(() => {
-    if (data.archivo) {
-      getPdfApi(data.archivo).then((response) => {
+    getPdfById(token, data.id_concepto).then((response) => {
+      setarchivoPdf(data);
+    });
+  }, [token, data]);
+  console.log("archivoPdf", archivoPdf.archivo);
+  useEffect(() => {
+    if (archivoPdf.archivo) {
+      getPdfApi(archivoPdf.archivo).then((response) => {
         setPdf(response);
       });
     } else {
       setPdf(null);
     }
-  }, [data]);
-
+  }, [archivoPdf.archivo]);
   // carag el archivo en la data
   useEffect(() => {
     if (pdf) {
@@ -46,43 +56,47 @@ export default function EditConceptForm(props) {
   }, [pdf]);
 
   const updateConceptos = (e) => {
-    const token = getAccessToken();
-    let  conceptUpdate =  conceptData;
+    let conceptUpdate = conceptData;
 
-    if(conceptUpdate.carpeta === data.carpeta){
-          conceptUpdate.carpeta= data.id_carpeta;
+    if (conceptUpdate.carpeta === data.carpeta) {
+      conceptUpdate.carpeta = data.id_carpeta;
     }
 
-    if(!conceptUpdate.descripcion ||
+    if (
+      !conceptUpdate.descripcion ||
       !conceptUpdate.fecha ||
       !conceptUpdate.carpeta
-      ){
-        notification["error"]({
-          message: "Todos los campos son obligatorios. ",
-        });
-        return;
+    ) {
+      notification["error"]({
+        message: "Todos los campos son obligatorios. ",
+      });
+      return;
     }
-    if(typeof conceptUpdate.archivo === "object"){
-         updatePdfApi(token, conceptUpdate.archivo,conceptData.id ).then((response)=>{
-            conceptUpdate.nombre =  response.nombre
-          
-            updateConceptApi(token,conceptUpdate, conceptData.id).then(result =>{
+    if (typeof conceptUpdate.archivo === "object") {
+      updatePdfApi(token, conceptUpdate.archivo, conceptData.id).then(
+        (response) => {
+          conceptUpdate.nombre = response.nombre;
+
+          updateConceptApi(token, conceptUpdate, conceptData.id).then(
+            (result) => {
               notification["success"]({
                 message: result.message,
               });
               setReloadConceptos(true);
-            });
-            setReloadConceptos(true);
-         });
-      }else{
-        updateConceptApi(token,conceptUpdate, conceptData.id).then(result =>{
-          notification["success"]({
-            message: result.message,
-          });
+            }
+          );
           setReloadConceptos(true);
+        }
+      );
+    } else {
+      updateConceptApi(token, conceptUpdate, conceptData.id).then((result) => {
+        notification["success"]({
+          message: result.message,
         });
-      }
-      setIsVisibleModal(false);
+        setReloadConceptos(true);
+      });
+    }
+    setIsVisibleModal(false);
   };
 
   // para cargar las carpetas en el select del formulario
@@ -93,17 +107,9 @@ export default function EditConceptForm(props) {
     });
   }, []);
 
-  
-  
   return (
     <div className="edit-concept-form">
-      <UploadPdf
-        pdf={pdf}
-        setPdf={setPdf}
-        conceptData={conceptData}
-        
-    
-      />
+      <UploadPdf pdf={pdf} setPdf={setPdf} conceptData={conceptData} />
       <EditConcept
         data={data}
         conceptData={conceptData}
@@ -116,61 +122,50 @@ export default function EditConceptForm(props) {
 }
 
 function UploadPdf(props) {
-  const { pdf,setPdf, conceptData } = props;
+  const { pdf, setPdf, conceptData } = props;
   const [pdfName, setPdfNew] = useState(null);
-  
+
   const getConceptName = () => {
     if (pdf) {
-      const {file} = pdf
-      const {name} =  file;
-      const nombre =  name;
-      return nombre
+      const { file } = pdf;
+      const { name } = file;
+      const nombre = name;
+      return nombre;
     }
- 
-     return null;
-    
+
+    return null;
   };
-  
+
   const onDrop = useCallback(
     (acceptedFiles) => {
       const file = acceptedFiles[0];
       setPdf({ file, concepto: URL.createObjectURL(file) });
       setPdfNew({ file, concepto: URL.createObjectURL(file) });
-      
     },
     [setPdf]
   );
-  const { getRootProps, getInputProps,isDragActive } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: { "image/pdf": [".pdf"] },
     noKeyboard: true,
     onDrop,
   });
 
-   
-  
   return (
-      <div className="form-edit__miniature" {...getRootProps()}>
+    <div className="form-edit__miniature" {...getRootProps()}>
       <input {...getInputProps()} />
       {isDragActive ? (
-        <span >Haga clic o arrastre el archivo a esta área para cargarlo </span>
+        <span>Haga clic o arrastre el archivo a esta área para cargarlo </span>
       ) : (
-           <span>{!pdfName ? conceptData.nombre : getConceptName()}</span>
-      )
-      }
+        <span>{!pdfName ? conceptData.nombre : getConceptName()}</span>
+      )}
     </div>
-
   );
 }
 
 function EditConcept(props) {
-  const {
-    conceptData,
-    setConceptData,
-    updateConceptos,
-    listCarpetas,
-  } = props;
+  const { conceptData, setConceptData, updateConceptos, listCarpetas } = props;
   const { Option } = Select;
-  
+
   return (
     <Form className="form-edit" on onFinish={updateConceptos}>
       <Form.Item>
@@ -178,7 +173,7 @@ function EditConcept(props) {
           placeholder="Descripción"
           name="descripcion"
           showCount
-          maxLength={100}
+          maxLength={1000}
           value={conceptData.descripcion}
           onChange={(e) =>
             setConceptData({ ...conceptData, descripcion: e.target.value })

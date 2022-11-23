@@ -49,7 +49,7 @@ export default function EditUserForm(props) {
       avatar: data.avatar,
     });
   }, [data]);
-
+  console.log("userData",userData)
   // revisa si se tiene avatar y lo carga en el formulario 
   useEffect(() => {
     if (data.avatar) {
@@ -73,7 +73,7 @@ export default function EditUserForm(props) {
     
     const token = getAccessToken();
     let userUpdate = userData;
-      
+    console.log("userUpdate",userUpdate)
     if (
       !userUpdate.nombre ||
       !userUpdate.apellido ||
@@ -293,9 +293,9 @@ function EditForm(props) {
             <Checkbox
               checked={userData.status}
               onChange={(e) =>
-                setUserData({ ...userData, status: e.target.value })
+                setUserData({ ...userData, status: e.target.checked })
               }
-              disabled={true}
+              // disabled={true}
             >
               {userData.status ? "Activo" : "Inactivo"}
             </Checkbox>

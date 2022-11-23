@@ -27,18 +27,18 @@ async function updateAvatar(req, res) {
             id_usuario: id,
           },
         });
-    
+
         const { dataValues } = data;
         const user = dataValues;
         const { avatar } = user;
-     
+
         if (!data) {
           return res
             .status(404)
             .send({ message: "No se ha encontrado ningún usuario. " });
         } else {
-          if(avatar){
-          fs.unlinkSync("./uploads/avatar/" + avatar);
+          if (avatar) {
+            fs.unlinkSync("./uploads/avatar/" + avatar);
           }
         }
 
@@ -77,7 +77,7 @@ async function updateAvatar(req, res) {
 async function updateUser(req, res) {
   const { id } = req.params;
   let userData = req.body;
-
+  console.log("userData", userData);
   if (userData.correo) {
     userData.correo = req.body.correo.toLowerCase();
   }
@@ -105,6 +105,7 @@ async function updateUser(req, res) {
         documento: userData.documento,
         telefono: userData.telefono,
         rol: userData.rol,
+        status: userData.status,
         correo: userData.correo,
         contrasena: userData.contrasena,
         avatar: userData.avatar,

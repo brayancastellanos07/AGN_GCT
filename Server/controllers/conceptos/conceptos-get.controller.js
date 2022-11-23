@@ -5,6 +5,7 @@ const sequelize = require("../../database/database");
 const { QueryTypes } = require("sequelize");
 
 const colors = require("colors");
+const Carpetas = require("../../models/carpetas.js");
 
 // User Admin
 async function getPdfs(req, res) {
@@ -20,6 +21,25 @@ async function getPdfs(req, res) {
    
     return res.sendFile(path.resolve(filePath));
   });
+}
+
+async function getPdfId(req,res){
+  const {id} = req.params;
+
+  try {
+    const data =  await Conceptos.findAll({
+      where:{
+        id_concepto:id,
+      },
+    });
+    if (!data.length) {
+      return res.status(404).send(`no se encontro el pdf`);
+    }
+    return res.status(200).json({ data });
+  } catch (error) {
+    console.log(colors.red("Error en getPdfId"), error);
+    return res.status(500).send("Error en el servidor");
+  }
 }
 
 async function getConceptos(req, res) {
@@ -123,6 +143,7 @@ async function getConcepbyCarpByName(req, res) {
 
 module.exports = {
   getPdfs,
+  getPdfId,
   getConceptos,
   getConcepbyCarpByName,
   getConcepbyCarpByNameAdmin,

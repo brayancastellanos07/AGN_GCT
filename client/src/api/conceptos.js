@@ -22,6 +22,27 @@ export function getConcepbyCarpByNameAdminApi(token, nombre) {
       return err.message;
     });
 }
+
+export function getPdfById(token,id){ 
+  const url = `${basePath}/get-pdfsId/${id}`;
+  const params = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token,
+    },
+  };
+  return fetch(url, params)
+  .then((response) => {
+    return response.json();
+  })
+  .then((result) => {
+    return result;
+  })
+  .catch((err) => {
+    return err.message;
+  });
+}
 // almacena el pdf y crea el registro en la base de datos
 export function createConcepApi(token, data) {
   const url = `${basePath}/create-concepto`;
@@ -90,6 +111,7 @@ export function getPdfApi(pdfName) {
       return err.message;
     });
 }
+// descarga el pdf
 export function  dowLoadPdf(pdfName){
   const url = `${basePath}/get-pdfs/${pdfName}`;
   return fetch (url).then((response)=>{
@@ -134,6 +156,7 @@ export function updatePdfApi(token,archivo, id){
 
 export function updateConceptApi(token,data,id){
   const url = `${basePath}/update-conceptos/${id}`;
+
 
   const params = {
     method: "PUT",
