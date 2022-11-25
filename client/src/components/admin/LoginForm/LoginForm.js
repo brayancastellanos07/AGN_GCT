@@ -50,15 +50,17 @@ export default function LoginForm() {
       <Form.Item
         className="register-form__Item-label"
         label="Correo Electronico"
+        
       ></Form.Item>
       {/*Imput Correo  */}
-      <Form.Item className="register-form__Item-input">
+      <Form.Item className="register-form__Item-input" >
         <Input
           prefix={<UserOutlined />}
           type="email"
           name="email"
           placeholder="Correo electronico"
           className="register-form__input"
+          required= "true"
         />
       </Form.Item>
       {/*label contraseña */}
@@ -73,6 +75,7 @@ export default function LoginForm() {
           name="password"
           placeholder="Contraseña"
           className="register-form__input"
+          required= "true"
         />
       </Form.Item>
       {/* Boton Ingresar */}
