@@ -8,6 +8,7 @@ async function updateAvatar(req, res) {
 
   try {
     if (req.files) {
+      console.log(req.files)
       let filePath = req.files.avatar.path.split("\\").join("/");
       let fileSplit = filePath.split("/");
       let fileName = fileSplit[2];
@@ -74,10 +75,11 @@ async function updateAvatar(req, res) {
     return res.status(500).send({ message: "Error en el servidor. " });
   }
 }
+
+
 async function updateUser(req, res) {
   const { id } = req.params;
   let userData = req.body;
-  console.log("userData", userData);
   if (userData.correo) {
     userData.correo = req.body.correo.toLowerCase();
   }
@@ -108,7 +110,7 @@ async function updateUser(req, res) {
         status: userData.status,
         correo: userData.correo,
         contrasena: userData.contrasena,
-        avatar: userData.avatar,
+        //avatar: userData.avatar,
       },
       {
         where: {
@@ -123,12 +125,6 @@ async function updateUser(req, res) {
     console.log(colors.red("Error en updateUser. ", error));
     return res.status(500).send({ message: "Error en el servidor.  " });
   }
-  // } catch (error) {
-  //   console.log(colors.red({ message: "Error en login" }), error);
-  //   return res
-  //     .status(500)
-  //     .send({ message: `Error en el servidor, No se encontro el usuario ` });
-  // }
 }
 
 async function activateUser(req, res) {

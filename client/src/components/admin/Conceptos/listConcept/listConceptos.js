@@ -72,7 +72,7 @@ export default function LisConceptos(props) {
             setviewConcept(false);
           })
           .catch((err) => {
-            notification["err"]({
+            notification["error"]({
               message: err.message,
             });
           });
@@ -147,11 +147,21 @@ export default function LisConceptos(props) {
     if (searchConcept) {
       getConceptoSearch(searchConcept)
         .then((response) => {
+          console.log(response.data.length)
+
+          if (response.data.length) {
           notification["success"]({
             message: "Se encontraron coincidencias. ",
           });
           setfindConcept(response.data);
           setviewConcept(true);
+        }else{
+          notification["error"]({
+            message: `No se encontraron coincidencias para: ${searchConcept}`,
+          });
+          setfindConcept(response.data);
+          setviewConcept(true);
+        }
         })
         .catch((err) => {
           notification["error"]({

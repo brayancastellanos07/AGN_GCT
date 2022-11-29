@@ -69,7 +69,7 @@ export function getUsersActiveApi(token, status) {
 
 export function uploadAvatarApi(token, avatar, id) {
   const url = `${basePath}/update-avatar/${id}`;
-
+  console.log(avatar)
   const formData = new FormData();
   formData.append("avatar", avatar, avatar.name);
 

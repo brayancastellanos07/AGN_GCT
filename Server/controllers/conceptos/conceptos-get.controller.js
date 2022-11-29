@@ -5,7 +5,6 @@ const sequelize = require("../../database/database");
 const { QueryTypes } = require("sequelize");
 
 const colors = require("colors");
-const Carpetas = require("../../models/carpetas.js");
 
 // User Admin
 async function getPdfs(req, res) {
@@ -18,18 +17,18 @@ async function getPdfs(req, res) {
         .status(404)
         .send({ message: "El Concepto que busca no esta Almacenado" });
     }
-   
+
     return res.sendFile(path.resolve(filePath));
   });
 }
 
-async function getPdfId(req,res){
-  const {id} = req.params;
+async function getPdfId(req, res) {
+  const { id } = req.params;
 
   try {
-    const data =  await Conceptos.findAll({
-      where:{
-        id_concepto:id,
+    const data = await Conceptos.findAll({
+      where: {
+        id_concepto: id,
       },
     });
     if (!data.length) {
@@ -79,19 +78,21 @@ async function getConcepbyCarpByNameAdmin(req, res) {
       { type: QueryTypes.SELECT }
     );
     if (!data.length) {
-      return res
-        .status(404)
-        .send({message:`no se encontraron conceptos`});
+      return res.status(404).send({ message: `no se encontraron conceptos` });
     }
     return res.status(200).json({ data });
   } catch (error) {
-    console.log(colors.red({message:"Error en getConcepbyCarpByName"}), error);
+    console.log(
+      colors.red({ message: "Error en getConcepbyCarpByName" }),
+      error
+    );
     return res.status(500).send({ message: "Error en el servidor" });
   }
 }
 
-async function getConcepbyContenido(req, res){
-  const {contenido} = req.params;
+async function getConcepbyContenido(req, res) {
+  const { contenido } = req.params;
+  const Contenido = contenido.toLowerCase();
   try {
     const data = await sequelize.query(
       `SELECT CN.id_concepto, CN.nombre, CN.descripcion, CN.archivo, CN.fecha,
@@ -99,12 +100,34 @@ async function getConcepbyContenido(req, res){
       FROM conceptos AS CN 
 	  INNER JOIN carpetas AS CA
 	  ON CA.id_carpeta = CN.carpeta
-      WHERE CN.contenido ilike '%${contenido}%'`,
+      WHERE CN.contenido ilike '%${Contenido}%'`,
       { type: QueryTypes.SELECT }
     );
-      console.log("data",data.length)
-    if (!data) {
-      return res.status(404).send({ message: 'No se ha encontraron coincidencias. ' });
+
+    if (!data.length) {
+      const data = await Conceptos.findAll({
+        where: {
+          nombre: Contenido,
+        },
+      });
+      if (!data) {
+        const data = await sequelize.query(
+          `SELECT CN.id_concepto, CN.nombre, CN.descripcion, CN.archivo, CN.fecha,
+          CA.nombre AS carpeta
+          FROM conceptos AS CN 
+        INNER JOIN carpetas AS CA
+        ON CA.id_carpeta = CN.carpeta
+          WHERE CN.descripcion ilike '%${Contenido}%'`,
+          { type: QueryTypes.SELECT }
+        );
+        if (!data) {
+          return res
+            .status(404)
+            .send({ message: "No se ha encontraron coincidencias" });
+        }
+        return res.status(200).json({ data });
+      }
+      return res.status(200).json({ data });
     }
     return res.status(200).json({ data });
   } catch (error) {
@@ -129,17 +152,17 @@ async function getConcepbyCarpByName(req, res) {
     if (!data.length) {
       return res
         .status(404)
-        .send({message:`no se encontraron conceptos en el año: ${nombre}`});
+        .send({ message: `no se encontraron conceptos en el año: ${nombre}` });
     }
     return res.status(200).json({ data });
   } catch (error) {
-    console.log(colors.red({message:"Error en getConcepbyCarpByName"}), error);
+    console.log(
+      colors.red({ message: "Error en getConcepbyCarpByName" }),
+      error
+    );
     return res.status(500).send({ message: "Error en el servidor" });
   }
 }
-
-
-
 
 module.exports = {
   getPdfs,
@@ -147,5 +170,5 @@ module.exports = {
   getConceptos,
   getConcepbyCarpByName,
   getConcepbyCarpByNameAdmin,
-  getConcepbyContenido
+  getConcepbyContenido,
 };

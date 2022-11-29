@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useEffect } from "react";
 import {
-  Avatar, 
+  Avatar,
   Form,
   Input,
   Select,
@@ -18,6 +18,8 @@ import {
   TabletOutlined,
   MailOutlined,
   LockOutlined,
+  EyeTwoTone,
+  EyeInvisibleOutlined,
 } from "@ant-design/icons";
 import {
   updateUserApi,
@@ -32,8 +34,8 @@ export default function EditUserForm(props) {
   const { data, setIsVisibleModal, setReloadUsers } = props;
   const [avatar, setAvatar] = useState(null);
   const [userData, setUserData] = useState({});
-  
-  // carga los datos en el formulario 
+
+  // carga los datos en el formulario
   useEffect(() => {
     setUserData({
       nombre: data.nombre,
@@ -49,8 +51,7 @@ export default function EditUserForm(props) {
       avatar: data.avatar,
     });
   }, [data]);
-  console.log("userData",userData)
-  // revisa si se tiene avatar y lo carga en el formulario 
+  // revisa si se tiene avatar y lo carga en el formulario
   useEffect(() => {
     if (data.avatar) {
       getAvatarApi(data.avatar).then((response) => {
@@ -61,7 +62,7 @@ export default function EditUserForm(props) {
     }
   }, [data]);
 
-  // carga el archivo en la data 
+  // carga el archivo en la data
   useEffect(() => {
     if (avatar) {
       setUserData({ ...userData, avatar: avatar.file });
@@ -70,10 +71,8 @@ export default function EditUserForm(props) {
   }, [avatar]);
 
   const updateUser = (e) => {
-    
     const token = getAccessToken();
     let userUpdate = userData;
-    console.log("userUpdate",userUpdate)
     if (
       !userUpdate.nombre ||
       !userUpdate.apellido ||
@@ -81,7 +80,7 @@ export default function EditUserForm(props) {
       !userUpdate.documento ||
       !userUpdate.telefono ||
       !userUpdate.rol ||
-      !userUpdate.correo 
+      !userUpdate.correo
     ) {
       notification["error"]({
         message: "Todos los campos son obligatorios. ",
@@ -95,27 +94,35 @@ export default function EditUserForm(props) {
           message: "Las contraseñas tienen que ser iguales.",
         });
         return;
-      }
-      else{
-        delete userUpdate.repetirContrasena
+      } else {
+        delete userUpdate.repetirContrasena;
       }
     }
 
     if (typeof userUpdate.avatar === "object") {
-      // esta entrando al if cuando el avatar esta vacio y se estalla 
-      uploadAvatarApi(token, userUpdate.avatar, data.id).then((response) => {
-        userUpdate.avatar = response.avatarName;
-        
-        updateUserApi(token, userUpdate, data.id).then(result => {
+      // esta entrando al if cuando el avatar esta vacio y se estalla
+      if (userUpdate.avatar) {
+        uploadAvatarApi(token, userUpdate.avatar, data.id).then((response) => {
+          userUpdate.avatar = response.avatarName;
+
+          updateUserApi(token, userUpdate, data.id).then((result) => {
+            notification["success"]({
+              message: result,
+            });
+            setReloadUsers(true);
+          });
+        });
+      } else {
+        updateUserApi(token, userUpdate, data.id).then((result) => {
           notification["success"]({
-            message: result,
+            message: result.message,
           });
           setReloadUsers(true);
         });
-      });
+        setReloadUsers(true);
+      }
     } else {
-      
-      updateUserApi(token, userUpdate, data.id).then(result => {
+      updateUserApi(token, userUpdate, data.id).then((result) => {
         notification["success"]({
           message: result.message,
         });
@@ -123,7 +130,6 @@ export default function EditUserForm(props) {
       });
     }
     setIsVisibleModal(false);
- 
   };
 
   return (
@@ -147,7 +153,6 @@ function UploadAvatar(props) {
     if (avatar) {
       if (avatar.preview) {
         setAvatarUrl(avatar.preview);
-       
       } else {
         setAvatarUrl(avatar);
       }
@@ -160,11 +165,11 @@ function UploadAvatar(props) {
     (acceptedFiles) => {
       const file = acceptedFiles[0];
       setAvatar({ file, preview: URL.createObjectURL(file) });
-      
     },
     [setAvatar]
   );
-
+  console.log(avatar);
+  console.log(avatarUrl);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: "image/jpeg, image/png",
     noKeyboard: true,
@@ -192,6 +197,7 @@ function EditForm(props) {
         <Col span={12}>
           <Form.Item>
             <Input
+              required={true}
               prefix={<UserOutlined />}
               placeholder="Nombre"
               value={userData.nombre}
@@ -204,6 +210,7 @@ function EditForm(props) {
         <Col span={12}>
           <Form.Item>
             <Input
+              required={true}
               prefix={<UserOutlined />}
               placeholder="Apellido"
               value={userData.apellido}
@@ -218,6 +225,7 @@ function EditForm(props) {
         <Col span={12}>
           <Form.Item>
             <Select
+              required={true}
               placeholder="Tipo Documento"
               onChange={(e) => setUserData({ ...userData, tipodocumento: e })}
               value={userData.tipodocumento}
@@ -234,6 +242,7 @@ function EditForm(props) {
         <Col span={12}>
           <Form.Item>
             <Input
+              required={true}
               prefix={<IdcardOutlined />}
               placeholder="Documento"
               value={userData.documento}
@@ -248,6 +257,7 @@ function EditForm(props) {
         <Col span={12}>
           <Form.Item>
             <Input
+              required={true}
               prefix={<TabletOutlined />}
               placeholder="Telefono"
               value={userData.telefono}
@@ -260,12 +270,13 @@ function EditForm(props) {
         <Col span={12}>
           <Form.Item>
             <Select
+              required={true}
               placeholder="Seleccione un Rol"
               onChange={(e) => {
                 setUserData({ ...userData, rol: e });
               }}
               value={
-                userData.rol  === 1 ? "Super Administrador" : "Administrador"
+                userData.rol === 1 ? "Super Administrador" : "Administrador"
               }
             >
               {userData.rol === 1 ? "Super Administrador" : "Administrador"}
@@ -279,6 +290,7 @@ function EditForm(props) {
         <Col span={12}>
           <Form.Item>
             <Input
+              required={true}
               prefix={<MailOutlined />}
               placeholder="Correo"
               value={userData.correo}
@@ -306,10 +318,12 @@ function EditForm(props) {
       <Row gutter={24}>
         <Col span={12}>
           <Form.Item>
-            <Input
+            <Input.Password
               prefix={<LockOutlined />}
               placeholder="Contraseña"
-              type="password"
+              iconRender={(visible) =>
+                visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+              }
               onChange={(e) =>
                 setUserData({ ...userData, contrasena: e.target.value })
               }
@@ -319,10 +333,12 @@ function EditForm(props) {
         </Col>
         <Col span={12}>
           <Form.Item>
-            <Input
+            <Input.Password
               prefix={<LockOutlined />}
               placeholder="Repetir Contraseña"
-              type="password"
+              iconRender={(visible) =>
+                visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+              }
               onChange={(e) =>
                 setUserData({ ...userData, repetirContrasena: e.target.value })
               }

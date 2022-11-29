@@ -37,7 +37,7 @@ export default function EditConceptForm(props) {
       setarchivoPdf(data);
     });
   }, [token, data]);
-  console.log("archivoPdf", archivoPdf.archivo);
+
   useEffect(() => {
     if (archivoPdf.archivo) {
       getPdfApi(archivoPdf.archivo).then((response) => {
@@ -75,6 +75,9 @@ export default function EditConceptForm(props) {
     if (typeof conceptUpdate.archivo === "object") {
       updatePdfApi(token, conceptUpdate.archivo, conceptData.id).then(
         (response) => {
+          notification["error"]({
+            message: response.message,
+          });
           conceptUpdate.nombre = response.nombre;
 
           updateConceptApi(token, conceptUpdate, conceptData.id).then(
@@ -173,6 +176,7 @@ function EditConcept(props) {
           placeholder="Descripción"
           name="descripcion"
           showCount
+          required={true}
           maxLength={1000}
           value={conceptData.descripcion}
           onChange={(e) =>

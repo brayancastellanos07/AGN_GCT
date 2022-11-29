@@ -9,7 +9,7 @@ const { TextArea } = Input;
 export default function AddCarpetasForm(props) {
   const { setIsVisibleModal, setReloadCarpetas } = props;
   const [carpetasData, setCarpetasData] = useState({});
-
+  
   const addCarpetas = (event) => {
     let carpetasCreateData = carpetasData;
 
@@ -27,14 +27,20 @@ export default function AddCarpetasForm(props) {
           });
           setIsVisibleModal(false);
           setReloadCarpetas(true);
-          setCarpetasData({});
+         
+            setCarpetasData({});
+          
+         
         })
         .catch((err) => {
           notification["error"]({
             message: err,
           });
+          
         });
+        
     }
+   
   };
 
   return (
@@ -58,7 +64,8 @@ function AddForm(props) {
             <Input
               prefix={<FolderAddOutlined />}
               placeholder="Nombre"
-              value={carpetasData.nombre}
+              required={true}
+              value={carpetasData.Nombre}
               minLength={4}
               onChange={(e) =>
                 setCarpetasData({ ...carpetasData, Nombre: e.target.value })
@@ -69,7 +76,8 @@ function AddForm(props) {
           <Form.Item>
             <TextArea 
             placeholder="Descripción" 
-            value={carpetasData.descripcion}
+            value={carpetasData.Descripcion}
+            required={true}
             minLength={5}
             onChange={ e => setCarpetasData({ ...carpetasData, Descripcion: e.target.value})}
             showCount maxLength={100}

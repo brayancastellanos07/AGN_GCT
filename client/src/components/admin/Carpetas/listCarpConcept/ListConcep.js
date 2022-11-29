@@ -62,7 +62,7 @@ export default function ListConceptos(props) {
             setviewConcept(false);
           })
           .catch((err) => {
-            notification["err"]({
+            notification["error"]({
               message: err.message,
             });
           });
@@ -150,7 +150,7 @@ export default function ListConceptos(props) {
     <div className="carpetas-list">
       <Row className="Row">
         <Col lg={8} className="Row__Col" />
-        <Col lg={8} className="Row__Col"> 
+        <Col lg={8} className="Row__Col">
           <h2>Listado de Años </h2>
         </Col>
         <Col lg={8} className="Row__Col">

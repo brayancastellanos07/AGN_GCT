@@ -119,9 +119,11 @@ function AddForm(props) {
 
   return (
     <Form className="form-add" onFinish={CreateConcep}>
-      <Form.Item>
+      <Form.Item 
+      
+      >
         <div className="form-add__miniature" {...getRootProps()}>
-          <input {...getInputProps()} />
+          <input {...getInputProps()}/>
           {getConcepto() ? (
             <span>{getConcepto()}</span>
           ) : (
@@ -136,6 +138,7 @@ function AddForm(props) {
         <TextArea
           placeholder="Descripción"
           name="descripcion"
+          required={true}
           showCount
           maxLength={1000}
           value={conceptData.descripcion}
@@ -147,6 +150,7 @@ function AddForm(props) {
 
       <Form.Item>
         <Select
+          
           placeholder="Carpeta"
           name="carpeta"
           value={conceptData.carpeta}
@@ -166,6 +170,7 @@ function AddForm(props) {
 
       <Form.Item>
         <DatePicker
+        
           defaultValue={moment()}
           onChange={(e) => {
             setConcepData({ ...conceptData, fecha: e });

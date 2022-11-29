@@ -44,13 +44,21 @@ export default function ListCarpetas(props) {
       onOk() {
         deleteCarpetasApi(accesToken, data.id_carpeta)
           .then((response) => {
-            notification["success"]({
-              message: response,
+            
+            if(response.data){
+              notification["success"]({
+                message: response,
+              });
+              setReloadCarpetas(true)
+            }else{
+            notification["error"]({
+              message: "No se puede borrar la carpeta, contiene conceptos tecnicos",
             });
             setReloadCarpetas(true);
+          }
           })
           .catch((err) => {
-            notification["err"]({
+            notification["error"]({
               message: err.message,
             });
           });

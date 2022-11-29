@@ -17,13 +17,15 @@ import {
   TabletOutlined,
   MailOutlined,
   LockOutlined,
+  EyeTwoTone,
+  EyeInvisibleOutlined,
 } from "@ant-design/icons";
 import "./AddUserForm.scss";
 
 export default function AddUserForm(props) {
   const { setIsVisibleModal, setReloadUsers } = props;
   const [userData, setUserData] = useState({});
-  console.log(userData)
+  
   const addUser = (event) => {
     let userCreateData = userData;
     setUserData({});
@@ -88,7 +90,7 @@ function AddForm(props) {
             <Input
               prefix={<UserOutlined />}
               placeholder="Nombre"
-              required = {true}
+              required={true}
               minLength={5}
               value={userData.Nombre}
               onChange={(e) =>
@@ -102,7 +104,7 @@ function AddForm(props) {
             <Input
               prefix={<UserOutlined />}
               placeholder="Apellido"
-              required = {true}
+              required={true}
               minLength={5}
               value={userData.Apellido}
               onChange={(e) =>
@@ -116,10 +118,10 @@ function AddForm(props) {
         <Col span={12}>
           <Form.Item>
             <Select
-             value={userData.tipodocumento}
+              value={userData.tipodocumento}
               placeholder="Tipo Documento"
               onChange={(e) => setUserData({ ...userData, tipodocumento: e })}
-              required = {true}
+              required={true}
             >
               <Option value="Cedula" name="Cedula">
                 Cédula
@@ -133,7 +135,7 @@ function AddForm(props) {
         <Col span={12}>
           <Form.Item>
             <Input
-              required = {true}
+              required={true}
               prefix={<IdcardOutlined />}
               placeholder="Documento"
               type="number"
@@ -150,7 +152,7 @@ function AddForm(props) {
         <Col span={12}>
           <Form.Item>
             <Input
-              required = {true}
+              required={true}
               prefix={<TabletOutlined />}
               placeholder="Telefono"
               type="number"
@@ -164,7 +166,7 @@ function AddForm(props) {
         <Col span={12}>
           <Form.Item>
             <Select
-              required = {true}
+              required={true}
               placeholder="Seleccione un Rol"
               value={userData.rol}
               onChange={(e) => {
@@ -182,7 +184,7 @@ function AddForm(props) {
         <Col span={12}>
           <Form.Item>
             <Input
-              required = {true}
+              required={true}
               prefix={<MailOutlined />}
               placeholder="Correo"
               type="email"
@@ -209,12 +211,14 @@ function AddForm(props) {
       <Row gutter={24}>
         <Col span={12}>
           <Form.Item>
-            <Input
-              required = {true}
+            <Input.Password
+              required={true}
               prefix={<LockOutlined />}
               placeholder="Contraseña"
-              type="password"
               value={userData.contrasena}
+              iconRender={(visible) =>
+                visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+              }
               onChange={(e) =>
                 setUserData({ ...userData, contrasena: e.target.value })
               }
@@ -223,12 +227,15 @@ function AddForm(props) {
         </Col>
         <Col span={12}>
           <Form.Item>
-            <Input
-              required = {true}
+            <Input.Password
+              required={true}
               prefix={<LockOutlined />}
               placeholder="Repetir Contraseña"
               type="password"
               value={userData.repetirContrasena}
+              iconRender={(visible) =>
+                visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+              }
               onChange={(e) =>
                 setUserData({ ...userData, repetirContrasena: e.target.value })
               }

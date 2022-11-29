@@ -22,7 +22,7 @@ async function updatePdf(req, res) {
     fs.unlinkSync("./uploads/pdfs/" + fileName);
     return res
       .status(404)
-      .send({ message: "El Concepto que intenta crear ya existe" });
+      .send({ message: "El Concepto que intenta actualizar ya existe" });
   } else {
     try {
       if (req.files) {

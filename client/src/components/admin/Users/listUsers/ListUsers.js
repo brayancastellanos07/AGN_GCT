@@ -107,15 +107,23 @@ export default function ListUsers(props) {
     if (searchUser) {
       searchUsersApi(accesToken, searchUser)
         .then((response) => {
-          notification["success"]({
-            message: "Usuario Encontrado",
+          if (response.data) {
+            notification["success"]({
+              message: "Usuario Encontrado",
+            });
+            setfindUser(response.data);
+            setviewUser(true);
+          }else{
+          notification["error"]({
+            message: "Usuario no encontrado",
           });
           setfindUser(response.data);
           setviewUser(true);
+        }
         })
         .catch((err) => {
           notification["error"]({
-            message: err.message,
+            message: err,
           });
           setfindUser({});
           setviewUser(false);
@@ -133,7 +141,6 @@ export default function ListUsers(props) {
           <Col lg={8} className="Row__Col">
             <Search
               placeholder="Buscar Usuarios por nombre"
-              //style={{ width: 400 }}
               allowClear
               onSearch={search}
               onChange={(e) =>
@@ -155,11 +162,11 @@ export default function ListUsers(props) {
               </span>
             </div>
           </Col>
-          <Col lg={4} className="Row__Col"/>
+          <Col lg={4} className="Row__Col" />
           <Col lg={4} className="Row__Col">
-          <Button type="primary" onClick={addUserModal}>
-            Nuevo Usuario
-          </Button>
+            <Button type="primary" onClick={addUserModal}>
+              Nuevo Usuario
+            </Button>
           </Col>
         </Row>
       </div>

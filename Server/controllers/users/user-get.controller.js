@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const Usuario = require("../../models/user.js");
 const colors = require("colors");
+const { Console } = require("console");
 
 
 async function getUsuario(req, res) {
@@ -56,17 +57,19 @@ async function getUsuarioActive(req, res) {
 
 async function getUsuarioById(red, res) {
   const { nombre } = red.params;
+  const Nombre = nombre.toLowerCase();
+  
   try {
     const data = await Usuario.findAll({
       where: {
-        nombre: nombre,
+        nombre: Nombre,
       },
     });
-  
     if (!data.length) {
-      return res.status(404).send({ message: "No se ha encontrado ningún usuario. " });
+      return res.status(404).send({ message: `No se ha encontrado ningún usuario ${Nombre}` });
     }
     return res.status(200).json({ data });
+    
   } catch (error) {
     console.log(colors.red("Error en getUsuarioById"), error);
     return res.status(500).send({ message: "Error en el servidor" });

@@ -70,6 +70,9 @@ function EditRols(props) {
         <Col span={24}>
           <Form.Item>
             <TextArea
+              showCount
+              required={true}
+              maxLength={150}
               placeholder="Descripción del Rol "
               value={rolData.descripcion}
               onChange={(e) =>

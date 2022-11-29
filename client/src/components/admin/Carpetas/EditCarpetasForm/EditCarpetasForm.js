@@ -57,6 +57,7 @@ function EditForm(props) {
         <Col span={12}>
           <Form.Item>
             <Input
+            required={true}
               prefix={<FolderOutlined />}
               placeholder="Nombre de la carpeta"
               value={carpetasData.Nombre}
@@ -69,6 +70,8 @@ function EditForm(props) {
         <Col span={12}> 
         <Form.Item>
         <TextArea 
+        required={true}
+        showCount maxLength={100}
         placeholder="Descripción"
         value={carpetasData.Descripcion}
         onChange={ e => setCarpetasData({ ...carpetasData, Descripcion: e.target.value})}
