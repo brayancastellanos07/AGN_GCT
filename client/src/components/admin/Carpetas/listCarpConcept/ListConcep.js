@@ -31,7 +31,7 @@ import {
   dowLoadPdf,
   getConceptoSearch,
 } from "../../../../api/conceptos";
-import EditConceptForm from "../EditCarpetasForm/EditCarpetasForm";
+import EditConceptForm from "../../Conceptos/EditConceptForm";
 const { confirm } = ModalAntd;
 const { Search } = Input;
 export default function ListConceptos(props) {
@@ -57,7 +57,7 @@ export default function ListConceptos(props) {
             notification["success"]({
               message: response,
             });
-            setReloadConceptos(true);
+            //setReloadConceptos(true);
             setfindConcept({});
             setviewConcept(false);
           })
@@ -101,12 +101,20 @@ export default function ListConceptos(props) {
     if (searchConcept) {
       getConceptoSearch(searchConcept)
         .then((response) => {
-          notification["success"]({
-            message: "Se encontraron coincidencias. ",
-          });
-          setfindConcept(response.data);
-          setviewConcept(true);
-        })
+          if (response.data.length) {
+            notification["success"]({
+              message: "Se encontraron coincidencias. ",
+            });
+            setfindConcept(response.data);
+            setviewConcept(true);
+          }else{
+            notification["error"]({
+              message: `No se encontraron coincidencias para: ${searchConcept}`,
+            });
+            setfindConcept(response.data);
+            setviewConcept(true);
+          }
+          })
         .catch((err) => {
           notification["error"]({
             message: err.message,
@@ -121,6 +129,7 @@ export default function ListConceptos(props) {
   };
 
   const EditConceptos = (data) => {
+    console.log(data)
     setIsVisibleModal(true);
     setModalTitle(`Editar el concepto: ${data.nombre}`);
     setModalContent(

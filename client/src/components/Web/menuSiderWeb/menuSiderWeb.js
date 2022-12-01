@@ -2,7 +2,11 @@ import React from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { Layout, Menu } from "antd";
 
-import { FileTextOutlined, FileAddOutlined,TableOutlined } from "@ant-design/icons";
+import {
+  FileTextOutlined,
+  FileAddOutlined,
+  TableOutlined,
+} from "@ant-design/icons";
 import "./menuSiderWeb.scss";
 
 export default function MenuSiderWeb(props) {
@@ -11,14 +15,11 @@ export default function MenuSiderWeb(props) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-
-
   const menuClick = (e) => {
     const path = e.key;
     navigate(path);
-    
   };
- 
+
   return (
     <Sider className="basic-sider" collapsed={menuCollapsed}>
       <Menu
@@ -41,12 +42,11 @@ export default function MenuSiderWeb(props) {
               <span>{data.nombre}</span>
             </Menu.Item>
           ))}
-
-          <Menu.Item as={Link} key="/">
-          <TableOutlined />
-            <span>Listado de años</span>
-          </Menu.Item>
         </Menu.SubMenu>
+        <Menu.Item as={Link} key="/">
+          <TableOutlined />
+          <span>Listado de años</span>
+        </Menu.Item>
       </Menu>
     </Sider>
   );

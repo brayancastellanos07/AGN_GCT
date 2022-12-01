@@ -61,12 +61,20 @@ export default function ListConceptos(props) {
     if (searchConcept) {
       getConceptoSearch(searchConcept)
         .then((response) => {
-          notification["success"]({
-            message: "Se encontraron coincidencias. ",
-          });
-          setfindConcept(response.data);
-          setviewConcept(true);
-        })
+          if (response.data.length) {
+            notification["success"]({
+              message: "Se encontraron coincidencias. ",
+            });
+            setfindConcept(response.data);
+            setviewConcept(true);
+          }else{
+            notification["error"]({
+              message: `No se encontraron coincidencias para: ${searchConcept}`,
+            });
+            setfindConcept(response.data);
+            setviewConcept(true);
+          }
+          })
         .catch((err) => {
           notification["error"]({
             message: "Todos los campos son obligatorios. ",

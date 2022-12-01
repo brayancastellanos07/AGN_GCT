@@ -147,8 +147,6 @@ export default function LisConceptos(props) {
     if (searchConcept) {
       getConceptoSearch(searchConcept)
         .then((response) => {
-          console.log(response.data.length)
-
           if (response.data.length) {
           notification["success"]({
             message: "Se encontraron coincidencias. ",

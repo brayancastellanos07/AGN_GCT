@@ -31,6 +31,7 @@ export default function EditConceptForm(props) {
     });
   }, [data]);
 
+
   // revisa si existe un concepto y lo carga
   useEffect(() => {
     getPdfById(token, data.id_concepto).then((response) => {
@@ -47,6 +48,7 @@ export default function EditConceptForm(props) {
       setPdf(null);
     }
   }, [archivoPdf.archivo]);
+
   // carag el archivo en la data
   useEffect(() => {
     if (pdf) {
@@ -57,9 +59,17 @@ export default function EditConceptForm(props) {
 
   const updateConceptos = (e) => {
     let conceptUpdate = conceptData;
-
-    if (conceptUpdate.carpeta === data.carpeta) {
+    if (conceptData.carpeta === data.carpeta) {
+      console.log(data.id_carpeta)
+      if (!data.id_carpeta) {
+        notification["warning"]({
+          message: "Rectifique la carpeta donde se almacenará el concepto. ",
+        });
+        return;
+      }
       conceptUpdate.carpeta = data.id_carpeta;
+
+      console.log(conceptUpdate.carpeta);
     }
 
     if (
@@ -109,7 +119,6 @@ export default function EditConceptForm(props) {
       setListCarpetas(response.data);
     });
   }, []);
-
   return (
     <div className="edit-concept-form">
       <UploadPdf pdf={pdf} setPdf={setPdf} conceptData={conceptData} />
@@ -166,7 +175,8 @@ function UploadPdf(props) {
 }
 
 function EditConcept(props) {
-  const { conceptData, setConceptData, updateConceptos, listCarpetas } = props;
+  const { conceptData, setConceptData, updateConceptos, listCarpetas, data } =
+    props;
   const { Option } = Select;
 
   return (
@@ -189,13 +199,14 @@ function EditConcept(props) {
         <Select
           placeholder="Carpeta"
           name="carpeta"
-          value={conceptData.carpeta}
+          status="warning"
+          value={data.carpeta}
           onChange={(e) => {
             setConceptData({ ...conceptData, carpeta: e });
           }}
         >
           {listCarpetas.map((data) => (
-            <Option key={data.id_carpeta} value={data.id_carpeta} name="2013">
+            <Option key={data.id_carpeta} value={data.id_carpeta}>
               {data.nombre}
             </Option>
           ))}
