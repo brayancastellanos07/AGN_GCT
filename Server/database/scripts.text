@@ -1,0 +1,70 @@
+-----------------------------BASE DE DATOS AGN_GCT------------------------------------
+
+CREATE DATABASE "AGN_GCT"
+    WITH
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'Spanish_Colombia.1252'
+    LC_CTYPE = 'Spanish_Colombia.1252'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1;
+
+------------------------------Creacion de tablas ---------------------------------------
+
+Create table roles
+
+(
+	id_rol serial not null primary key,
+	nombre_Rol varchar not null,
+	descripcion varchar not null,
+); 
+
+alter table roles owner to postgres;
+
+Create table carpetas
+(
+	id_carpeta serial not null primary key, 
+	nombre varchar not null,
+	descripcion varchar not null
+	
+); 
+
+alter table carpetas owner to postgres;
+
+Create table usuarios
+(
+	id_usuario serial not null primary key,
+	nombre varchar not null,
+	apellido varchar not null,
+	tipodocumento varchar not null,
+	documento varchar not null, 
+	telefono varchar not null,
+	rol integer not null,
+	correo varchar not null,
+	contraseña varchar not null,
+	status BOOLEAN not null
+	
+); 
+
+alter table usuarios owner to postgres;
+
+ALTER TABLE usuarios 
+	ADD FOREIGN KEY (rol) REFERENCES roles (id_rol);
+
+Create table conceptos
+(
+	id_concepto serial not null primary key,
+	nombre varchar not null,
+	descripcion varchar not null,
+	archivo varchar not null,
+	fecha date not null, 
+	carpeta integer not null,
+	contenido text
+); 
+
+alter table conceptos owner to postgres;
+
+ALTER TABLE conceptos 
+	ADD FOREIGN KEY (carpeta) REFERENCES carpetas (id_Carpeta);
+
+--------------------------------------------------------------------------

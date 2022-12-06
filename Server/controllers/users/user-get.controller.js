@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const Usuario = require("../../models/user.js");
 const colors = require("colors");
-const { Console } = require("console");
+
 
 
 async function getUsuario(req, res) {
