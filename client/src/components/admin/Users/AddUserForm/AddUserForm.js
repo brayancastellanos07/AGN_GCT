@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   Form,
   Input,
@@ -11,6 +11,7 @@ import {
 } from "antd";
 import { createUserApi } from "../../../../api/user";
 import { getAccessToken } from "../../../../api/auth";
+import {getRolsApi} from"../../../../api/rols";
 import {
   UserOutlined,
   IdcardOutlined,
@@ -25,7 +26,7 @@ import "./AddUserForm.scss";
 export default function AddUserForm(props) {
   const { setIsVisibleModal, setReloadUsers } = props;
   const [userData, setUserData] = useState({});
-  
+  const accesToken = getAccessToken();
   const addUser = (event) => {
     let userCreateData = userData;
     setUserData({});
@@ -49,7 +50,7 @@ export default function AddUserForm(props) {
         message: "Las contraseñas tienen que ser iguales.",
       });
     } else {
-      const accesToken = getAccessToken();
+      
 
       createUserApi(accesToken, userCreateData)
         .then((response) => {
@@ -67,19 +68,28 @@ export default function AddUserForm(props) {
         });
     }
   };
+
+  const [listRoles, setlistRoles] = useState([]);
+  useEffect(() => {
+    getRolsApi(accesToken).then((response) => {
+      setlistRoles(response.data);
+    });
+  }, [accesToken]);
+  
   return (
     <div className="add-user-form">
       <AddForm
         userData={userData}
         setUserData={setUserData}
         addUser={addUser}
+        listRoles={listRoles}
       />
     </div>
   );
 }
 
 function AddForm(props) {
-  const { userData, setUserData, addUser } = props;
+  const { userData, setUserData, addUser,listRoles } = props;
   const { Option } = Select;
 
   return (
@@ -173,9 +183,15 @@ function AddForm(props) {
                 setUserData({ ...userData, rol: e });
               }}
             >
-              {userData.rol === 1 ? "Super Administrador" : "Administrador"}
-              <Option value={1}>Super Administrador</Option>
-              <Option value={2}>Administrador</Option>
+              {userData.rol === 1 ? "Super Administrador" : "Administrador"};
+              {
+                 listRoles.map((data)=>(
+                 <Option key={data.id} value={data.id}>{data.nombre}</Option>
+              
+                 
+                 ))
+                 
+              }
             </Select>
           </Form.Item>
         </Col>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { updateRolsApi } from "../../../../api/rols";
 import { getAccessToken } from "../../../../api/auth";
-
 import "./EditRolsForm.scss";
 import { Col, Form, Input, notification, Row, Button } from "antd";
 const { TextArea } = Input;
@@ -15,6 +14,7 @@ export default function EditRolsForm(props) {
       descripcion: data.descripcion,
     });
   }, [data]);
+
 
   const updateRols = (e) => {
     const token = getAccessToken();
@@ -60,7 +60,7 @@ function EditRols(props) {
             <Input
               placeholder="Nombre del Rol "
               value={rolData.nombre}
-              readOnly="readonly"
+              //readOnly="readonly"
               onChange={(e) =>
                 setRolData({ ...rolData, nombre: e.target.value })
               }

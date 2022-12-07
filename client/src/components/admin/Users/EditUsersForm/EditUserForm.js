@@ -12,6 +12,7 @@ import {
 } from "antd";
 import { useDropzone } from "react-dropzone";
 import Noavatar from "../../../../assets/img/png/no-avatar.png";
+import {getRolsApi} from"../../../../api/rols";
 import {
   UserOutlined,
   IdcardOutlined,
@@ -34,7 +35,7 @@ export default function EditUserForm(props) {
   const { data, setIsVisibleModal, setReloadUsers } = props;
   const [avatar, setAvatar] = useState(null);
   const [userData, setUserData] = useState({});
-
+  const token = getAccessToken();
   // carga los datos en el formulario
   useEffect(() => {
     setUserData({
@@ -62,6 +63,13 @@ export default function EditUserForm(props) {
     }
   }, [data]);
 
+  const [listRoles, setlistRoles] = useState([]);
+  useEffect(() => {
+    getRolsApi(token).then((response) => {
+      setlistRoles(response.data);
+    });
+  }, [token])
+
   // carga el archivo en la data
   useEffect(() => {
     if (avatar) {
@@ -71,7 +79,7 @@ export default function EditUserForm(props) {
   }, [avatar]);
 
   const updateUser = (e) => {
-    const token = getAccessToken();
+    
     let userUpdate = userData;
     if (
       !userUpdate.nombre ||
@@ -140,6 +148,7 @@ export default function EditUserForm(props) {
         userData={userData}
         setUserData={setUserData}
         updateUser={updateUser}
+        listRoles={listRoles}
       />
     </div>
   );
@@ -189,7 +198,7 @@ function UploadAvatar(props) {
 }
 
 function EditForm(props) {
-  const { userData, setUserData, updateUser } = props;
+  const { userData, setUserData, updateUser,listRoles } = props;
   const { Option } = Select;
   return (
     <Form className="form-edit" onFinish={updateUser}>
@@ -280,8 +289,14 @@ function EditForm(props) {
               }
             >
               {userData.rol === 1 ? "Super Administrador" : "Administrador"}
-              <Option value="1">Super Administrador</Option>
-              <Option value="2">Administrador</Option>
+              {
+                 listRoles.map((data)=>(
+                 <Option key={data.id} value={data.id}>{data.nombre}</Option>
+              
+                 
+                 ))
+                 
+              }
             </Select>
           </Form.Item>
         </Col>

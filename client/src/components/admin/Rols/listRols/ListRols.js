@@ -87,7 +87,7 @@ function ListRol(props) {
 
   const editarrol = (data) => {
     setIsVisibleModal(true);
-    setModalTitle(`Editar ${data.Nombre}`);
+    setModalTitle(`Editar ${data.nombre}`);
     setModalContent(
       <EditRolsForm
         data={data}
