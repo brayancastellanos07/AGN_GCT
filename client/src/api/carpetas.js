@@ -101,7 +101,7 @@ export function deleteCarpetasApi(token, id_carpeta){
     }; 
 
     return fetch(url, params)
-    .then((response) =>{
+    .then((response) =>{ 
         return response.json(); 
     })
     .then((result)=> {

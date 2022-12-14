@@ -44,15 +44,16 @@ export default function ListCarpetas(props) {
       onOk() {
         deleteCarpetasApi(accesToken, data.id_carpeta)
           .then((response) => {
-            
-            if(response.data){
+            console.log(response)
+            if(response){
               notification["success"]({
                 message: response,
               });
-              setReloadCarpetas(true)
-            }else{
+              setReloadCarpetas(true);
+            }
+            else{
             notification["error"]({
-              message: "No se puede borrar la carpeta, contiene conceptos tecnicos",
+              message: "La carpeta no se puede eliminar, contiene conceptos asigandos. ",
             });
             setReloadCarpetas(true);
           }

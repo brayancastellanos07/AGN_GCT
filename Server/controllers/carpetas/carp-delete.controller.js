@@ -9,10 +9,10 @@ async function deleteCarp(req, res) {
         id: id,
       },
     });
-    return res.status(200).json({ message:"La Carpeta ha sido Eliminada." });
+    return res.status(200).send({ message:"La Carpeta ha sido Eliminada." });
   } catch (error) {
     console.log(colors.red("Error en deleteDoc"), error);
-    return res.status(500).send("Error en el servidor");
+    return res.status(500).send( {message: "Error en el servidor, la carpeta tiene conceptos asignados. "});
   }
 }
 
