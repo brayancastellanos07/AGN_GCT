@@ -38,3 +38,4 @@ router.put("/activate-user/:id", [md_auth.ensureAuth], activateUser);
 router.delete("/delete-usuarios/:id", [md_auth.ensureAuth], deleteUsuario);
 
 module.exports = router;
+ 
