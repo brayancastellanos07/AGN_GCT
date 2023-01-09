@@ -1,7 +1,7 @@
 ------------------------------------------------------------------------------
 ------------Proyecto desarrollado para las prácticas empresariales------------
 
-Se hace uso de un fullstack Perm para el desarrollo 
+Se hace uso de un fullstack Perm para el desarrollo.
 Tecnologías usadas: 
 
 -PostgreSQL,
@@ -15,5 +15,5 @@ Consiste en un gestor de conceptos técnicos elaborados por el Archivo
 General de la Nación el cual permite la creación de usuarios, creación 
 de carpetas y administración de los conceptos permitiendo almacenar 
 archivos pdfs con su respectivo registro al igual que descargarlos 
-y previsualizarlos
+y previsualizarlos.
 ------------------------------------------------------------------------------  
