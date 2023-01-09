@@ -10,6 +10,7 @@ Tecnologías usadas:
 -Sequelize
 -Ant Desing 
 -Node.js 
+
 Consiste en un gestor de conceptos técnicos elaborados por el Archivo 
 General de la Nación el cual permite la creación de usuarios, creación 
 de carpetas y administración de los conceptos permitiendo almacenar 
